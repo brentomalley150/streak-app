@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beat the Summer Slide — The Reading Challenge</title>
-<meta name="description" content="A 12-week summer reading challenge for kids. Earn points, climb ranks, win prizes, and beat your friends." />
+<title>SummerStreak — Founders Hub (Docs)</title>
 <style>
   :root {
     --bg: #0F1A2E;
@@ -24,982 +23,1242 @@
     --border: #3a5380;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
   body {
     font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(255, 216, 74, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(126, 182, 255, 0.05) 0%, transparent 40%);
     color: var(--ink);
     line-height: 1.55;
     min-height: 100vh;
-    font-size: 18px;
-    overflow-x: hidden;
+    font-size: 16px;
   }
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-  /* Top bar */
-  .topbar {
-    padding: 18px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1148px;
-    margin: 0 auto;
+  .container { max-width: 1180px; margin: 0 auto; padding: 24px; }
+  header.hub-header {
+    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-light) 100%);
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
   }
-  .brand {
+  .hub-tag {
+    background: var(--gold);
+    color: var(--bg);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 11px;
     font-weight: 800;
-    font-size: 14px;
-    color: var(--gold);
-    letter-spacing: 4px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
   }
-  .topbar nav a {
-    color: var(--soft);
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header .lede { color: var(--soft); font-size: 17px; max-width: 800px; }
+  header .live-link {
+    display: inline-block;
+    margin-top: 16px;
+    background: var(--panel-light);
+    border: 2px solid var(--border);
+    color: var(--gold);
+    padding: 8px 16px;
+    border-radius: 10px;
     text-decoration: none;
     font-weight: 700;
     font-size: 14px;
-    margin-left: 18px;
   }
-  .topbar nav a:hover { color: var(--gold); }
+  header .live-link:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
-  /* HERO */
-  .hero {
-    text-align: center;
-    padding: 60px 24px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: "♚";
-    position: absolute;
-    right: -60px;
-    top: -100px;
-    font-size: 500px;
-    color: var(--gold);
-    opacity: 0.04;
-    pointer-events: none;
-    line-height: 1;
-  }
-  .hero-tag {
-    display: inline-block;
-    background: rgba(255, 216, 74, 0.15);
-    border: 2px solid var(--gold);
-    color: var(--gold);
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    margin-bottom: 24px;
-  }
-  .hero h1 {
-    font-size: clamp(48px, 8vw, 88px);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    margin-bottom: 16px;
-  }
-  .hero h1 .accent { color: var(--gold); display: block; }
-  .hero .lede {
-    color: var(--soft);
-    font-size: clamp(17px, 2vw, 21px);
-    max-width: 640px;
-    margin: 0 auto 32px;
-    line-height: 1.5;
-  }
-  .hero .cta-row {
-    display: flex;
+  .toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
     gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-  }
-  .btn-primary, .btn-secondary {
-    display: inline-flex;
+    margin-bottom: 20px;
     align-items: center;
-    gap: 8px;
-    padding: 18px 28px;
-    border-radius: 14px;
+  }
+  .search-box {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--ink);
     font-family: inherit;
-    font-weight: 800;
-    font-size: 18px;
-    text-decoration: none;
-    border: none;
+    font-size: 16px;
+    width: 100%;
+  }
+  .search-box:focus { outline: none; border-color: var(--gold); }
+  .filter-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    color: var(--soft);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
     cursor: pointer;
+  }
+  .chip.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .chip:hover:not(.active) { background: var(--panel-light); color: var(--ink); }
+
+  .results-info {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  .page-card {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
     transition: all 0.15s;
   }
-  .btn-primary {
+  .page-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .page-card.cat-kid { border-left: 6px solid var(--blue); }
+  .page-card.cat-parent { border-left: 6px solid var(--purple); }
+  .page-card.cat-modal { border-left: 6px solid var(--orange); }
+  .page-card.cat-flow { border-left: 6px solid var(--green); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .card-cat {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+  .cat-kid .card-cat { background: rgba(126, 182, 255, 0.15); color: var(--blue); }
+  .cat-parent .card-cat { background: rgba(184, 157, 255, 0.15); color: var(--purple); }
+  .cat-modal .card-cat { background: rgba(255, 165, 82, 0.15); color: var(--orange); }
+  .cat-flow .card-cat { background: rgba(94, 234, 147, 0.15); color: var(--green); }
+
+  .card-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+  .card-desc { color: var(--soft); font-size: 14px; margin-bottom: 12px; line-height: 1.5; }
+
+  .card-issues {
+    background: var(--bg-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  .card-issues-title {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .card-issues ul {
+    list-style: none;
+    padding: 0;
+  }
+  .card-issues li {
+    font-size: 13px;
+    color: var(--soft);
+    padding: 3px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .card-issues li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    color: var(--gold);
+    font-weight: bold;
+  }
+
+  .card-actions { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
     background: var(--gold);
     color: var(--bg);
-    box-shadow: 0 6px 20px rgba(255, 216, 74, 0.25);
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-block;
+    flex: 1;
+    text-align: center;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255, 216, 74, 0.4); }
-  .btn-secondary {
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,216,74,0.3); }
+  .btn.secondary {
     background: var(--panel-light);
     color: var(--ink);
     border: 2px solid var(--border);
   }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-  .hero .micro {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 8px;
-  }
+  .btn.secondary:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
-  /* Sections */
-  section.feature {
-    padding: 60px 0;
-  }
-  section.feature h2 {
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 800;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  section.feature .section-lede {
-    color: var(--soft);
-    font-size: 17px;
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto 36px;
-    line-height: 1.6;
-  }
-  .alt-bg { background: var(--bg-light); }
-
-  /* Big stat strip */
-  .stat-strip {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-top: 40px;
-  }
-  .stat {
-    background: var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 16px;
-    padding: 22px;
-    text-align: center;
-  }
-  .stat .stat-num {
-    font-size: 44px;
-    font-weight: 800;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .stat .stat-label {
-    font-size: 14px;
-    color: var(--soft);
-    margin-top: 8px;
-    font-weight: 600;
-  }
-
-  /* 3-step daily routine */
-  .step-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 18px;
-  }
-  .step {
-    background: var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 18px;
-    padding: 28px;
-    position: relative;
-    transition: all 0.2s;
-  }
-  .step:hover { border-color: var(--gold); transform: translateY(-3px); }
-  .step-num {
-    position: absolute;
-    top: -16px;
-    left: 22px;
-    background: var(--gold);
-    color: var(--bg);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 16px;
-  }
-  .step .step-emoji {
-    font-size: 56px;
-    display: block;
-    margin-bottom: 14px;
-  }
-  .step h3 {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 8px;
-  }
-  .step p {
-    color: var(--soft);
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  .step-pts {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--bg);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 800;
-    margin-top: 14px;
-  }
-  .step-callout {
-    background: rgba(94, 234, 147, 0.1);
-    border: 2px solid var(--green);
-    color: var(--ink);
-    border-radius: 14px;
-    padding: 18px 24px;
-    margin-top: 22px;
-    text-align: center;
-    font-size: 16px;
-  }
-  .step-callout strong { color: var(--green); }
-
-  /* Rank ladder */
-  .ranks {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 20px 4px 8px;
-  }
-  .rank-card {
-    flex: 1;
-    min-width: 110px;
-    background: var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    padding: 14px 8px;
-    text-align: center;
-    transition: all 0.2s;
-  }
-  .rank-card:nth-child(1) { background: linear-gradient(180deg, var(--panel), rgba(139, 175, 226, 0.12)); }
-  .rank-card:nth-child(7) {
-    background: linear-gradient(180deg, rgba(255, 216, 74, 0.2), rgba(255, 216, 74, 0.05));
-    border-color: var(--gold);
-    box-shadow: 0 0 24px rgba(255, 216, 74, 0.2);
-  }
-  .rank-piece {
-    font-size: 36px;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-  .rank-card:nth-child(7) .rank-piece { font-size: 46px; }
-  .rank-name {
-    font-weight: 800;
-    font-size: 13px;
-    margin-bottom: 4px;
-  }
-  .rank-pts {
+  .card-url {
+    font-family: 'SF Mono', Menlo, monospace;
     font-size: 11px;
     color: var(--muted);
+    padding: 4px 0;
+    word-break: break-all;
   }
-  .rank-card:nth-child(7) .rank-pts { color: var(--gold); font-weight: 700; }
 
-  /* Theme picker */
-  .theme-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
-  }
-  .theme-card {
-    background: var(--panel);
-    border: 3px solid var(--border);
-    border-radius: 18px;
-    padding: 28px 14px;
+  .empty-state {
+    grid-column: 1 / -1;
     text-align: center;
-    transition: all 0.2s;
-    cursor: pointer;
+    padding: 60px 20px;
+    color: var(--muted);
+    background: var(--panel);
+    border-radius: 14px;
+    border: 2px dashed var(--border);
   }
-  .theme-card:hover {
-    border-color: var(--gold);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+
+  /* Founder TODO panel */
+  .todo-section {
+    background: linear-gradient(135deg, rgba(184, 157, 255, 0.08), rgba(126, 182, 255, 0.05));
+    border: 2px solid var(--purple);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 22px;
   }
-  .theme-emoji {
-    font-size: 72px;
-    display: block;
-    margin-bottom: 10px;
-    line-height: 1;
-  }
-  .theme-name {
+  .todo-section h2 {
     font-size: 22px;
     font-weight: 800;
-    margin-bottom: 4px;
-  }
-  .theme-desc {
-    font-size: 13px;
-    color: var(--soft);
-  }
-
-  /* Prize row */
-  .prize-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-  }
-  .prize-mini {
-    background: var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 12px;
-    text-align: center;
-  }
-  .prize-mini.ultimate {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, rgba(255, 216, 74, 0.18), rgba(184, 157, 255, 0.12));
-    border-color: var(--gold);
-    padding: 22px;
-  }
-  .prize-mini .pe {
-    font-size: 36px;
-    display: block;
-    line-height: 1;
     margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .prize-mini.ultimate .pe { font-size: 56px; }
-  .prize-mini .pn {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .prize-mini.ultimate .pn { font-size: 18px; }
-  .prize-mini .pc {
-    font-size: 12px;
-    color: var(--gold);
-    font-weight: 800;
-  }
-  .prize-mini.ultimate .pc { font-size: 14px; }
-  .prize-note {
-    text-align: center;
+  .todo-section .todo-sub {
     color: var(--soft);
-    font-size: 15px;
-    margin-top: 18px;
-    font-style: italic;
+    font-size: 14px;
+    margin-bottom: 14px;
   }
-  .prize-mini.ultimate .ribbon {
-    background: var(--gold);
-    color: var(--bg);
-    padding: 4px 12px;
-    border-radius: 12px;
+  .todo-meta {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .todo-meta strong { color: var(--purple); font-weight: 800; }
+
+  .todo-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .todo-item {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    background: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    transition: all 0.15s;
+  }
+  .todo-item.done { opacity: 0.55; border-color: var(--green); }
+  .todo-item .todo-check {
+    width: 20px; height: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--purple);
+  }
+  .todo-item .todo-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .todo-item.done .todo-text { text-decoration: line-through; color: var(--soft); }
+  .todo-item .todo-text strong { color: var(--purple); }
+  .todo-item.done .todo-text strong { color: var(--green); }
+  .todo-item .todo-priority {
     font-size: 10px;
     font-weight: 800;
-    letter-spacing: 1.5px;
-    display: inline-block;
-    margin-bottom: 8px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
   }
-
-  /* Friends teaser */
-  .friends-card {
-    background: linear-gradient(135deg, var(--panel), var(--bg-light));
-    border: 2px solid var(--purple);
-    border-radius: 18px;
-    padding: 36px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 30px;
-    align-items: center;
-  }
-  .friends-card h3 {
-    font-size: 26px;
-    font-weight: 800;
-    margin-bottom: 8px;
-  }
-  .friends-card p {
-    color: var(--soft);
-    font-size: 16px;
-    line-height: 1.6;
-  }
-  .friends-icons {
-    font-size: 80px;
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  /* Final CTA */
-  .final-cta {
-    text-align: center;
-    padding: 80px 24px;
-  }
-  .final-cta h2 {
-    font-size: clamp(32px, 5vw, 48px);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
-  .final-cta h2 .gold { color: var(--gold); }
-  .final-cta p {
-    color: var(--soft);
-    font-size: 18px;
-    margin-bottom: 30px;
-    max-width: 540px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 24px;
-    text-align: center;
+  .todo-item .todo-priority.high { background: rgba(255, 107, 107, 0.15); color: var(--red); }
+  .todo-item .todo-priority.medium { background: rgba(255, 165, 82, 0.15); color: var(--orange); }
+  .todo-item .todo-priority.low { background: rgba(184, 157, 255, 0.15); color: var(--purple); }
+  .todo-item .todo-meta-line {
+    font-size: 11px;
     color: var(--muted);
+    margin-top: 4px;
+  }
+  .todo-item .todo-meta-line code {
+    background: rgba(0,0,0,0.3);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--gold);
+    font-size: 10px;
+    font-family: 'SF Mono', Menlo, monospace;
+  }
+  .todo-item .todo-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .todo-item button.todo-remove {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+  }
+  .todo-item button.todo-remove:hover { background: var(--red); color: white; border-color: var(--red); }
+
+  .todo-add-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .todo-add-row input, .todo-add-row select {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    color: var(--ink);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-family: inherit;
     font-size: 13px;
   }
-  footer a { color: var(--soft); text-decoration: none; margin: 0 10px; }
-  footer a:hover { color: var(--gold); }
+  .todo-add-row input:focus { outline: none; border-color: var(--purple); }
+  .todo-add-row button {
+    background: var(--purple);
+    color: var(--bg);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+  }
 
-  /* Fade-in on scroll */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+  /* Users section */
+  .users-section {
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 22px;
   }
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
+  .users-section h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
+  .users-section .users-sub {
+    color: var(--soft);
+    font-size: 14px;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+  .users-counts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .users-count {
+    background: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .users-count .uc-num { font-size: 28px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .users-count .uc-lbl { font-size: 11px; color: var(--soft); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+  .users-list { display: flex; flex-direction: column; gap: 8px; }
+  .user-row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .user-row.player { border-color: var(--blue); }
+  .user-row.admin  { border-color: var(--gold); }
+  .user-row.parent { border-color: var(--purple); }
+  .user-row.friend { border-color: var(--green); }
+  .user-row .u-avatar { font-size: 30px; text-align: center; line-height: 1; }
+  .user-row .u-name { font-weight: 800; font-size: 16px; }
+  .user-row .u-meta { font-size: 12px; color: var(--soft); margin-top: 2px; }
+  .user-row .u-stat {
+    background: var(--bg);
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 70px;
+  }
+  .user-row .u-stat .v { color: var(--gold); font-weight: 800; font-size: 14px; }
+  .user-row .u-stat .l { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .user-row .u-actions { display: flex; gap: 6px; }
+  .user-row .u-actions button {
+    background: var(--panel-light);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .user-row .u-actions button:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .user-row .u-actions button.danger { color: var(--red); }
+  .user-row .u-actions button.danger:hover { background: var(--red); color: white; border-color: var(--red); }
+
+  .users-empty {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    background: var(--bg-light);
+    border-radius: 10px;
+    border: 2px dashed var(--border);
+  }
+  .users-caveat {
+    background: rgba(184, 157, 255, 0.1);
+    border-left: 3px solid var(--purple);
+    color: var(--soft);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* Edit modal */
+  .edit-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .edit-backdrop.show { display: flex; }
+  .edit-modal {
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .edit-modal h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .edit-modal .em-sub { color: var(--soft); font-size: 14px; margin-bottom: 18px; }
+  .edit-modal label { display: block; font-size: 12px; color: var(--soft); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .edit-modal input, .edit-modal select {
+    width: 100%;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    color: var(--ink);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .edit-modal .em-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .edit-modal .em-actions button {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .edit-modal .em-save { background: var(--gold); color: var(--bg); }
+  .edit-modal .em-cancel { background: var(--panel-light); color: var(--ink); border: 1px solid var(--border) !important; }
+
+  .footer-card {
+    background: rgba(184, 157, 255, 0.08);
+    border: 2px solid var(--purple);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .footer-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .footer-card code {
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 13px;
+    color: var(--gold);
+  }
+  .footer-card .debug-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-card .debug-row button {
+    background: var(--purple);
+    color: var(--bg);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  pre.debug-output {
+    background: #000;
+    color: var(--green);
+    padding: 14px;
+    border-radius: 8px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+  }
+  pre.debug-output.show { display: block; }
 
   @media (max-width: 720px) {
-    section.feature { padding: 40px 0; }
-    .friends-card { grid-template-columns: 1fr; text-align: center; padding: 24px; }
-    .friends-icons { font-size: 60px; }
-    .ranks { padding-bottom: 16px; }
+    .toolbar { grid-template-columns: 1fr; }
+    .page-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 24px; }
   }
 </style>
 </head>
 <body>
+<div class="container">
 
-<div class="topbar">
-  <span class="brand">SUMMERSTREAK</span>
-  <nav>
-    <a href="#how-it-works">How it works</a>
-    <a href="dashboard.html">Open dashboard</a>
+  <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--panel);border-bottom:1px solid var(--border);border-radius:14px;margin-bottom:18px;">
+    <span style="font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px;">SUMMERSTREAK</span>
+    <div>
+      <a href="dashboard.html" style="color:var(--soft);text-decoration:none;margin-left:16px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Dashboard</a>
+      <a href="story.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Story</a>
+      <a href="index.html" style="background:var(--gold);color:var(--bg);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Home</a>
+      <a href="admin.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Admin</a>
+    </div>
   </nav>
-</div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <span class="hero-tag">SUMMER 2026 CHALLENGE</span>
-    <h1>Beat the<br><span class="accent">Summer Slide.</span></h1>
-    <p class="lede">A 12-week reading challenge that turns daily reading into a game. Points. Ranks. Real prizes. Friends to beat.</p>
-    <div class="cta-row" id="cta-row">
-      <!-- Populated by JS: shows "Enroll Your Child" for new visitors, "Continue X's Challenge" for returning -->
-      <a href="dashboard.html" class="btn-primary" id="cta-primary">🚀 Enroll My Child</a>
-      <a href="#how-it-works" class="btn-secondary">How it works ↓</a>
+  <header class="hub-header">
+    <div class="hub-tag">📚 DOCS · FEATURES · ROADMAP</div>
+    <h1>SummerStreak Founders Hub</h1>
+    <div class="lede">Documentation, product roadmap, and reference materials. For live user management and Firebase tools, go to the <a href="admin.html" style="color:var(--gold);">Admin page</a>.</div>
+  </header>
+
+  <!-- EXEC SUMMARY -->
+  <div style="background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:14px;padding:22px 26px;margin-bottom:20px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:800;letter-spacing:2px;color:var(--gold);">📊 EXECUTIVE SUMMARY</div>
+      <div style="font-size:11px;color:var(--muted);">Updated June 2026</div>
     </div>
-    <div class="micro" id="cta-micro">No signup. Works on your phone or laptop. Free.</div>
-  </div>
-</section>
 
-<!-- BIG NUMBERS -->
-<section class="feature">
-  <div class="container">
-    <div class="stat-strip">
-      <div class="stat reveal">
-        <div class="stat-num">12</div>
-        <div class="stat-label">Weeks of challenge</div>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">30 min</div>
-        <div class="stat-label">A day, that's it</div>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">27</div>
-        <div class="stat-label">Trophies to earn</div>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">7</div>
-        <div class="stat-label">Ranks to climb</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <p style="color:var(--soft);font-size:15px;line-height:1.65;margin-bottom:14px;">
+      <strong style="color:var(--ink);">SummerStreak is a gamified 12-week summer reading app for elementary-school kids</strong>, currently in a small-family beta. Built in a long weekend by a non-engineer parent using AI-assisted "vibe coding." Live at <a href="https://beatthesummerslide.com" style="color:var(--gold);font-weight:700;">beatthesummerslide.com</a>. Target outcome: measurable improvement in fall 2026 MAP RIT scores vs. spring baselines.
+    </p>
 
-<!-- HOW IT WORKS -->
-<section class="feature alt-bg" id="how-it-works">
-  <div class="container">
-    <h2>How it works</h2>
-    <p class="section-lede">Three things every day. That's the whole challenge. Tap to check off, earn points, climb the ranks.</p>
-
-    <div class="step-grid">
-      <div class="step reveal">
-        <span class="step-num">1</span>
-        <span class="step-emoji">📖</span>
-        <h3>Read</h3>
-        <p>15 minutes a day. Any book, comic, magazine, recipe — even the back of a cereal box counts.</p>
-        <span class="step-pts">+1 point</span>
+    <!-- Snapshot stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px;margin:14px 0;">
+      <div style="background:var(--bg-light);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Stage</div>
+        <div style="font-size:18px;font-weight:800;color:var(--gold);">Beta · Wk 1</div>
+        <div style="font-size:12px;color:var(--soft);margin-top:2px;">Family pilot</div>
       </div>
-      <div class="step reveal">
-        <span class="step-num">2</span>
-        <span class="step-emoji">✏️</span>
-        <h3>Write</h3>
-        <p>At least 50 words. Doesn't have to be perfect. Stuck? Tap "💡 Need ideas?" — there are 67+ ready to go.</p>
-        <span class="step-pts">+1 point</span>
+      <div style="background:var(--bg-light);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Enrolled kids</div>
+        <div style="font-size:18px;font-weight:800;color:var(--gold);">~6</div>
+        <div style="font-size:12px;color:var(--soft);margin-top:2px;">Declan + friends</div>
       </div>
-      <div class="step reveal">
-        <span class="step-num">3</span>
-        <span class="step-emoji">🎯</span>
-        <h3>Wrap-Up</h3>
-        <p>5 minutes to lock it in. Talk about what you read, learn a new word, fix one sentence in your writing.</p>
-        <span class="step-pts">+1 point</span>
+      <div style="background:var(--bg-light);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Build cost</div>
+        <div style="font-size:18px;font-weight:800;color:var(--gold);">$0</div>
+        <div style="font-size:12px;color:var(--soft);margin-top:2px;">Firebase + GitHub Pages</div>
+      </div>
+      <div style="background:var(--bg-light);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Time to ship</div>
+        <div style="font-size:18px;font-weight:800;color:var(--gold);">~3 days</div>
+        <div style="font-size:12px;color:var(--soft);margin-top:2px;">+ ongoing iteration</div>
       </div>
     </div>
 
-    <div class="step-callout reveal">
-      <strong>Bonus:</strong> Do all 3 the same day → that's a <strong>Perfect Day</strong>. +1 extra point. 🌟
-    </div>
-  </div>
-</section>
+    <!-- 3-column status block -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;margin-top:18px;">
 
-<!-- CLIMB THE RANKS -->
-<section class="feature">
-  <div class="container">
-    <h2>Climb the ranks</h2>
-    <p class="section-lede">Every point gets you closer to the top. Each theme has its own ranks — here's chess. Sports kids climb Rookie → Hall of Famer. Music kids go Beginner → Legend. Gaming kids go Noob → Grandmaster.</p>
-
-    <div class="ranks reveal">
-      <div class="rank-card"><div class="rank-piece">♙</div><div class="rank-name">Pawn</div><div class="rank-pts">0+</div></div>
-      <div class="rank-card"><div class="rank-piece">♘</div><div class="rank-name">Knight</div><div class="rank-pts">20+</div></div>
-      <div class="rank-card"><div class="rank-piece">♗</div><div class="rank-name">Bishop</div><div class="rank-pts">50+</div></div>
-      <div class="rank-card"><div class="rank-piece">♖</div><div class="rank-name">Rook</div><div class="rank-pts">90+</div></div>
-      <div class="rank-card"><div class="rank-piece">♕</div><div class="rank-name">Queen</div><div class="rank-pts">140+</div></div>
-      <div class="rank-card"><div class="rank-piece">♔</div><div class="rank-name">King</div><div class="rank-pts">200+</div></div>
-      <div class="rank-card"><div class="rank-piece">👑</div><div class="rank-name">Grandmaster</div><div class="rank-pts">270+</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PICK YOUR THEME -->
-<section class="feature alt-bg">
-  <div class="container">
-    <h2>Pick your theme</h2>
-    <p class="section-lede">All the daily writing ideas are tailored to what you love. Change anytime.</p>
-
-    <div class="theme-grid">
-      <div class="theme-card reveal">
-        <span class="theme-emoji">♟️</span>
-        <div class="theme-name">Chess</div>
-        <div class="theme-desc">Strategy, openings, famous players, sneaky moves.</div>
-      </div>
-      <div class="theme-card reveal">
-        <span class="theme-emoji">⚽</span>
-        <div class="theme-name">Sports</div>
-        <div class="theme-desc">Plays, GOATs, championships, your team.</div>
-      </div>
-      <div class="theme-card reveal">
-        <span class="theme-emoji">🎵</span>
-        <div class="theme-name">Music</div>
-        <div class="theme-desc">Lyrics, bands, concerts, song reviews.</div>
-      </div>
-      <div class="theme-card reveal">
-        <span class="theme-emoji">🎮</span>
-        <div class="theme-name">Gaming</div>
-        <div class="theme-desc">Boss battles, characters, strategy guides, lore.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRIZES -->
-<section class="feature">
-  <div class="container">
-    <h2>Earn real prizes 🎁</h2>
-    <p class="section-lede">Cash in your points for real-world rewards. Your parents pick what's on offer. Save up for the Ultimate Prize at the end.</p>
-
-    <div class="prize-row">
-      <div class="prize-mini reveal">
-        <span class="pe">🎬</span>
-        <div class="pn">Pick the movie</div>
-        <div class="pc">15 pts</div>
-      </div>
-      <div class="prize-mini reveal">
-        <span class="pe">🍦</span>
-        <div class="pn">Ice cream trip</div>
-        <div class="pc">35 pts</div>
-      </div>
-      <div class="prize-mini reveal">
-        <span class="pe">📚</span>
-        <div class="pn">New book</div>
-        <div class="pc">50 pts</div>
-      </div>
-      <div class="prize-mini reveal">
-        <span class="pe">🎳</span>
-        <div class="pn">Bowling / Mini golf</div>
-        <div class="pc">200 pts</div>
-      </div>
-      <div class="prize-mini ultimate reveal">
-        <span class="ribbon">🌟 ULTIMATE PRIZE 🌟</span>
-        <span class="pe">🎢</span>
-        <div class="pn">Trip to Elitch Gardens Theme &amp; Water Park</div>
-        <div class="pc">Save 300 points · One per challenge</div>
-      </div>
-    </div>
-
-    <p class="prize-note">Your parents customize the prize list — talk to them about what's on offer for your challenge.</p>
-  </div>
-</section>
-
-<!-- FRIENDS -->
-<section class="feature alt-bg">
-  <div class="container">
-    <div class="friends-card reveal">
       <div>
-        <h3>Challenge your friends</h3>
-        <p>Send your friends an invite link. They get their own dashboard. Everyone's points show up on a shared leaderboard. Who's going to be Grandmaster first?</p>
+        <div style="font-size:13px;font-weight:800;color:var(--green);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">✅ Shipped this week</div>
+        <ul style="color:var(--soft);font-size:13px;line-height:1.6;margin:0;padding-left:18px;">
+          <li>Google Sign-In (stable UID per parent)</li>
+          <li>Multi-profile (siblings on one device)</li>
+          <li>Lifetime points vs spendable wallet split</li>
+          <li>Cloud-sync onboarding banner</li>
+          <li>One-click-per-day lock on all activities</li>
+          <li>Public case study / story page</li>
+        </ul>
       </div>
-      <div class="friends-icons">🏅🏆</div>
+
+      <div>
+        <div style="font-size:13px;font-weight:800;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">📡 Live signal</div>
+        <ul style="color:var(--soft);font-size:13px;line-height:1.6;margin:0;padding-left:18px;">
+          <li>Declan: 42 ★ Knight rank · 3-day streak</li>
+          <li>2 books finished · 30 minutes logged</li>
+          <li>Friends logging activity across 4 themes</li>
+          <li>Leaderboard syncing in real time</li>
+          <li>Behavior change verified — engagement holding</li>
+        </ul>
+      </div>
+
+      <div>
+        <div style="font-size:13px;font-weight:800;color:var(--orange);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">🎯 Up next (priority order)</div>
+        <ul style="color:var(--soft);font-size:13px;line-height:1.6;margin:0;padding-left:18px;">
+          <li><strong style="color:var(--ink);">Sept 2026</strong>: MAP retest — ultimate validation</li>
+          <li>COPPA-compliant signup before public launch</li>
+          <li>Auto-send weekly Family Summary email</li>
+          <li>Sync daily entries (not just leaderboard) to Firebase</li>
+          <li>AI-personalized activity prompts (premium tier)</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Hypothesis line -->
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;color:var(--soft);">
+      <strong style="color:var(--purple);">Hypothesis under test:</strong>
+      If a 4th-grader completes 15 min reading + 50 words writing + 5 min wrap-up daily for 12 summer weeks, fall MAP Reading RIT improves by 8+ points (baseline 185 → target 193+). Validation: September 2026 retest.
     </div>
   </div>
-</section>
 
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container">
-    <h2>Ready to <span class="gold">beat the summer slide?</span></h2>
-    <p>It takes 30 minutes a day. You'll come back to school stronger than half your class. Let's go.</p>
-    <a href="dashboard.html" class="btn-primary" id="cta-primary-bottom">🚀 Enroll My Child</a>
+  <!-- Featured: case study / story page -->
+  <a href="story.html" style="display:block;text-decoration:none;color:inherit;">
+    <div style="background:linear-gradient(135deg,rgba(255,216,74,0.10),rgba(126,182,255,0.06));border:2px solid var(--gold);border-radius:18px;padding:22px 26px;margin-bottom:20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;">
+      <div style="font-size:48px;">📖</div>
+      <div style="flex:1;min-width:260px;">
+        <div style="background:var(--gold);color:var(--bg);display:inline-block;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;margin-bottom:8px;">CASE STUDY · FEATURED</div>
+        <div style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:4px;">How I vibe-coded a reading app for my 10-year-old</div>
+        <div style="font-size:14px;color:var(--soft);line-height:1.55;">A weekend, $0, no engineering background. The honest story of what got built, what kids are actually doing with it, and what any parent could replicate for their own family.</div>
+      </div>
+      <div style="font-size:18px;color:var(--gold);font-weight:800;white-space:nowrap;">Read →</div>
+    </div>
+  </a>
+
+  <div class="todo-section">
+    <h2>📋 Founder Roadmap</h2>
+    <div class="todo-sub">Operational TODOs and upgrades. Tick off when done. Persists in this browser only.</div>
+    <div class="todo-meta" id="todo-counts"></div>
+    <div class="todo-list" id="todo-list"></div>
+    <div class="todo-add-row">
+      <input type="text" id="todo-input" placeholder="Add a new TODO item…" />
+      <select id="todo-priority-input">
+        <option value="high">High</option>
+        <option value="medium" selected>Medium</option>
+        <option value="low">Low</option>
+      </select>
+      <button onclick="addTodo()">+ Add</button>
+    </div>
   </div>
-</section>
 
-<footer>
-  <div>SummerStreak · Summer 2026 · A 12-week reading challenge</div>
-  <div style="margin-top:10px;">
-    <a href="dashboard.html">Open dashboard</a>
-    <a href="dashboard.html?parent=1">For parents</a>
-    <a href="story.html">Read the story</a>
-    <a href="founders.html">Founders Hub</a>
+  <div class="users-section" style="border-color: var(--blue); background: rgba(126, 182, 255, 0.04);">
+    <h2>📄 Reference Documents</h2>
+    <div style="color:var(--soft);font-size:14px;margin-bottom:14px;">Product strategy, investor materials, and operational guides. Click to download or open.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:12px;">
+      <a href="SummerStreak-PRD.docx" download style="text-decoration:none;background:var(--bg-light);border:2px solid var(--border);border-radius:12px;padding:18px;display:block;transition:all 0.15s;color:var(--ink);">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div style="font-size:11px;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Product Strategy</div>
+            <div style="font-size:17px;font-weight:800;margin-bottom:4px;">SummerStreak PRD</div>
+            <div style="font-size:12px;color:var(--soft);">Full Product Requirements Doc · 10 sections · 21 KB · Word doc</div>
+          </div>
+          <div style="font-size:32px;line-height:1;">📋</div>
+        </div>
+      </a>
+      <a href="SummerStreak-Investor-Deck.pptx" download style="text-decoration:none;background:var(--bg-light);border:2px solid var(--border);border-radius:12px;padding:18px;display:block;transition:all 0.15s;color:var(--ink);">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div style="font-size:11px;color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Fundraising</div>
+            <div style="font-size:17px;font-weight:800;margin-bottom:4px;">Investor Pitch Deck</div>
+            <div style="font-size:12px;color:var(--soft);">16-slide pre-seed pitch · 423 KB · PowerPoint</div>
+          </div>
+          <div style="font-size:32px;line-height:1;">🎯</div>
+        </div>
+      </a>
+      <a href="BACKEND-SETUP.md" target="_blank" style="text-decoration:none;background:var(--bg-light);border:2px solid var(--border);border-radius:12px;padding:18px;display:block;transition:all 0.15s;color:var(--ink);">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div style="font-size:11px;color:var(--green);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Ops Guide</div>
+            <div style="font-size:17px;font-weight:800;margin-bottom:4px;">Firebase Backend Setup</div>
+            <div style="font-size:12px;color:var(--soft);">Step-by-step config, security rules, troubleshooting</div>
+          </div>
+          <div style="font-size:32px;line-height:1;">🔌</div>
+        </div>
+      </a>
+    </div>
   </div>
-</footer>
 
-<style>
-  .enroll-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.78);
-    backdrop-filter: blur(6px);
-    display: none;
-    align-items: center; justify-content: center;
-    z-index: 200;
-    padding: 20px;
-  }
-  .enroll-backdrop.show { display: flex; }
-  .enroll-modal {
-    background: var(--panel);
-    border: 2px solid var(--gold);
-    border-radius: 20px;
-    padding: 28px;
-    max-width: 540px;
-    width: 100%;
-    max-height: 92vh;
-    overflow-y: auto;
-    animation: enrollPop 0.3s ease;
-  }
-  @keyframes enrollPop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .enroll-modal .em-close {
-    float: right;
-    background: none; border: none;
-    color: var(--muted);
-    font-size: 28px;
-    cursor: pointer;
-    line-height: 1;
-  }
-  .enroll-modal h3 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-  .enroll-modal .em-sub { color: var(--soft); font-size: 15px; margin-bottom: 20px; }
-  .enroll-modal label {
-    display: block; font-size: 13px; color: var(--soft); font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; margin-top: 14px;
-  }
-  .enroll-modal input.txt {
-    width: 100%;
-    background: var(--bg);
-    border: 2px solid var(--border);
-    color: var(--ink);
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 17px;
-  }
-  .enroll-modal input.txt:focus { outline: none; border-color: var(--gold); }
-  .enroll-modal .emoji-row {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
-  }
-  .enroll-modal .emoji-row button {
-    background: var(--bg);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 4px;
-    cursor: pointer;
-    font-size: 24px;
-    line-height: 1;
-    font-family: inherit;
-  }
-  .enroll-modal .emoji-row button.selected {
-    border-color: var(--gold);
-    background: rgba(255, 216, 74, 0.15);
-  }
-  .enroll-modal .theme-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .enroll-modal .theme-row button {
-    background: var(--bg);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 6px;
-    cursor: pointer;
-    color: var(--ink);
-    text-align: center;
-    font-family: inherit;
-  }
-  .enroll-modal .theme-row button.selected {
-    border-color: var(--gold);
-    background: linear-gradient(135deg, rgba(255, 216, 74, 0.18), rgba(255, 216, 74, 0.04));
-    box-shadow: 0 0 0 2px var(--gold);
-  }
-  .enroll-modal .theme-row .te { font-size: 28px; display: block; line-height: 1; margin-bottom: 4px; }
-  .enroll-modal .theme-row .tl { font-size: 12px; font-weight: 700; }
-  .enroll-modal .submit-btn {
-    width: 100%;
-    background: var(--gold);
-    color: var(--bg);
-    border: none;
-    padding: 16px;
-    border-radius: 12px;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 18px;
-    cursor: pointer;
-    margin-top: 22px;
-  }
-  .enroll-modal .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 216, 74, 0.4); }
-</style>
-
-<div class="enroll-backdrop" id="enroll-backdrop">
-  <div class="enroll-modal">
-    <button class="em-close" onclick="closeEnroll()">×</button>
-    <h3>🎉 Enroll your child</h3>
-    <p class="em-sub">30 seconds to set up. Their dashboard is saved on this device — no account, no password.</p>
-    <label>What's your child's name?</label>
-    <input type="text" class="txt" id="enroll-name" placeholder="e.g., Maya O'Connor" autocomplete="off" />
-    <label>Pick an avatar</label>
-    <div class="emoji-row" id="enroll-emojis"></div>
-    <label>What do they love? (We'll tailor daily activities)</label>
-    <div class="theme-row" id="enroll-themes"></div>
-    <button class="submit-btn" onclick="submitEnrollment()">🚀 Start the Challenge</button>
+  <div class="toolbar">
+    <input type="text" class="search-box" id="search" placeholder="Search by page name or issue (e.g. 'PIN', 'theme', 'invite')…" autofocus />
+    <div class="filter-chips" id="chips">
+      <button class="chip active" data-cat="all">All</button>
+      <button class="chip" data-cat="kid">Kid pages</button>
+      <button class="chip" data-cat="parent">Parent pages</button>
+      <button class="chip" data-cat="modal">Modals</button>
+      <button class="chip" data-cat="flow">Flows</button>
+    </div>
   </div>
+
+  <div class="results-info" id="results-info">Showing all pages</div>
+
+  <div class="page-grid" id="grid"></div>
+
+  <div class="footer-card">
+    <h3>💡 Troubleshooting tips</h3>
+    <div>Open the dashboard in your browser → press <code>F12</code> (or Cmd+Opt+I on Mac) → Application tab → Local Storage → <code>declan-dashboard-v3</code>. That's the full state. Paste it back at you (or me) to diagnose anything.</div>
+    <div style="margin-top:8px;">If a user is stuck, ask them: <em>"What's the URL in your address bar?"</em> The bit after <code>#</code> tells you which tab. Add <code>?parent=1</code> to auto-expand the parent section.</div>
+    <div class="debug-row">
+      <div>Dump this device's dashboard state for debugging:</div>
+      <button onclick="dumpState()">Show localStorage state</button>
+    </div>
+    <pre class="debug-output" id="debug-out"></pre>
+  </div>
+
+  <div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;font-style:italic;">
+    SummerStreak Founders Hub · For internal use · Bookmark <code style="font-family:'SF Mono',Menlo,monospace;color:var(--gold);">/founders.html</code>
+  </div>
+
 </div>
 
 <script>
-  const STORAGE_KEY = 'declan-dashboard-v3';                  // Legacy mirror (read for migration)
-  const PROFILES_KEY = 'summerstreak-profiles';                // Profile-aware storage
-  const CURRENT_PROFILE_KEY = 'summerstreak-current-profile';
-  const AVATARS = ['👑','🦊','🐯','🦁','🐼','🐸','🦄','🐶'];
-  const THEMES = [
-    { key: 'chess',  emoji: '♟️', label: 'Chess' },
-    { key: 'sports', emoji: '⚽', label: 'Sports' },
-    { key: 'music',  emoji: '🎵', label: 'Music' },
-    { key: 'gaming', emoji: '🎮', label: 'Gaming' }
-  ];
-  let enrollState = { avatar: AVATARS[0], theme: THEMES[0].key };
-
-  function loadProfiles() {
-    try { const raw = localStorage.getItem(PROFILES_KEY); if (raw) return JSON.parse(raw) || []; } catch (e) {}
-    return [];
+// =========== FOUNDER TODO PANEL ===========
+const TODO_KEY = 'summerstreak-founder-todos';
+const SEED_TODOS = [
+  {
+    id: 'google-signin',
+    text: '✅ DONE 6/2: Swapped Anonymous Auth → Google Sign-In. Each parent now has ONE stable Firebase UID across every browser/device. Composite leaderboard key {googleUid}_{profileId} so siblings under the same parent both appear on the leaderboard. Eliminates ghost duplicates and the "permission denied" loop.',
+    priority: 'high',
+    tag: 'auth / shipped',
+    addedDate: '2026-05-31',
+    done: true
+  },
+  {
+    id: 'coppa-signup',
+    text: 'COPPA-compliant signup flow before public launch — parent email verification, age gate, opt-in data sharing. Required before scaling beyond family-pilot trust circle.',
+    priority: 'high',
+    tag: 'compliance / pre-launch',
+    addedDate: '2026-05-31',
+    done: false
+  },
+  {
+    id: 'weekly-email',
+    text: 'Schedule the Family Summary email to auto-send every Monday morning to co-parent (Gmail connector is already wired). Uses `scheduled-tasks` MCP — one cron line.',
+    priority: 'medium',
+    tag: 'ops / nice-to-have',
+    addedDate: '2026-05-31',
+    done: false
+  },
+  {
+    id: 'cross-device-entries',
+    text: 'Sync daily entries (read/write/closeout) to Firebase too, not just leaderboard summary. Lets a kid log activity on phone in morning and see it on laptop at night.',
+    priority: 'medium',
+    tag: 'feature / Phase 2',
+    addedDate: '2026-05-31',
+    done: false
+  },
+  {
+    id: 'ai-prompts',
+    text: 'Premium tier: AI-personalized activity prompts replacing the static 67-prompt library. Use the OpenAI/Anthropic API with the kid\'s theme + last book read.',
+    priority: 'medium',
+    tag: 'premium / Phase 3',
+    addedDate: '2026-05-31',
+    done: false
+  },
+  {
+    id: 'school-pilot',
+    text: 'B2B school pilot: 3 elementary schools in Jefferson County, $5/student/year. Teacher portal for cohort progress + parent communication.',
+    priority: 'low',
+    tag: 'GTM / Year 2',
+    addedDate: '2026-05-31',
+    done: false
+  },
+  {
+    id: 'sharded-leaderboard',
+    text: 'Shard the leaderboard by friend-group when active families pass ~100. Right now every leaderboard write broadcasts to every connected device — at ~100 active kids logging ~5x/day that exceeds the Firebase free-tier 10 GB/month download cap in ~5 days. Fix: each kid subscribes only to their own friend cluster (10–20 kids), not the global /leaderboard. Also fixes UX: top-3 podium stops working past ~20 friends. Estimated effort: 2–3 days. Trigger: cross 50 active families OR notice billing alerts.',
+    priority: 'low',
+    tag: 'scaling / Firebase / post-100-families',
+    addedDate: '2026-06-01',
+    done: false
+  },
+  {
+    id: 'fall-validation',
+    text: 'September 2026: Re-test beta cohort with MAP to validate the hypothesis (target +8 RIT avg). This is the make-or-break data point for Series A pitch.',
+    priority: 'high',
+    tag: 'hypothesis / Sep 2026',
+    addedDate: '2026-05-31',
+    done: false
+  },
+  {
+    id: 'per-profile-firebase-uid',
+    text: '✅ DONE 6/2: Solved by Google Sign-In + composite leaderboard key. Each profile under one parent now writes to /leaderboard/{googleUid}_{profileId} — siblings on one laptop appear as distinct entries.',
+    priority: 'medium',
+    tag: 'multi-profile / shipped',
+    addedDate: '2026-06-02',
+    done: true
   }
-  function persistProfiles(list) { localStorage.setItem(PROFILES_KEY, JSON.stringify(list)); }
-  function getCurrentProfileId() { return localStorage.getItem(CURRENT_PROFILE_KEY) || ''; }
-  function setCurrentProfileId(id) { localStorage.setItem(CURRENT_PROFILE_KEY, id); }
-  function makeProfileId() { return 'prof_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
+];
 
-  // Migrate the legacy single-profile blob into the profiles array, exactly like the dashboard does.
-  function migrateLegacyToProfile() {
-    const profiles = loadProfiles();
-    if (profiles.length > 0) return;
-    let legacy = null;
-    try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) legacy = JSON.parse(raw); } catch (e) {}
-    if (legacy) {
-      const id = makeProfileId();
-      persistProfiles([{ id, state: legacy }]);
-      setCurrentProfileId(id);
-    }
-  }
-  migrateLegacyToProfile();
-
-  // Returns the active profile's state (or null if no enrolled children yet)
-  function existingState() {
-    const profiles = loadProfiles();
-    if (profiles.length === 0) return null;
-    const curId = getCurrentProfileId();
-    const cur = profiles.find(p => p.id === curId) || profiles[0];
-    const s = cur && cur.state;
-    if (!s) return null;
-    // Treat default seed (untouched "Declan O'Malley", no entries, no friends) as not-yet-enrolled.
-    const name = (s.player && s.player.name) || '';
-    const hasActivity = s.entries && Object.keys(s.entries).length > 0;
-    const hasFriends = s.friends && s.friends.length > 0;
-    const renamedAway = name && name !== "Declan O'Malley" && name !== 'Declan';
-    if (hasActivity || hasFriends || renamedAway) return s;
-    return null;
-  }
-
-  function applyCtas() {
-    const state = existingState();
-    const profiles = loadProfiles().filter(p => {
-      const s = p.state || {};
-      const nm = (s.player && s.player.name) || '';
-      const hasActivity = s.entries && Object.keys(s.entries).length > 0;
-      const hasFriends = s.friends && s.friends.length > 0;
-      const renamedAway = nm && nm !== "Declan O'Malley" && nm !== 'Declan';
-      return hasActivity || hasFriends || renamedAway;
-    });
-    const primary = document.getElementById('cta-primary');
-    const primaryBottom = document.getElementById('cta-primary-bottom');
-    const micro = document.getElementById('cta-micro');
-    if (state && state.player && state.player.name) {
-      const first = state.player.name.split(/\s+/)[0];
-      const txt = `🚀 Continue ${first}'s Dashboard`;
-      if (primary) { primary.textContent = txt; primary.setAttribute('href', 'dashboard.html'); primary.removeAttribute('data-enroll'); }
-      if (primaryBottom) { primaryBottom.textContent = txt; primaryBottom.setAttribute('href', 'dashboard.html'); primaryBottom.removeAttribute('data-enroll'); }
-      if (micro) {
-        const switcher = profiles.length >= 2
-          ? ` <a href="dashboard.html" style="color:var(--purple,#b89dff);">Switch child →</a>`
-          : '';
-        micro.innerHTML = `Picking up where ${first} left off. Need a new child's dashboard? <a href="#" onclick="openEnroll(event)" style="color:var(--gold);">Enroll another →</a>${switcher}`;
+function loadTodos() {
+  try {
+    const raw = localStorage.getItem(TODO_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      // Append any new SEED_TODOS that aren't already saved (so existing users see new roadmap items)
+      const existingIds = new Set(saved.map(t => t.id));
+      const newOnes = SEED_TODOS.filter(s => !existingIds.has(s.id));
+      if (newOnes.length) {
+        const merged = saved.concat(newOnes);
+        saveTodos(merged);
+        return merged;
       }
-    } else {
-      [primary, primaryBottom].forEach(el => {
-        if (!el) return;
-        el.textContent = '🚀 Enroll My Child';
-        el.setAttribute('href', '#');
-        el.setAttribute('data-enroll', '1');
-        el.addEventListener('click', openEnroll);
-      });
+      return saved;
     }
-    // If we arrived with ?addChild=1, auto-open the enrollment modal (used by the dashboard's "+ Enroll another child")
-    try {
-      const qs = new URLSearchParams(window.location.search);
-      if (qs.get('addChild') === '1') {
-        setTimeout(() => openEnroll(), 50);
-      }
-    } catch (e) {}
-  }
+  } catch (e) {}
+  // First run — seed with the roadmap items
+  saveTodos(SEED_TODOS);
+  return SEED_TODOS.slice();
+}
+function saveTodos(list) { localStorage.setItem(TODO_KEY, JSON.stringify(list)); }
 
-  function openEnroll(e) {
-    if (e) e.preventDefault();
-    renderEnrollPickers();
-    document.getElementById('enroll-backdrop').classList.add('show');
-    setTimeout(() => { document.getElementById('enroll-name')?.focus(); }, 100);
-  }
-  function closeEnroll() { document.getElementById('enroll-backdrop').classList.remove('show'); }
-
-  function renderEnrollPickers() {
-    const eRow = document.getElementById('enroll-emojis');
-    eRow.innerHTML = '';
-    AVATARS.forEach(e => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = e;
-      if (e === enrollState.avatar) b.classList.add('selected');
-      b.onclick = () => { enrollState.avatar = e; renderEnrollPickers(); };
-      eRow.appendChild(b);
-    });
-    const tRow = document.getElementById('enroll-themes');
-    tRow.innerHTML = '';
-    THEMES.forEach(t => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      if (t.key === enrollState.theme) b.classList.add('selected');
-      b.innerHTML = `<span class="te">${t.emoji}</span><span class="tl">${t.label}</span>`;
-      b.onclick = () => { enrollState.theme = t.key; renderEnrollPickers(); };
-      tRow.appendChild(b);
-    });
-  }
-
-  function submitEnrollment() {
-    const name = (document.getElementById('enroll-name').value || '').trim();
-    if (!name) {
-      const i = document.getElementById('enroll-name');
-      i.style.borderColor = 'var(--red, #ff6b6b)';
-      i.focus();
-      setTimeout(() => { i.style.borderColor = 'var(--border)'; }, 800);
-      return;
-    }
-    // Seed a fresh dashboard state with the enrolled child's identity
-    const today = new Date();
-    const todayKey = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
-    const fresh = {
-      player: { name: name },
-      entries: {},
-      earnedBadges: {},
-      prizes: [
-        { id: 'p1',  emoji: '🎬', name: 'Pick the family movie',     cost: 15 },
-        { id: 'p2',  emoji: '📱', name: 'Extra 30 min screen time',  cost: 25 },
-        { id: 'p3',  emoji: '🍦', name: 'Ice cream trip',            cost: 35 },
-        { id: 'p4',  emoji: '📚', name: 'A new book you pick',       cost: 50 },
-        { id: 'p6',  emoji: '🧹', name: 'Skip one chore',            cost: 100 },
-        { id: 'p7',  emoji: '🏆', name: 'Chess tournament entry',    cost: 150 },
-        { id: 'p8',  emoji: '🎳', name: 'Bowling or mini golf trip', cost: 200 },
-        { id: 'p9',  emoji: '🎲', name: 'New strategy board game',   cost: 225 },
-        { id: 'p_elitch', emoji: '🎢', name: 'Trip to Elitch Gardens Theme & Water Park!', cost: 300, ultimate: true }
-      ],
-      claimHistory: [],
-      pointAdjustments: 0,
-      summerStart: '2026-06-01',
-      selectedDate: todayKey,
-      friends: [],
-      playerAvatar: enrollState.avatar,
-      playerGoals: [],
-      acceptedInvites: [],
-      preference: enrollState.theme,
-      parentAuth: { setupComplete: false, adminName: '', adminPinHash: '', parents: [] }
-    };
-    try {
-      // Append as a new profile (preserves any existing children's data on this device)
-      const profiles = loadProfiles();
-      const newId = makeProfileId();
-      profiles.push({ id: newId, state: fresh });
-      persistProfiles(profiles);
-      setCurrentProfileId(newId);
-      // Also write to the legacy key so admin.html/founders.html see the freshly active profile
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
-    } catch (e) {
-      alert('Could not save to this browser. Try a different browser or check storage settings.');
-      return;
-    }
-    // Redirect to the dashboard
-    window.location.href = 'dashboard.html';
-  }
-
-  // Close modal on backdrop click
-  document.getElementById('enroll-backdrop').addEventListener('click', e => {
-    if (e.target.id === 'enroll-backdrop') closeEnroll();
+function renderTodos() {
+  const list = loadTodos();
+  const ul = document.getElementById('todo-list');
+  const meta = document.getElementById('todo-counts');
+  const done = list.filter(t => t.done).length;
+  meta.innerHTML = `<strong>${done}</strong> of <strong>${list.length}</strong> complete · seeded with roadmap items, edit freely`;
+  // Sort: open items first (by priority high→low), then done items at bottom
+  const order = { high: 0, medium: 1, low: 2 };
+  list.sort((a, b) => {
+    if (a.done !== b.done) return a.done ? 1 : -1;
+    return (order[a.priority] || 1) - (order[b.priority] || 1);
   });
+  ul.innerHTML = list.map(t => `
+    <div class="todo-item ${t.done ? 'done' : ''}">
+      <input type="checkbox" class="todo-check" ${t.done ? 'checked' : ''} onchange="toggleTodo('${t.id}')" />
+      <div>
+        <span class="todo-text">${escapeHtml(t.text)}<span class="todo-priority ${t.priority}">${t.priority}</span></span>
+        ${t.tag ? `<div class="todo-meta-line"><code>${escapeHtml(t.tag)}</code> · added ${t.addedDate || 'previously'}</div>` : ''}
+      </div>
+      <div class="todo-actions">
+        <button class="todo-remove" onclick="removeTodo('${t.id}')">Remove</button>
+      </div>
+    </div>
+  `).join('');
+}
 
-  applyCtas();
+function toggleTodo(id) {
+  const list = loadTodos();
+  const t = list.find(x => x.id === id);
+  if (t) { t.done = !t.done; if (t.done) t.doneDate = new Date().toISOString().slice(0,10); }
+  saveTodos(list);
+  renderTodos();
+}
 
-  // Reveal-on-scroll
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+function removeTodo(id) {
+  if (!confirm('Remove this TODO item?')) return;
+  const list = loadTodos().filter(t => t.id !== id);
+  saveTodos(list);
+  renderTodos();
+}
 
-  // Invite-link redirect: preserve old shared URLs that hit the root
-  const params = new URLSearchParams(location.search);
-  if (params.has('invite')) {
-    location.replace('dashboard.html' + location.search + location.hash);
+function addTodo() {
+  const input = document.getElementById('todo-input');
+  const priority = document.getElementById('todo-priority-input').value;
+  const text = input.value.trim();
+  if (!text) return;
+  const list = loadTodos();
+  list.push({
+    id: 'todo_' + Date.now(),
+    text,
+    priority,
+    tag: '',
+    addedDate: new Date().toISOString().slice(0,10),
+    done: false
+  });
+  saveTodos(list);
+  input.value = '';
+  renderTodos();
+}
+
+// Allow Enter to submit
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('todo-input');
+  if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
+});
+
+renderTodos();
+
+// User management lives on admin.html now. Docs hub keeps only the docs + TODOs + page directory.
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function dumpState() {
+  const out = document.getElementById('debug-out');
+  try {
+    const raw = localStorage.getItem('declan-dashboard-v3');
+    if (!raw) out.textContent = 'No dashboard state in this browser. (Open dashboard.html first.)';
+    else out.textContent = JSON.stringify(JSON.parse(raw), null, 2);
+  } catch (e) { out.textContent = 'Error: ' + e.message; }
+  out.classList.add('show');
+}
+
+
+const PAGES = [
+  // STORY / CASE STUDY
+  {
+    cat: 'kid', cat_label: '📖 Public · Case Study',
+    title: 'Story — Vibe-coding case study',
+    desc: 'Public-facing narrative: how the app was built in a weekend, what kids are doing with it, what other parents could replicate. Sharable on LinkedIn, Substack, etc.',
+    url: '/story.html',
+    issues: [
+      "Update fall MAP RIT result in September 2026",
+      "Re-record engagement metrics weekly so the 'week one' section stays current",
+      "Add photo/screenshot of the actual dashboard"
+    ]
+  },
+  // LANDING
+  {
+    cat: 'kid', cat_label: '🏠 Public · Landing',
+    title: 'Homepage / Landing',
+    desc: 'The first page anyone hits at beatthesummerslide.com. Explains the challenge to kids and links to the dashboard.',
+    url: '/',
+    issues: [
+      "User says 'I don't see Declan' — they're on the landing page, click Open Dashboard",
+      "Invite link doesn't open welcome modal (should auto-redirect to /dashboard.html)",
+      "Animations not playing (IntersectionObserver issue?)"
+    ]
+  },
+
+  // KID PAGES (main tabs)
+  {
+    cat: 'kid', cat_label: '☀️ Kid · Tab',
+    title: 'Summer (Home)',
+    desc: 'Default landing page. Shows today\'s quick-access card and the full 12-week calendar grid.',
+    url: '/dashboard.html#summer',
+    issues: [
+      "Today's card not visible at top",
+      "Summer plan dates wrong (check ⚙️ → Summer Start Date)",
+      "Day cells in grid not clickable",
+      "Theme switcher card missing (parent section)"
+    ]
+  },
+  {
+    cat: 'kid', cat_label: '⚡ Kid · Tab',
+    title: 'Day',
+    desc: 'Per-day activity logging. Read / Write / Wrap-Up + bonus cards.',
+    url: '/dashboard.html#day',
+    issues: [
+      "Activity toggle not awarding points",
+      "Words input not saving",
+      "Bonus Reading button does nothing",
+      "Future days locked (expected behavior)",
+      "Ideas modal shows wrong theme",
+      "Saturday Tournament icon wrong (check theme)"
+    ]
+  },
+  {
+    cat: 'kid', cat_label: '🏅 Kid · Tab',
+    title: 'Friends',
+    desc: 'Leaderboard, invite link, score code share, per-friend goals.',
+    url: '/dashboard.html#friends',
+    issues: [
+      "Invite link not generating correctly",
+      "Friend's score code rejected (format: NAME-PTS-MMDD)",
+      "Can't add friend manually (empty name)",
+      "Leaderboard not sorting by points",
+      "Welcome modal didn't appear on invite link"
+    ]
+  },
+  {
+    cat: 'kid', cat_label: '♚ Kid · Tab',
+    title: 'My Rank',
+    desc: 'Chess rank ladder (Pawn → Grandmaster) and 28-day streak calendar.',
+    url: '/dashboard.html#rank',
+    issues: [
+      "Rank not progressing despite points",
+      "Streak shows 0 even though daily activity logged",
+      "Calendar dates don't match expectation"
+    ]
+  },
+  {
+    cat: 'kid', cat_label: '🏆 Kid · Tab',
+    title: 'Trophies',
+    desc: 'All 27 unlockable achievements. Gold = earned, gray = locked.',
+    url: '/dashboard.html#trophies',
+    issues: [
+      "Trophy not unlocking after meeting criteria",
+      "Earned trophy showing as locked",
+      "No toast notification when trophy unlocks"
+    ]
+  },
+  {
+    cat: 'kid', cat_label: '🎁 Kid · Tab',
+    title: 'Prizes',
+    desc: 'Reward shop with tiered prizes and the Ultimate (Elitch Gardens) at 300 pts.',
+    url: '/dashboard.html#prizes',
+    issues: [
+      "Ultimate prize not showing at bottom",
+      "Can't claim prize (not enough points)",
+      "Custom prizes not saving from ⚙️"
+    ]
+  },
+
+  // PARENT PAGES (sections within Summer tab)
+  {
+    cat: 'parent', cat_label: '🔒 Parent · Gate',
+    title: 'Parent Setup (first time)',
+    desc: 'First-time admin setup. Asks for admin name + 4–6 digit PIN.',
+    url: '/dashboard.html?parent=1#summer',
+    issues: [
+      "Setup screen doesn't appear (state.parentAuth.setupComplete may already be true)",
+      "Name input rejected (must be non-empty)",
+      "PINs don't match",
+      "Can't move past setup"
+    ]
+  },
+  {
+    cat: 'parent', cat_label: '🔒 Parent · Gate',
+    title: 'Parent Unlock (PIN entry)',
+    desc: 'Shown when parent access is set up but session not authenticated.',
+    url: '/dashboard.html?parent=1#summer',
+    issues: [
+      "Forgot PIN — use ⚙️ → Reset Parent Access",
+      "PIN entered but no unlock (check whitespace)",
+      "Lock screen flashing red after correct PIN"
+    ]
+  },
+  {
+    cat: 'parent', cat_label: '👨‍👩‍👧 Parent · Dashboard',
+    title: 'Parent Dashboard (Authenticated)',
+    desc: 'Full parent view: auth bar, admin tools, theme switcher, family summary, mission tracker, hypothesis, fall projections.',
+    url: '/dashboard.html?parent=1#summer',
+    issues: [
+      "Theme switcher card missing (purple border, after Manage Parent Access)",
+      "Family Summary card blank",
+      "Email to Kate button doesn't open mail client",
+      "Mission tracker pace seems off",
+      "Fall projection numbers wrong",
+      "Auth bar shows wrong name (use ⚙️ → Admin name to fix)"
+    ]
+  },
+  {
+    cat: 'parent', cat_label: '👨‍💼 Parent · Admin only',
+    title: 'Manage Parent Access',
+    desc: 'Admin-only card to add/remove other parents. Each parent gets their own PIN.',
+    url: '/dashboard.html?parent=1#summer',
+    issues: [
+      "Add Parent prompt for PIN collides with existing one",
+      "Removed parent still listed (try refresh)",
+      "Non-admin parent sees this card (bug — should be hidden)"
+    ]
+  },
+
+  // MODALS
+  {
+    cat: 'modal', cat_label: '⚙️ Modal',
+    title: 'Parent Settings (⚙️ cog)',
+    desc: 'Bottom-right cog opens this modal. Contains: theme, player name, admin name, prize editor, summer start, manual point adjust, parent reset, full reset.',
+    url: '/dashboard.html#summer',
+    open_action: 'click ⚙️ Parents Only at bottom-right',
+    issues: [
+      "Cog button not visible (fixed bottom-right; check CSS)",
+      "Theme picker not selecting on click",
+      "Prize edits not saving",
+      "Reset All Progress wiped wrong dashboard"
+    ]
+  },
+  {
+    cat: 'modal', cat_label: '🎉 Modal',
+    title: 'Welcome (Invite link)',
+    desc: 'Shown when a friend opens an invite URL. Asks for name, avatar, theme.',
+    url: '/dashboard.html?invite=Brent&avatar=%F0%9F%91%91',
+    issues: [
+      "Modal not appearing (URL may be missing ?invite=)",
+      "Theme picker missing (recent fix)",
+      "Avatar picker empty",
+      "After accept, dashboard shows old name (check state.player.name)"
+    ]
+  },
+  {
+    cat: 'modal', cat_label: '💡 Modal',
+    title: 'Activity Ideas',
+    desc: 'Opens from "💡 Need ideas?" buttons. Shows 4 random theme-tailored prompts. Refresh reshuffles.',
+    url: '/dashboard.html#day',
+    open_action: 'click 💡 Need ideas? on any activity',
+    issues: [
+      "Same 4 ideas every time (Math.random seed issue?)",
+      "Wrong theme prompts showing (check state.preference)",
+      "Modal empty (theme key mismatch)"
+    ]
+  },
+  {
+    cat: 'modal', cat_label: '👤 Modal',
+    title: 'Add / Edit Friend',
+    desc: 'Opens from Friends tab "+ Add Friend Manually" or "Edit" on a friend row.',
+    url: '/dashboard.html#friends',
+    open_action: 'click + Add a Friend Manually',
+    issues: [
+      "Can't pick avatar (emoji-picker not rendering)",
+      "Save button doesn't close modal",
+      "Friend not appearing in leaderboard after add"
+    ]
+  },
+
+  // FLOWS
+  {
+    cat: 'flow', cat_label: '🔗 Flow',
+    title: 'Friend Joins via Invite Link',
+    desc: 'End-to-end: Brent shares invite link → friend opens it → welcome modal sets up THEIR dashboard with Brent as friend.',
+    url: '/dashboard.html?invite=Brent&avatar=%F0%9F%91%91',
+    issues: [
+      "Friend keeps seeing 'Declan' as player name (didn't accept welcome modal)",
+      "Brent not auto-added to friend's leaderboard",
+      "Friend's avatar didn't save"
+    ]
+  },
+  {
+    cat: 'flow', cat_label: '📧 Flow',
+    title: 'Email Family Summary to Kate',
+    desc: 'Parent dashboard → Family Summary → 📧 Email to Kate. Opens mailto: link with full summary pre-filled.',
+    url: '/dashboard.html?parent=1#summer',
+    issues: [
+      "Mail client doesn't open (browser may block mailto:)",
+      "Body is empty (encoding issue)",
+      "Wrong subject line"
+    ]
+  },
+  {
+    cat: 'flow', cat_label: '📲 Flow',
+    title: 'Score Code Sync (cross-device)',
+    desc: 'Friends share short codes (e.g., DECLAN-150-0612) via text. Recipient pastes in Friends tab to update their leaderboard.',
+    url: '/dashboard.html#friends',
+    issues: [
+      "Code rejected (regex: ^[A-Z]+-\\d+(-\\d+)?$)",
+      "Updated friend's points but trophy didn't fire on their device (expected — each device tracks own)",
+      "Existing friend doesn't match by name (case sensitive — make sure caps match)"
+    ]
   }
-</script>
+];
 
+const grid = document.getElementById('grid');
+const searchBox = document.getElementById('search');
+const chips = document.querySelectorAll('.chip');
+const info = document.getElementById('results-info');
+let activeCat = 'all';
+
+function render() {
+  const q = searchBox.value.toLowerCase().trim();
+  let filtered = PAGES;
+  if (activeCat !== 'all') filtered = filtered.filter(p => p.cat === activeCat);
+  if (q) {
+    filtered = filtered.filter(p => {
+      const haystack = (p.title + ' ' + p.desc + ' ' + p.issues.join(' ')).toLowerCase();
+      return haystack.includes(q);
+    });
+  }
+  info.textContent = `Showing ${filtered.length} of ${PAGES.length} pages${q ? ` matching "${q}"` : ''}`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div style="font-size:40px;margin-bottom:8px;">🔍</div>No pages match. Try a different search.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="page-card cat-${p.cat}">
+      <div class="card-header">
+        <div class="card-cat">${escapeHtml(p.cat_label)}</div>
+      </div>
+      <div class="card-title">${escapeHtml(p.title)}</div>
+      <div class="card-desc">${escapeHtml(p.desc)}</div>
+      <div class="card-issues">
+        <div class="card-issues-title">Common issues users report</div>
+        <ul>${p.issues.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>
+      </div>
+      <div class="card-url">${escapeHtml(p.url)}${p.open_action ? `<br><em>then ${escapeHtml(p.open_action)}</em>` : ''}</div>
+      <div class="card-actions">
+        <a class="btn" href="${p.url}" target="_blank">Open page →</a>
+        <button class="btn secondary" onclick="copyUrl('${p.url}', this)">Copy URL</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function copyUrl(rel, btn) {
+  const full = location.origin + (location.pathname.replace(/founders\.html$/, '').replace(/index\.html$/, '') + rel).replace(/\/+/g, '/');
+  if (navigator.clipboard) navigator.clipboard.writeText(full);
+  const t = btn.textContent;
+  btn.textContent = '✓ Copied';
+  setTimeout(() => { btn.textContent = t; }, 1500);
+}
+
+function dumpState() {
+  const out = document.getElementById('debug-out');
+  try {
+    const raw = localStorage.getItem('declan-dashboard-v3');
+    if (!raw) { out.textContent = 'No dashboard state in this browser. (Open index.html first.)'; }
+    else { out.textContent = JSON.stringify(JSON.parse(raw), null, 2); }
+  } catch (e) { out.textContent = 'Error: ' + e.message; }
+  out.classList.add('show');
+}
+
+searchBox.addEventListener('input', render);
+chips.forEach(c => c.addEventListener('click', () => {
+  chips.forEach(x => x.classList.remove('active'));
+  c.classList.add('active');
+  activeCat = c.dataset.cat;
+  render();
+}));
+
+render();
+</script>
 </body>
 </html>
