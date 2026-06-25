@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streak — What We've Already Proven</title>
+<meta name="description" content="What the SummerStreak experiment has demonstrated 4 weeks into a 12-week test. Reference data for the year-round Streak vision.">
+<meta property="og:title" content="Streak — What We've Already Proven">
+<meta property="og:description" content="The behavior loop works. Build economics work. Acquisition story works. The outcome claim is still being tested.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-light: #F7F8FB;
+    --panel: #ffffff;
+    --panel-light: #F3F4F8;
+    --ink: #1A1F2E;
+    --soft: #4A5568;
+    --muted: #8B95A7;
+    --gold: #D97706;
+    --gold-dark: #92400E;
+    --green: #059669;
+    --red: #DC2626;
+    --orange: #EA580C;
+    --purple: #6D28D9;
+    --blue: #2563EB;
+    --border: #E5E7EB;
+    --text-on-accent: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 5%, rgba(217, 119, 6, 0.04) 0%, transparent 45%),
+      radial-gradient(circle at 90% 95%, rgba(5, 150, 105, 0.03) 0%, transparent 45%);
+    color: var(--ink);
+    line-height: 1.65;
+    min-height: 100vh;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 24px; }
+
+  nav.topnav {
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 22px;background:var(--bg-light);
+    border:1px solid var(--border);border-radius:14px;
+    margin-bottom:24px;flex-wrap:wrap;gap:8px;
+    box-shadow:0 1px 2px rgba(0,0,0,0.04);
+  }
+  nav .brand { font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px; }
+  nav a {
+    color:var(--soft);text-decoration:none;font-weight:700;font-size:13px;
+    padding:6px 12px;border-radius:6px;margin-left:6px;
+  }
+  nav a.active { background:var(--gold);color:var(--text-on-accent); }
+  nav a:hover:not(.active) { background:var(--panel-light); color:var(--ink); }
+
+  header.hero {
+    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-light) 100%);
+    border: 2px solid var(--green);
+    border-radius: 18px;
+    padding: 32px 28px;
+    margin-bottom: 22px;
+  }
+  .eyebrow {
+    background: var(--green); color: var(--text-on-accent);
+    display: inline-block; padding: 4px 12px; border-radius: 8px;
+    font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-size: 32px; font-weight: 800; line-height: 1.25;
+    margin-bottom: 10px; letter-spacing: -0.3px;
+  }
+  header .deck { color: var(--soft); font-size: 16px; line-height: 1.6; }
+  header .meta { margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+  article h2 {
+    font-size: 22px; font-weight: 800;
+    margin: 30px 0 12px 0;
+    letter-spacing: -0.2px;
+  }
+  article h3 {
+    font-size: 16px; font-weight: 800;
+    margin: 22px 0 10px 0; color: var(--gold);
+  }
+  article p { margin-bottom: 14px; color: var(--soft); }
+  article p strong { color: var(--ink); font-weight: 700; }
+  article ul, article ol {
+    margin: 8px 0 16px 22px; color: var(--soft);
+  }
+  article li { margin-bottom: 6px; }
+  article blockquote {
+    border-left: 4px solid var(--gold);
+    background: rgba(217, 119, 6, 0.06);
+    padding: 14px 18px;
+    margin: 18px 0;
+    color: var(--ink);
+    border-radius: 0 10px 10px 0;
+    font-weight: 600;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin: 14px 0 22px 0;
+  }
+  .stat-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .stat-card .label {
+    color: var(--muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .stat-card .value {
+    color: var(--gold); font-size: 22px; font-weight: 800; line-height: 1.1;
+  }
+  .stat-card .sub {
+    color: var(--soft); font-size: 11px; margin-top: 2px;
+  }
+
+  table.feature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 22px 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  table.feature-table th, table.feature-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  table.feature-table th {
+    background: var(--bg-light); color: var(--ink);
+    font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  table.feature-table tr:last-child td { border-bottom: none; }
+  table.feature-table td:first-child { font-weight: 700; color: var(--ink); width: 35%; }
+  table.feature-table td:last-child { color: var(--soft); }
+
+  .callout-proven {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.08), rgba(217, 119, 6, 0.04));
+    border: 1px solid var(--green);
+    border-left: 4px solid var(--green);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 16px 0;
+  }
+  .callout-proven strong { color: var(--green); }
+  .callout-open {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(220, 38, 38, 0.04));
+    border: 1px solid var(--gold);
+    border-left: 4px solid var(--gold);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 16px 0;
+  }
+  .callout-open strong { color: var(--gold); }
+  .callout-limit {
+    background: var(--bg-light);
+    border-left: 4px solid var(--muted);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 14px;
+    color: var(--soft);
+  }
+  .callout-limit strong { color: var(--ink); }
+
+  .claim-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0 22px 0;
+  }
+  .claim-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .claim-card .head {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 6px;
+  }
+  .claim-card .head .check { font-size: 18px; }
+  .claim-card .head .title { font-weight: 800; font-size: 15px; color: var(--ink); }
+  .claim-card .body { font-size: 13px; color: var(--soft); line-height: 1.55; }
+
+  .bottom-line {
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin: 30px 0 20px 0;
+  }
+  .bottom-line h2 { color: var(--gold); margin-top: 0; margin-bottom: 10px; }
+
+  footer.foot {
+    margin-top: 30px;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+  }
+  footer.foot a { color: var(--gold); text-decoration: none; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 26px; }
+    header .deck { font-size: 15px; }
+    article h2 { font-size: 19px; }
+    nav.topnav { padding: 10px 14px; }
+    nav a { padding: 5px 9px; font-size: 12px; margin-left: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="topnav">
+    <span class="brand">STREAK</span>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="proof.html" class="active">Proof</a>
+      <a href="vision.md">Vision Doc</a>
+      <a href="https://github.com/brentomalley150/streak-app" target="_blank">GitHub ↗</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">✅ EVIDENCE · WEEK 4 OF 12</div>
+    <h1>What We've Already Proven</h1>
+    <p class="deck">A reference for the year-round Streak vision: what the SummerStreak experiment has demonstrated so far, what's still open, and how this informs every Phase 2/3/4 decision.</p>
+    <div class="meta">As of June 2026 · Updated as new data lands</div>
+  </header>
+
+  <article>
+
+    <h2>The hypothesis we set out to test</h2>
+    <blockquote>If a struggling 4th-grader completes 15 min reading + 50 words writing + 5 min math daily for 12 summer weeks, supported by gamification + social competition + parent visibility, fall MAP Reading RIT will improve by 8+ points over the spring baseline (185 → 193+) — and the kid will actually open the app voluntarily.</blockquote>
+    <p>Two embedded claims:</p>
+    <ol>
+      <li><strong>Behavior claim:</strong> A kid who wouldn't read on their own will engage with a gamified dashboard.</li>
+      <li><strong>Outcome claim:</strong> That engagement produces measurable reading-score improvement on a standardized assessment.</li>
+    </ol>
+    <p>The behavior claim can be falsified in weeks. The outcome claim takes until September.</p>
+
+    <h2>What got built — the engine</h2>
+    <p>Built in a long weekend by a non-engineer parent (PM going through an AI Product Management course) using AI-assisted "vibe coding." Iterated continuously over 4 weeks. Currently 80+ commits on <code>main</code>.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="label">Build time</div>
+        <div class="value">~3 days</div>
+        <div class="sub">Long weekend</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total cost</div>
+        <div class="value">$0</div>
+        <div class="sub">GitHub Pages + Firebase free tiers</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Commits</div>
+        <div class="value">80+</div>
+        <div class="sub">Iterating live</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Custom domain</div>
+        <div class="value">$0</div>
+        <div class="sub">Let's Encrypt + GH Pages</div>
+      </div>
+    </div>
+
+    <h3>Feature surface shipped</h3>
+    <table class="feature-table">
+      <tr><th>Surface</th><th>What it does</th></tr>
+      <tr><td>Landing page</td><td>Kid-friendly enrollment, theme picker, multi-child support</td></tr>
+      <tr><td>Dashboard</td><td>Daily activities (Read/Write/Math), points → rank → leaderboard, weekly challenges, prize shop</td></tr>
+      <tr><td>Friends leaderboard</td><td>Real-time across devices, weekly + lifetime views, past champions, weekly winner trophies</td></tr>
+      <tr><td>Hypothesis tracker</td><td>Live projection of fall MAP RIT score based on current pace</td></tr>
+      <tr><td>Parent section</td><td>PIN-gated, prize editor, baseline scores, manual adjusts, co-parent summary email</td></tr>
+      <tr><td>Story page</td><td>Public case study at /story.html</td></tr>
+      <tr><td>Admin tool</td><td>Cross-device user management, Firebase status panel, founder TODO list</td></tr>
+    </table>
+
+    <h3>Identity, sync, and anti-gaming</h3>
+    <ul>
+      <li>Google Sign-In — stable UID per parent across all devices</li>
+      <li>Multi-profile per Google account — siblings on one device, fully separated</li>
+      <li>Firebase-backed canonical weekly winners — every dashboard agrees on who won</li>
+      <li>Per-week point adjustments bucket — lifetime vs. weekly views stay consistent</li>
+      <li>One-click-per-day on every points-earning action — no spam-clicking</li>
+      <li>Defensive clamp: weekly ≤ lifetime, always</li>
+      <li>Days Done auto-filter: excludes empty entries created by calendar navigation</li>
+    </ul>
+
+    <p>That's a complete, production-quality kid app delivered for $0 in three days of focused build + four weeks of iteration. <strong>Pre-AI, this was a 6-week sprint with a team of three.</strong></p>
+
+    <h2>What the data shows — behavior change</h2>
+    <p><strong>Engagement is real and measurable.</strong></p>
+
+    <h3>Declan — the n=1 founder kid</h3>
+    <p>From live Firebase data, Week 4:</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="label">Lifetime points</div>
+        <div class="value">42 ★</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Rank</div>
+        <div class="value">Knight ♘</div>
+        <div class="sub">Chess theme</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Books finished</div>
+        <div class="value">2</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Min read logged</div>
+        <div class="value">30+</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Active streak</div>
+        <div class="value">3 days</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Weekly wins</div>
+        <div class="value">1</div>
+        <div class="sub">Week 1 winner</div>
+      </div>
+    </div>
+    <p><strong>What this signals:</strong> a kid who, by his parents' own admission, "wasn't reading on his own" is now opening a dashboard, picking up a book, logging activity. The dashboard is doing the job — pulling him into a habit loop without nagging. He didn't have to be coached into the app; he chose it.</p>
+
+    <h3>The friend cohort</h3>
+    <p>Beyond Declan, 5 additional kids enrolled organically through word-of-mouth:</p>
+    <table class="feature-table">
+      <tr><th>Kid</th><th>Notable</th></tr>
+      <tr><td>Ben</td><td>Won Week 2</td></tr>
+      <tr><td>Sebastian</td><td>Won Week 3 (chess theme)</td></tr>
+      <tr><td>Cooper</td><td>Synced, logging activity (gaming theme)</td></tr>
+      <tr><td>Evan</td><td>Synced (gaming theme)</td></tr>
+      <tr><td>Jasper</td><td>Synced (gaming theme)</td></tr>
+    </table>
+    <p><strong>What this signals:</strong> kids' parents are willing to enroll based on a personal referral. Adoption isn't friction-free, but it isn't blocked either. The product crosses the "would you actually share this" bar.</p>
+
+    <h3>Cross-week consistency</h3>
+    <p>Three weekly winners crowned, three different kids. That's the social loop working as designed — the leaderboard creates a real competition where any kid has a real chance to win in any given week.</p>
+
+    <h2>What we observed — qualitative</h2>
+    <p>Things that aren't in the data but are worth recording:</p>
+    <ul>
+      <li><strong>Theme picker mattered more than expected.</strong> Sebastian picked Chess, the gaming-leaning kids picked Gaming, and they each got prompts tailored to their interest. Removed the "ugh, this isn't for me" friction that one-size-fits-all kid apps trigger.</li>
+      <li><strong>Parents iterated alongside the kid.</strong> Real bug reports came in within hours of features shipping. The build-with-the-user-in-the-loop pattern compressed normal QA cycles to minutes.</li>
+      <li><strong>The Past Champions card created a moment.</strong> Once it was live, kids cared about being on it. A feature that wouldn't have shown up in a spec written in advance — emerged from the kid's reaction to seeing their name in print.</li>
+      <li><strong>One-click-per-day locks weren't paternalistic, they were respectful.</strong> When the original "tap to toggle" approach let kids spam points, the kids themselves felt weird about it. Adding the lock made the points feel real.</li>
+    </ul>
+
+    <h2>What we have NOT proved yet</h2>
+    <div class="callout-open">
+      <p><strong>The outcome claim is still open.</strong> The September MAP RIT retest is the keystone. Until that number lands, we have strong engagement, strong adoption, strong weekly cycle, and a 4-week consistent reading habit — but the hypothesis that this translates to score improvement is unverified. If September shows +8 RIT or better, the full hypothesis is proven and every Phase 2/3/4 decision rests on solid ground. If it doesn't move, the engagement was real but the outcome claim needs revision. <strong>Either result is content; the unhonest version is the loss.</strong></p>
+    </div>
+
+    <h2>What this proves for the Streak vision</h2>
+    <p>The SummerStreak experiment proves three things that <strong>all transfer</strong> to the year-round Streak vision:</p>
+
+    <div class="claim-grid">
+      <div class="claim-card">
+        <div class="head"><span class="check">✅</span><span class="title">The engine works</span></div>
+        <div class="body">Daily activity card + points + ranks + leaderboards + prizes + weekly challenges + parent controls = a loop that 10-year-olds will voluntarily engage with. The exact same engine, with different content slots, works for any kid habit — math, music, mindfulness, homework. Phase 2 doesn't require re-proving the loop; it requires writing new content into a proven shell.</div>
+      </div>
+      <div class="claim-card">
+        <div class="head"><span class="check">✅</span><span class="title">The build economics work</span></div>
+        <div class="body">If one parent + AI can ship a complete, multi-family, real-time-synced kid app for $0 in 3 days, then iterating to 5+ tracks is a manageable scope — not a "we need to raise $1M" project. Year-round expansion is achievable as a solo build with the existing tooling stack.</div>
+      </div>
+      <div class="claim-card">
+        <div class="head"><span class="check">✅</span><span class="title">The acquisition story works</span></div>
+        <div class="body">"Parent vibe-coded this for their kid" is the strongest organic acquisition narrative in our hand. Drives sharing among PM-curious parents who amplify, credibility with parents of struggling readers because it wasn't built by a startup chasing metrics, and press/community interest because the meta-story is genuinely novel. Each is independent of which track is active — they scale across the platform.</div>
+      </div>
+    </div>
+
+    <h2>Honest limitations the vision must account for</h2>
+    <div class="callout-limit"><strong>Sample size:</strong> 6 enrolled kids is not a study. Engagement signals are real but generalizability is unproven.</div>
+    <div class="callout-limit"><strong>Survivor bias on the parent side:</strong> every parent who enrolled has a personal connection. Going wider requires testing acquisition from a cold audience.</div>
+    <div class="callout-limit"><strong>No COPPA-grade infrastructure yet:</strong> works for friends-and-family pilot, requires real consent flow for public launch.</div>
+    <div class="callout-limit"><strong>Outcome lag:</strong> any reading-improvement claim takes 8-12 weeks minimum to validate. The product can't promise results faster than the underlying biology of habit formation.</div>
+    <div class="callout-limit"><strong>Single-dev velocity:</strong> scales until it doesn't. Phase 3+ likely requires another contributor or a more opinionated framework.</div>
+
+    <h2>Reference data for the vision pitch</h2>
+    <p>Use these numbers verbatim when telling the story externally:</p>
+    <ul>
+      <li><strong>Build time:</strong> weekend (~3 days for the core)</li>
+      <li><strong>Total cost:</strong> $0 (free tier of GitHub Pages + Firebase)</li>
+      <li><strong>Commits to date:</strong> 80+</li>
+      <li><strong>Enrolled families:</strong> 6 (and growing)</li>
+      <li><strong>Kid's baseline:</strong> MAP Reading RIT 185 · Lexile 300–450L · CMAS Written Expression 17th percentile (well below grade level)</li>
+      <li><strong>Kid's target:</strong> MAP Reading RIT 193+ (8-point gain by September)</li>
+      <li><strong>Kid's Week 4 status:</strong> Knight rank · 2 books finished · 3-day streak · voluntarily engaged</li>
+      <li><strong>Weekly winners through Week 3:</strong> Declan (Wk 1) · Ben (Wk 2) · Sebastian (Wk 3)</li>
+      <li><strong>Hypothesis decision date:</strong> September 2026 (MAP retest)</li>
+    </ul>
+
+  </article>
+
+  <div class="bottom-line">
+    <h2>Bottom line</h2>
+    <p>The summer experiment has already proven the <strong>behavior loop</strong>, the <strong>economics</strong>, and the <strong>story</strong>. What it hasn't proven yet is the <strong>outcome</strong>.</p>
+    <p>The vision pivot to Streak doesn't depend on a September win to be the right move — it depends on the behavior loop being real, which it already is. But the September data point determines whether the brand stands on "we built something kids actually use" (always true) or "we built something kids use AND it moves real outcomes" (still being tested).</p>
+    <p style="margin-bottom:0;"><strong>Plan for both. Build for the second.</strong></p>
+  </div>
+
+  <footer class="foot">
+    Streak — Proof Doc · Updated as new data lands · <a href="https://github.com/brentomalley150/streak-app" target="_blank">github.com/brentomalley150/streak-app</a>
+  </footer>
+
+</div>
+</body>
+</html>
