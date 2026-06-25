@@ -4,7 +4,7 @@
 
 **Product Requirements Document · v2.0**
 
-**Author:** Brent O'Malley · **Date:** June 2026 · **Status:** Draft · **Supersedes:** SummerStreak PRD v1.0 (May 29, 2026)
+**Founder:** Kate O'Malley · **Strategy advisor:** Brent O'Malley · **Date:** June 2026 · **Status:** Draft · **Supersedes:** SummerStreak PRD v1.0 (May 29, 2026)
 
 **Live demo (v1, summer track):** [beatthesummerslide.com](https://beatthesummerslide.com)
 **Vision hub:** [brentomalley150.github.io/streak-app](https://brentomalley150.github.io/streak-app)
@@ -201,7 +201,7 @@ Acceptance:
 - Each track has its own theme, points, leaderboard
 
 **US-2: Track marketplace (Parent)**
-> As Brent (parent), I want to browse available tracks and enroll my kid in a second one (Math Facts), so my reading-focused summer routine becomes a year-round math + reading habit.
+> As Kate (parent), I want to browse available tracks and enroll my kid in a second one (Math Facts), so my reading-focused summer routine becomes a year-round math + reading habit.
 
 Acceptance:
 - Marketplace shows all available tracks with description, recommended age, expected daily time
@@ -347,12 +347,13 @@ Free tier deliberately generous — it's the lead magnet. The Family tier sells 
 
 | Role | Allocation | Notes |
 |---|---|---|
-| Founder / PM / Builder | Brent O'Malley (100%) | AI PM; continues vibe-coding through Phase 2-3 |
+| Founder / PM | **Kate O'Malley** (lead) | Drives the year-round Streak business, brand, partnerships, and roadmap |
+| Strategy advisor / builder | Brent O'Malley | Built the v1 SummerStreak prototype; ongoing strategy + contributing engineer |
 | Part-time engineer | 1 contractor, ~10 hrs/wk from Phase 3 | $20-30K for 6 months |
 | Subject-matter experts (per track) | $500-1500/track | Reading specialist (track exists), math teacher, music teacher, SEL specialist |
 | COPPA legal review | One-time, before Phase 3 paid launch | $5-10K |
 | Design polish (marketing site) | 1 contractor, 40 hrs | $3-5K |
-| Marketing / content | Brent owns Phase 1-2; consider freelance ghostwriter for Substack at Phase 3 | $5-10K/yr |
+| Marketing / content | Kate owns Phase 2 onward; Brent ghostwriter for early Substack pieces; consider freelance ghostwriter at Phase 3 | $5-10K/yr |
 
 **Phase 2 budget (Aug-Nov 2026):** $5K (mostly SME for Back to School track + design)
 **Phase 3 budget (Nov 2026 - Mar 2027):** $35K (engineer + legal + design + SMEs for 3 new tracks)

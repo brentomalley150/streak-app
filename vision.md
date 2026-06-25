@@ -1,6 +1,6 @@
 # SummerStreak — Marketing + Year-Round Product Strategy
 
-**Last updated:** June 2026 · Author: Brent O'Malley
+**Last updated:** June 2026 · Founder: Kate O'Malley · Strategy advisor: Brent O'Malley
 
 ---
 

@@ -589,8 +589,87 @@
   <header class="hub-header">
     <div class="hub-tag">🚀 REIMAGINING · YEAR-ROUND · NEXT CHAPTER</div>
     <h1>Streak</h1>
-    <div class="lede">A working sketch of what a parent-built, AI-assisted kid habit platform looks like when it stops being just a summer thing. This page is the strategy hub for the reimagining — vision, roadmap, and go-to-market plan in one place.</div>
+    <div class="lede">A working sketch of what a parent-built, AI-assisted kid habit platform looks like when it stops being just a summer thing. <strong>Founded by Kate O'Malley</strong>, with strategy + the original v1 prototype by Brent O'Malley. This page is the strategy hub — vision, roadmap, and go-to-market in one place.</div>
   </header>
+
+  <!-- KATE'S TO-DO LIST -->
+  <section style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(109, 40, 217, 0.04));border:2px solid var(--gold);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+      <h2 style="font-size:22px;font-weight:800;">✅ Kate's To-Do</h2>
+      <span style="background:var(--gold);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:1px;">FOUNDER ACTION ITEMS</span>
+    </div>
+    <div style="color:var(--soft);font-size:14px;margin-bottom:14px;">Pre-launch checklist before Phase 2 kicks off. Top item first. Checkboxes are interactive — your progress saves locally in this browser.</div>
+
+    <div id="kate-todo-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div id="kate-todo-progress" style="font-size:13px;color:var(--soft);font-weight:600;">0 of 12 done</div>
+      <button onclick="resetKateTodos()" style="background:transparent;border:1px solid var(--border);color:var(--soft);padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;">↺ Reset checklist</button>
+    </div>
+  </section>
+
+  <script>
+    // Kate's founder TODO list — persists locally per browser
+    const KATE_TODOS = [
+      { id: 'llc', priority: 'high', title: 'Form a new LLC for Streak', notes: 'Talk to a CPA or use ZenBusiness / LegalZoom. Colorado LLC ~$50 filing + $25/yr periodic report. Need separate from any personal entity. Required before Stripe + business banking.' },
+      { id: 'ein', priority: 'high', title: 'Get an EIN from the IRS', notes: 'Free, ~5 min online (irs.gov/ein). Needed for banking and Stripe. Do after LLC is filed.' },
+      { id: 'bank', priority: 'high', title: 'Open business bank account', notes: 'Mercury or Chase Business — both free for early stage. Need LLC docs + EIN. Separates personal vs. business spending cleanly from day one.' },
+      { id: 'brand', priority: 'high', title: 'Decide on final brand name', notes: 'Streak is the placeholder. Candidates: KidStreak, Quest, StreakKid. Decision drives domain, logo, social handles. Lock in before Phase 2 marketing.' },
+      { id: 'domain', priority: 'high', title: 'Buy the brand-name domain', notes: '$10-15/yr at Cloudflare Registrar. Snap up the .com + a couple variants. Stay on beatthesummerslide.com for the summer, transition with Phase 2.' },
+      { id: 'socials', priority: 'medium', title: 'Reserve social handles', priorityNote: 'Same brand name on LinkedIn, X/Twitter, Instagram, TikTok. Even if not active yet — get them before someone squats.', notes: 'Same brand name on LinkedIn, X/Twitter, Instagram, TikTok. Even if not active yet — get them before someone squats.' },
+      { id: 'september', priority: 'high', title: 'Run Declan\'s September MAP retest & write up the result', notes: 'The keystone for the entire vision. Schedule the assessment with the school (or paid alternative). Have the post-result Substack ready to publish within 48 hrs of getting the score.' },
+      { id: 'coppa', priority: 'high', title: 'Engage COPPA-compliance counsel', notes: 'One-time $5K-10K consultation before any paid tier launches. Specialist counsel — not a generalist lawyer. Required before Phase 3 (Mar 2027). Ask Brent for referrals.' },
+      { id: 'stripe', priority: 'medium', title: 'Set up Stripe account for future payments', notes: 'Free to create. Needs LLC + EIN. Get approved early so it\'s ready when paid tier launches. Stripe Atlas is overkill if LLC is already filed.' },
+      { id: 'sme-back-to-school', priority: 'medium', title: 'Identify SME for Back to School track', notes: 'Elementary school teacher or learning specialist. $500-1500 for curriculum input. Reach out to local Jeffco teachers, friends-of-friends, school counselors.' },
+      { id: 'sme-math', priority: 'medium', title: 'Identify SME for Math Facts track', notes: 'Elementary math teacher or tutor. Validate that the times-tables curriculum is age-correct and pedagogically sound. ~$500.' },
+      { id: 'launchsite', priority: 'low', title: 'Decide on launch website timing', notes: 'Either keep using beatthesummerslide.com or stand up a brand-new marketing site. See vision.md Section 3 (Launch Website Plan) for the 5-page architecture.' }
+    ];
+
+    const KATE_TODO_KEY = 'streak-kate-todos-done';
+
+    function loadKateDone() {
+      try { return JSON.parse(localStorage.getItem(KATE_TODO_KEY) || '{}'); }
+      catch (e) { return {}; }
+    }
+    function saveKateDone(map) {
+      try { localStorage.setItem(KATE_TODO_KEY, JSON.stringify(map)); } catch (e) {}
+    }
+    function toggleKateTodo(id) {
+      const done = loadKateDone();
+      done[id] = !done[id];
+      saveKateDone(done);
+      renderKateTodos();
+    }
+    function resetKateTodos() {
+      if (!confirm('Reset all checkmarks?')) return;
+      localStorage.removeItem(KATE_TODO_KEY);
+      renderKateTodos();
+    }
+    function renderKateTodos() {
+      const list = document.getElementById('kate-todo-list');
+      const progressEl = document.getElementById('kate-todo-progress');
+      if (!list) return;
+      const done = loadKateDone();
+      const doneCount = KATE_TODOS.filter(t => done[t.id]).length;
+      progressEl.textContent = `${doneCount} of ${KATE_TODOS.length} done`;
+      const priColor = { high: 'var(--red)', medium: 'var(--gold)', low: 'var(--purple)' };
+      const priLabel = { high: 'HIGH', medium: 'MED', low: 'LOW' };
+      list.innerHTML = KATE_TODOS.map(t => {
+        const isDone = !!done[t.id];
+        return `<div style="background:${isDone ? 'var(--bg-light)' : 'var(--panel)'};border:1px solid var(--border);border-left:4px solid ${priColor[t.priority] || 'var(--muted)'};border-radius:10px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start;${isDone ? 'opacity:0.6;' : ''}">
+          <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleKateTodo('${t.id}')" style="width:18px;height:18px;margin-top:3px;flex-shrink:0;cursor:pointer;accent-color:var(--gold);">
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;">
+              <span style="background:${priColor[t.priority]};color:white;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:0.5px;">${priLabel[t.priority]}</span>
+              <span style="font-weight:800;font-size:15px;color:var(--ink);${isDone ? 'text-decoration:line-through;' : ''}">${t.title}</span>
+            </div>
+            <div style="font-size:13px;color:var(--soft);line-height:1.55;">${t.notes}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    renderKateTodos();
+  </script>
 
   <!-- THE REFRAME -->
   <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
@@ -879,6 +958,16 @@
         <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Vision + Marketing Strategy</div>
         <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">Full marketing plan, audience analysis, content templates, ProductHunt playbook, asset checklist.</div>
         <div style="margin-top:auto;color:var(--purple);font-weight:800;font-size:13px;">Read vision.md →</div>
+      </a>
+
+      <a href="Streak-Investor-Deck-v0.1-DRAFT.pptx" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--blue);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <span style="font-size:28px;">🎤</span>
+          <span style="background:var(--blue);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">PITCH DECK · v0.1</span>
+        </div>
+        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Streak Investor Deck (Draft)</div>
+        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">13-slide draft pitch deck for Kate to iterate on. Problem, proof, solution, market, business model, roadmap, team, the ask. PPTX download.</div>
+        <div style="margin-top:auto;color:var(--blue);font-weight:800;font-size:13px;">Download .pptx →</div>
       </a>
 
     </div>
