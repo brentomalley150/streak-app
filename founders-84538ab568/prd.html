@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD — The Summer Slide (Founders)</title>
+<style>
+  :root{
+    --navy:#1B3B5C;--teal:#2BA7A0;--teal-deep:#178079;--cyan:#54C6E0;--orange:#F3922B;
+    --paper:#FBFCFD;--ink:#2C3E50;--muted:#6B7C8C;--line:#E4EBF0;
+    --shadow:0 10px 30px rgba(27,59,92,.10);--accent:var(--teal);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:radial-gradient(1000px 400px at 85% -10%,rgba(31,163,155,.14),transparent 60%),var(--paper);
+    min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--navy);font-weight:700;font-size:.92rem}
+  .back svg{width:16px;height:16px}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-mark{width:42px;height:42px;flex:0 0 auto}
+  .brand-text{display:flex;flex-direction:column;line-height:1}
+  .brand-name{font-weight:700;color:var(--navy);font-size:.9rem;letter-spacing:1.3px}
+  .brand-name b{font-weight:800}
+  .brand-tag{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-top:4px}
+  .badge-private{font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--orange);
+    background:rgba(243,146,43,.12);padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25)}
+  .head{padding:30px 0 8px;border-bottom:4px solid var(--accent);margin-bottom:8px}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+  .head h1{font-size:clamp(1.9rem,4.5vw,2.7rem);color:var(--navy);font-weight:800;letter-spacing:-.5px;margin:10px 0 6px}
+  .meta{color:var(--muted);font-size:.9rem}
+  .meta b{color:var(--ink)}
+  main{padding:14px 0 30px}
+  section.block{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 22px;
+    box-shadow:var(--shadow);margin-top:20px}
+  section.block h2{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:1.25rem;font-weight:800;margin-bottom:6px}
+  section.block h2 .n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;
+    background:var(--accent);color:#fff;font-size:.85rem;font-weight:800;flex:0 0 auto}
+  .hint{color:var(--muted);font-size:.9rem;margin:4px 0 14px}
+  .fill{border:1.5px dashed var(--line);border-radius:12px;padding:16px 18px;color:#9AA8B4;font-style:italic;background:#FAFCFD}
+  ul.q{list-style:none;margin-top:10px;display:grid;gap:10px}
+  ul.q li{display:flex;gap:10px;align-items:flex-start;color:var(--ink);font-size:.95rem}
+  ul.q li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px;flex:0 0 auto}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0 4px}
+  .split .col{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#FCFDFE}
+  .split .col h3{font-size:.95rem;color:var(--navy);margin-bottom:6px}
+  .split .col .k{font-size:.68rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+  .split .rules .k{color:var(--orange)}.split .agentic .k{color:var(--teal)}
+  .split .col p{font-size:.9rem;color:var(--ink);line-height:1.5}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.9rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.7rem;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:700;background:#FAFCFD}
+  td.in{font-weight:700;color:var(--navy);width:38%}
+  tr:last-child td{border-bottom:none}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer a{color:var(--teal);text-decoration:none;font-weight:600}
+  .brand-logo{height:44px;width:auto;display:block}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="founders.html" aria-label="The Summer Slide — Reading Competition"><img class="brand-logo" src="logo-full.jpg" alt="The Summer Slide"></a>
+      <span class="badge-private">Draft</span>
+    </div>
+
+    <div class="head">
+      <span class="eyebrow">Product Requirements Document</span>
+      <h1>The Summer Slide — PRD</h1>
+      <p class="meta">Owner: <b>Kate O'Malley</b> · Status: <b>Draft — AI architecture, behavior spec &amp; child-safety added</b> · Updated: <b>May 30, 2026</b></p>
+    </div>
+
+    <main>
+      <section class="block">
+        <h2><span class="n">1</span> Overview &amp; Problem</h2>
+        <p class="hint">What is the "summer slide," who feels it, and why now?</p>
+        <ul class="q">
+          <li>Problem statement: the learning loss kids experience over summer break.</li>
+          <li>Why a reading competition is the right wedge.</li>
+          <li>Vision: one sentence on the world after this product exists.</li>
+        </ul>
+        <div class="fill">Add the problem narrative and vision here.</div>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">2</span> Target Users &amp; Personas</h2>
+        <p class="hint">Three roles drive every decision — the reader, the parent (one persona for all parents), and the admin (a role unique to Kate). Full profiles in <em>personas.md</em>.</p>
+
+        <p style="margin-top:8px;font-weight:700;color:var(--navy)">1 · Declan — the reluctant reader (the user)</p>
+        <p style="color:var(--muted);font-style:italic;margin:2px 0 4px">"Reading feels like homework. Beating my friends doesn't."</p>
+        <ul class="q">
+          <li>Competitive 9-year-old who reads below grade level; will read if it's a game with friends.</li>
+          <li>Wants streaks, ranks, leaderboards, instant rewards. Key moment: ranking up beside a friend.</li>
+          <li>Cut: anything that feels like a homework log or school.</li>
+        </ul>
+
+        <p style="margin-top:16px;font-weight:700;color:var(--navy)">2 · The parent (every parent in the program)</p>
+        <p style="color:var(--muted);font-style:italic;margin:2px 0 4px">"I know it matters — I don't have time to police it. And when my kid got the link, I had no idea what it was."</p>
+        <ul class="q">
+          <li>One persona for all parents — Kate as a mom, and the friends' parents who join by invite link with no context.</li>
+          <li>Wants their kid reading without nagging, 30-second proof it's working + safe, and (when invited) a clear "what is this / how to help" welcome.</li>
+          <li>Key moment: the on-pace projection — or, for a joiner, the first-open welcome.</li>
+        </ul>
+
+        <p style="margin-top:16px;font-weight:700;color:var(--navy)">3 · Kate — the admin (unique operator)</p>
+        <p style="color:var(--muted);font-style:italic;margin:2px 0 4px">"I set this up for my kid and his friends — it has to basically run itself."</p>
+        <ul class="q">
+          <li>The one person who runs the dashboard for the friend group; every other adult is a parent, not an admin.</li>
+          <li>Wants a 5-minute setup and PIN-gated controls (prizes, points, baseline, invites) — then it runs itself.</li>
+          <li>Cut: daily admin, controls a kid can reach, login friction.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">3</span> Goals &amp; Success Metrics</h2>
+        <p class="hint">How we'll know it's working.</p>
+        <ul class="q">
+          <li>North-star metric (e.g., minutes/books read per active student).</li>
+          <li>Engagement &amp; retention targets across the summer.</li>
+          <li>Business metrics (sign-ups, paid programs, renewal).</li>
+        </ul>
+        <div class="fill">List measurable goals and target numbers.</div>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">4</span> Scope &amp; Requirements</h2>
+        <p class="hint">What's in v1, what's explicitly out.</p>
+        <ul class="q">
+          <li>Must-have requirements for launch.</li>
+          <li>Nice-to-haves / fast-follows.</li>
+          <li>Out of scope for v1.</li>
+        </ul>
+        <div class="fill">Detail functional requirements — link to the Feature Breakdown.</div>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">5</span> Release Plan &amp; Risks</h2>
+        <p class="hint">Timeline, milestones, and what could go wrong.</p>
+        <ul class="q">
+          <li>Milestones tied to the summer calendar.</li>
+          <li>Key risks &amp; mitigations (engagement, content, safety).</li>
+          <li>Open questions for the founding team.</li>
+        </ul>
+        <p style="margin-top:10px"><b style="color:var(--navy)">Backend &amp; admin dashboard (phased).</b> A live, all-users admin view requires a backend — there's no central data today (it lives on-device). Plan: <b>Phase 1</b> optional cloud sync (fixes account recovery, backwards-compatible), <b>Phase 2</b> the program-wide admin dashboard, <b>Phase 3</b> multi-device. Gated on COPPA verifiable parental consent — the make-or-break to validate first. Full spec: <em>admin-dashboard-backend-plan.md</em>.</p>
+        <div class="fill">Add timeline and risk register.</div>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">6</span> Why Agentic, Not Rule-Based</h2>
+        <p class="hint">Determinism where fairness, speed, and safety matter; agentic AI where judgment and synthesis matter. The split <em>is</em> the architecture.</p>
+        <div class="split">
+          <div class="col rules">
+            <div class="k">Kid game · rules-based</div>
+            <h3>The competition must be deterministic</h3>
+            <p>Points, streaks, ranks, and leaderboards have to be exact and un-gameable (an LLM would be inconsistent and exploitable), run instantly on-device/offline, never expose a child to model free-text, keep a minor's data local (COPPA), and cost nothing per tap.</p>
+          </div>
+          <div class="col agentic">
+            <div class="k">Parent analysis · agentic</div>
+            <h3>Turning activity into insight is judgment</h3>
+            <p>Synthesizing raw logs into "what happened and what to do" — diagnosing against the hypothesis and recommending the next action — is exactly the judgment work an agent is for.</p>
+          </div>
+        </div>
+        <p class="hint">What makes the parent side genuinely agentic (not just an LLM summary) — a multi-step loop:</p>
+        <ul class="q">
+          <li><b>Retrieve</b> — this week's activity log, the spring baseline (MAP RIT 185, Lexile, writing %), and the research-backed targets.</li>
+          <li><b>Diagnose</b> — interpret signals against the hypothesis (e.g., "minutes on pace, writing skipped — and writing is the lever for comprehension").</li>
+          <li><b>Prioritize</b> — surface the one thing that matters this week, not ten metrics.</li>
+          <li><b>Propose</b> — a concrete next action plus a draft nudge.</li>
+          <li><b>Confirm-before-action</b> — the parent approves; only then does it write back to the kid app (set the week's focus, add a bonus challenge, schedule a reminder).</li>
+        </ul>
+        <p class="hint">AI may still assist the kid side — but only <b>batch, server-side, curated, and content-filtered</b> (book recommendations, comprehension questions, adaptive difficulty). The child never talks to a live model; the rules engine serves pre-computed, safe options.</p>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">7</span> AI Behavior Spec &amp; Guardrails</h2>
+        <p class="hint">The parent-facing agent — representative input → expected output.</p>
+        <table>
+          <thead><tr><th>Input</th><th>Expected output</th></tr></thead>
+          <tbody>
+            <tr><td class="in">6 days logged, minutes high, 0 writing entries</td><td>"On pace for volume, behind on writing — the lever for the 17%→32% target. Suggested focus: one sentence per session." Plus a proposed nudge.</td></tr>
+            <tr><td class="in">4-day gap in activity</td><td>Surfaces the slip gently; proposes a re-engagement nudge and a smaller daily goal. Never shaming.</td></tr>
+            <tr><td class="in">Parent asks "is he reading hard enough books?"</td><td>Answers from logged titles/levels vs. his Lexile band; flags if books are too easy or too hard.</td></tr>
+            <tr><td class="in">Projection drifts below the fall target</td><td>Explains why in plain language and the single change that would bend the curve back.</td></tr>
+            <tr><td class="in">Strong, balanced week</td><td>Specific, genuine encouragement tied to the data; suggests a stretch goal.</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" style="margin-top:16px">Hard guardrails — must hold across every response:</p>
+        <ul class="q">
+          <li>Ground every claim in the logged numbers — no hallucinated progress.</li>
+          <li>The fall-score projection is an <b>estimate</b>, never stated as a promise.</li>
+          <li>No clinical or diagnostic inferences (e.g., "dyslexia") — escalate to "worth raising with his teacher."</li>
+          <li>Supportive tone; never shame the child or the parent.</li>
+          <li>A minor's data is consent-gated and never shared across families; confirm-before-action on anything that writes to the kid app.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">8</span> Child Safety, Privacy &amp; Consent</h2>
+        <p class="hint">Summer Slide serves children, so safety and consent are a first-class product surface — not a back-office concern. This is the floor everything else is built on.</p>
+        <ul class="q">
+          <li><b>COPPA compliance.</b> Verifiable parental consent before any data is collected from a child under 13; a parent or guardian creates or approves the child's account.</li>
+          <li><b>FERPA (school channel).</b> When sold through schools or districts, student data is treated as an educational record — the district is the consent authority and data is used only to run the program.</li>
+          <li><b>Data minimization.</b> Collect the least possible from a minor; default to on-device storage and sync only what the parent analysis needs, with parental consent.</li>
+          <li><b>Safe social design.</b> Leaderboards show first name + avatar only — never full name, location, school, or contact. Friends are added only by invite link or score code; no open discovery, no stranger contact, no free-text messaging between kids.</li>
+          <li><b>Parental controls.</b> The parent/guardian owns the account and can view activity, manage prizes and points, reset progress, and gate settings behind a PIN.</li>
+          <li><b>Age-appropriate content.</b> Any recommended books or generated comprehension questions are filtered for age/grade and reviewed; no unmoderated content reaches a child.</li>
+          <li><b>No ads, no resale.</b> No behavioral advertising to children and no selling or sharing of a minor's data with third parties. Encryption in transit and at rest, with audit logging on access.</li>
+          <li><b>Sponsors &amp; prizes.</b> Sponsor-funded prizes are disclosed to parents, never gate participation, and sponsors receive only aggregate, de-identified metrics.</li>
+        </ul>
+        <p class="hint">Open items for counsel: the verifiable-consent method, data-retention windows, and the exact COPPA/FERPA posture for the school vs. consumer channels.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 The Summer Slide · Founders workspace</span>
+      <a href="founders.html">← Back to hub</a>
+    </footer>
+  </div>
+</body>
+</html>

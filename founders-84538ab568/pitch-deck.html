@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Deck — The Summer Slide (Founders)</title>
+<style>
+  :root{
+    --navy:#1B3B5C;--teal:#2BA7A0;--teal-deep:#178079;--cyan:#54C6E0;--orange:#F3922B;
+    --paper:#FBFCFD;--ink:#2C3E50;--muted:#6B7C8C;--line:#E4EBF0;
+    --shadow:0 10px 30px rgba(27,59,92,.10);--accent:var(--orange);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:radial-gradient(1000px 400px at 85% -10%,rgba(243,146,43,.12),transparent 60%),var(--paper);
+    min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--navy);font-weight:700;font-size:.92rem}
+  .back svg{width:16px;height:16px}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-mark{width:42px;height:42px;flex:0 0 auto}
+  .brand-text{display:flex;flex-direction:column;line-height:1}
+  .brand-name{font-weight:700;color:var(--navy);font-size:.9rem;letter-spacing:1.3px}
+  .brand-name b{font-weight:800}
+  .brand-tag{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-top:4px}
+  .badge-private{font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--orange);
+    background:rgba(243,146,43,.12);padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25)}
+  .head{padding:30px 0 8px;border-bottom:4px solid var(--accent);margin-bottom:8px}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+  .head h1{font-size:clamp(1.9rem,4.5vw,2.7rem);color:var(--navy);font-weight:800;letter-spacing:-.5px;margin:10px 0 6px}
+  .meta{color:var(--muted);font-size:.9rem}.meta b{color:var(--ink)}
+  main{padding:18px 0 30px}
+  .slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  .slide{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+    overflow:hidden;display:flex;flex-direction:column;min-height:180px}
+  .slide .bar{height:6px;background:var(--c,var(--teal))}
+  .slide .body{padding:20px 20px 18px;display:flex;flex-direction:column;flex:1}
+  .slide .num{font-size:.72rem;font-weight:800;letter-spacing:1px;color:var(--muted)}
+  .slide h3{color:var(--navy);font-size:1.12rem;font-weight:800;margin:4px 0 8px}
+  .slide p{color:var(--muted);font-size:.9rem;flex:1}
+  .slide .ph{margin-top:12px;border:1.5px dashed var(--line);border-radius:10px;padding:9px 12px;color:#9AA8B4;font-style:italic;font-size:.82rem}
+  .s1 .bar{background:var(--teal)}.s2 .bar{background:var(--orange)}.s3 .bar{background:var(--cyan)}
+  .s4 .bar{background:var(--navy)}.s5 .bar{background:var(--teal)}.s6 .bar{background:var(--orange)}
+  .s7 .bar{background:var(--cyan)}.s8 .bar{background:var(--navy)}.s9 .bar{background:var(--teal)}
+  .s10 .bar{background:var(--orange)}.s11 .bar{background:var(--cyan)}.s12 .bar{background:var(--navy)}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:18px 0 4px}
+  .dl{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    background:var(--navy);color:#fff;font-weight:700;font-size:.95rem;
+    padding:13px 22px;border-radius:12px;box-shadow:0 8px 22px rgba(27,59,92,.22);
+    transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+  .dl:hover{transform:translateY(-2px);background:var(--navy-deep,#142B43);box-shadow:0 12px 28px rgba(27,59,92,.30)}
+  .dl svg{width:18px;height:18px}
+  .dl .ext{font-weight:600;opacity:.7;font-size:.82rem;margin-left:2px}
+  .dl-note{color:var(--muted);font-size:.86rem}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer a{color:var(--teal);text-decoration:none;font-weight:600}
+  .brand-logo{height:44px;width:auto;display:block}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="founders.html" aria-label="The Summer Slide — Reading Competition"><img class="brand-logo" src="logo-full.jpg" alt="The Summer Slide"></a>
+      <span class="badge-private">Outline</span>
+    </div>
+
+    <div class="head">
+      <span class="eyebrow">Investor &amp; Partner Pitch</span>
+      <h1>The Summer Slide — Pitch Deck</h1>
+      <p class="meta">Owner: <b>Kate O'Malley</b> · Status: <b>Built — aligned to seed-deck format</b> · 12-slide structure</p>
+      <div class="actions">
+        <a class="dl" href="The-Summer-Slide-Pitch-Deck.pptx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download pitch deck<span class="ext">PPTX · 12 slides</span>
+        </a>
+        <span class="dl-note">Branded editable deck — open in PowerPoint, Keynote, or Google Slides.</span>
+      </div>
+    </div>
+
+    <main>
+      <div class="slides">
+        <div class="slide s1"><div class="bar"></div><div class="body"><span class="num">SLIDE 01</span><h3>Cover</h3><p>The Summer Slide — "what Strava is to running, we are to summer reading." Founder + the one-line wedge.</p></div></div>
+        <div class="slide s2"><div class="bar"></div><div class="body"><span class="num">SLIDE 02</span><h3>The Problem</h3><p>Kids lose months of reading every summer. Three sourced stat callouts + a parent quote.</p></div></div>
+        <div class="slide s3"><div class="bar"></div><div class="body"><span class="num">SLIDE 03</span><h3>Why Now</h3><p>Wide post-pandemic gaps · kids live on streaks &amp; leaderboards · AI makes personalization cheap.</p></div></div>
+        <div class="slide s4"><div class="bar"></div><div class="body"><span class="num">SLIDE 04</span><h3>Who We Build For</h3><p>Three personas — the reader, the parent, and Kate the admin — each with a key product moment.</p></div></div>
+        <div class="slide s5"><div class="bar"></div><div class="body"><span class="num">SLIDE 05</span><h3>The Insight</h3><p>Logs vs. a game: existing programs are compliance chores; kids want competition. The positioning wedge.</p></div></div>
+        <div class="slide s6"><div class="bar"></div><div class="body"><span class="num">SLIDE 06</span><h3>The Product</h3><p>Streaks, ranks, leaderboards, trophies, prizes, and a parent hypothesis tracker — live today.</p></div></div>
+        <div class="slide s7"><div class="bar"></div><div class="body"><span class="num">SLIDE 07</span><h3>The Signature Move</h3><p>Invite a friend → they get their own dashboard → you both climb. The viral + motivation loop.</p></div></div>
+        <div class="slide s8"><div class="bar"></div><div class="body"><span class="num">SLIDE 08</span><h3>Defensibility</h3><p>Four moats (habit, friend-graph, outcomes, trust) with child-safety as the floor.</p></div></div>
+        <div class="slide s9"><div class="bar"></div><div class="body"><span class="num">SLIDE 09</span><h3>Competitive Landscape</h3><p>Comparison table vs. Beanstack, Scholastic, Renaissance/AR, Epic! — we're the only game-first option.</p></div></div>
+        <div class="slide s10"><div class="bar"></div><div class="body"><span class="num">SLIDE 10</span><h3>Market Size</h3><p>TAM / SAM / SOM + ARR at scale. ~35M K-8 students; summer recurs every year.</p></div></div>
+        <div class="slide s11"><div class="bar"></div><div class="body"><span class="num">SLIDE 11</span><h3>Rollout + Metrics</h3><p>Three phases with go/no-go gates, plus the metrics that matter (fall-score lift, retention, invites).</p></div></div>
+        <div class="slide s12"><div class="bar"></div><div class="body"><span class="num">SLIDE 12</span><h3>The Ask</h3><p>Raise, use of funds, and the business model (school/family subscription + deferred sponsorship).</p></div></div>
+      </div>
+    </main>
+
+    <footer>
+      <span>© 2026 The Summer Slide · Founders workspace</span>
+      <a href="founders.html">← Back to hub</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I vibe-coded a reading app for my 10-year-old — SummerStreak</title>
+<meta name="description" content="A PM dad's case study: built a gamified summer reading app for his son in a weekend using AI. Live at beatthesummerslide.com.">
+<meta property="og:title" content="How I vibe-coded a reading app for my 10-year-old">
+<meta property="og:description" content="A weekend, $0, no engineering background. What other parents can build for their own kids now.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beatthesummerslide.com/story.html">
+<style>
+  :root {
+    --bg: #0F1A2E;
+    --bg-light: #1a2942;
+    --panel: #1E3050;
+    --panel-light: #2a3f63;
+    --ink: #ffffff;
+    --soft: #d6e2f5;
+    --muted: #8aa0c0;
+    --gold: #ffd84a;
+    --gold-dark: #c9a227;
+    --green: #5eea93;
+    --red: #ff6b6b;
+    --purple: #b89dff;
+    --blue: #7eb6ff;
+    --border: #3a5380;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 5%, rgba(255, 216, 74, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 90% 95%, rgba(126, 182, 255, 0.05) 0%, transparent 45%);
+    color: var(--ink);
+    line-height: 1.65;
+    min-height: 100vh;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 760px; margin: 0 auto; padding: 24px; }
+
+  nav.topnav {
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 22px;background:var(--panel);
+    border:1px solid var(--border);border-radius:14px;
+    margin-bottom:24px;flex-wrap:wrap;gap:8px;
+  }
+  nav .brand { font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px; }
+  nav a {
+    color:var(--soft);text-decoration:none;font-weight:700;font-size:13px;
+    padding:6px 12px;border-radius:6px;margin-left:6px;
+  }
+  nav a.active { background:var(--gold);color:var(--bg); }
+  nav a:hover:not(.active) { background:var(--panel-light); color:var(--ink); }
+
+  header.hero {
+    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-light) 100%);
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 36px 30px;
+    margin-bottom: 26px;
+  }
+  .eyebrow {
+    background: var(--gold); color: var(--bg);
+    display: inline-block; padding: 5px 12px; border-radius: 8px;
+    font-size: 11px; font-weight: 800; letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-size: 36px; font-weight: 800; line-height: 1.2; letter-spacing: -0.5px;
+    margin-bottom: 14px;
+  }
+  header .deck {
+    color: var(--soft); font-size: 18px; line-height: 1.6;
+  }
+  header .byline {
+    margin-top: 18px; color: var(--muted); font-size: 14px;
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  header .byline a { color: var(--gold); text-decoration: none; font-weight: 700; }
+  header .byline a:hover { text-decoration: underline; }
+
+  article { padding: 0 4px; }
+  article h2 {
+    font-size: 24px; font-weight: 800;
+    margin: 38px 0 14px 0;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  article h3 {
+    font-size: 18px; font-weight: 800;
+    margin: 26px 0 10px 0; color: var(--gold);
+  }
+  article p {
+    margin-bottom: 16px; color: var(--soft);
+  }
+  article p strong { color: var(--ink); font-weight: 700; }
+  article ul, article ol {
+    margin: 8px 0 18px 22px; color: var(--soft);
+  }
+  article li { margin-bottom: 6px; }
+
+  blockquote.pullquote {
+    border-left: 4px solid var(--gold);
+    background: rgba(255, 216, 74, 0.06);
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-style: italic;
+    color: var(--soft);
+    border-radius: 0 10px 10px 0;
+  }
+  blockquote.pullquote::before { content:'"'; }
+  blockquote.pullquote::after { content:'"'; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 18px 0 24px 0;
+  }
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .stat-card .label {
+    color: var(--muted); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .stat-card .value {
+    color: var(--gold); font-size: 26px; font-weight: 800;
+    line-height: 1.1;
+  }
+  .stat-card .sub {
+    color: var(--soft); font-size: 13px; margin-top: 4px;
+  }
+
+  table.point-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 14px 0 22px 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  table.point-table th, table.point-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.point-table th {
+    background: var(--bg-light); color: var(--gold);
+    font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  table.point-table tr:last-child td { border-bottom: none; }
+  table.point-table td:last-child { text-align: right; font-weight: 800; color: var(--gold); }
+
+  .callout {
+    background: rgba(94, 234, 147, 0.10);
+    border: 1px solid var(--green);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 22px 0;
+    color: var(--soft);
+  }
+  .callout strong { color: var(--green); }
+
+  .caveat {
+    background: rgba(255, 165, 82, 0.08);
+    border: 1px solid var(--orange, #ffa552);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 22px 0;
+    color: var(--soft);
+  }
+  .caveat strong { color: var(--orange, #ffa552); }
+
+  .cta-card {
+    margin: 40px 0 0 0;
+    background: linear-gradient(135deg, rgba(255,216,74,0.12), rgba(126,182,255,0.06));
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .cta-card h2 { font-size: 22px; margin-bottom: 8px; }
+  .cta-card p { color: var(--soft); margin-bottom: 18px; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--gold); color: var(--bg);
+    padding: 13px 26px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 16px;
+    margin: 4px;
+  }
+  .cta-btn:hover { background: #fff; }
+  .cta-btn.secondary {
+    background: transparent; color: var(--gold);
+    border: 2px solid var(--gold);
+  }
+  .cta-btn.secondary:hover { background: var(--gold); color: var(--bg); }
+
+  footer.foot {
+    margin-top: 40px;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+  footer.foot a { color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 28px; }
+    header .deck { font-size: 16px; }
+    article h2 { font-size: 20px; }
+    nav.topnav { padding: 10px 14px; }
+    nav a { padding: 5px 9px; font-size: 12px; margin-left: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="topnav">
+    <span class="brand">SUMMERSTREAK</span>
+    <div>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="story.html" class="active">Story</a>
+      <a href="founders.html">Docs</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">📚 A PARENT'S CASE STUDY</div>
+    <h1>How I vibe-coded a reading app for my 10-year-old</h1>
+    <p class="deck">A weekend. $0. No engineering background. Here's what happened, what worked, and what other parents can build for their own kids right now.</p>
+    <div class="byline">
+      <span>By Brent O'Malley</span>
+      <span>·</span>
+      <span>June 2026</span>
+      <span>·</span>
+      <a href="https://beatthesummerslide.com" target="_blank">Live demo →</a>
+    </div>
+  </header>
+
+  <article>
+
+    <h2>The problem</h2>
+    <p>My son Declan finished 4th grade with reading scores well below grade level. Spring 2026 numbers from his school:</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="label">MAP Reading RIT</div>
+        <div class="value">185</div>
+        <div class="sub">4th-grade fall target: 200+</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Lexile</div>
+        <div class="value">300–450L</div>
+        <div class="sub">Grade band: 740–1010L</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">CMAS Written Expression</div>
+        <div class="value">17%</div>
+        <div class="sub">Percentile rank</div>
+      </div>
+    </div>
+
+    <p>The summer slide — that 2-3 months of regression every year — was about to make it worse. We needed him to read consistently, write something every day, and build the habit before the gap widened. He didn't need another worksheet. He needed something he'd actually open.</p>
+
+    <h2>What I built</h2>
+
+    <p>I'm not an engineer. I'm a PM going through an AI Product Management course. Over a long weekend I described what I wanted to Claude, in plain English, and iterated until it worked:</p>
+
+    <blockquote class="pullquote">Build Declan a dashboard for tracking his progress where he can earn prizes as he completes activities.</blockquote>
+
+    <p>Then:</p>
+
+    <blockquote class="pullquote">He's 10. Make it readable for a 10-year-old.</blockquote>
+
+    <p>Then:</p>
+
+    <blockquote class="pullquote">Add a calendar grid so he can see the whole summer at a glance. Add a leaderboard so his friends can compete. Add a "hypothesis tracker" projecting his fall scores so we'll know if this is actually working. Add four theme choices — chess, sports, music, gaming — and tailor the activity prompts to whichever he picks.</blockquote>
+
+    <p>Each request became working code in minutes. By Sunday night the app was live at <a href="https://beatthesummerslide.com" style="color:var(--gold);">beatthesummerslide.com</a>, hosted free on GitHub Pages, backed by Firebase (also free). Total cost so far: <strong>$0</strong>.</p>
+
+    <h2>What it does now</h2>
+
+    <p>Every day Declan opens his dashboard and gets four small things to log:</p>
+
+    <table class="point-table">
+      <thead>
+        <tr><th>Activity</th><th>Points</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>📖 Read 15 minutes</td><td>+1</td></tr>
+        <tr><td>✏️ Write 50+ words on something</td><td>+1</td></tr>
+        <tr><td>🎯 Five-minute reading wrap-up</td><td>+1</td></tr>
+        <tr><td>📕 Finish a book</td><td>+5</td></tr>
+        <tr><td>🏆 Weekend writing tournament</td><td>+3</td></tr>
+        <tr><td>📚 Bonus reading (per 15 min extra)</td><td>+1</td></tr>
+      </tbody>
+    </table>
+
+    <p>Points earn ranks on a chess ladder he picked (Pawn → Knight → Bishop → Rook → Queen → King → Grandmaster). Points also unlock real-world prizes his parents set — ice cream, screen time, picking the family movie — culminating in an "ultimate prize" of a trip to Elitch Gardens.</p>
+
+    <p>The leaderboard lets him compete with friends in real time. Their parents enroll their kids the same way Declan did. A "hypothesis tracker" shows his current pace projected forward to a fall MAP score, so we'll know in September whether the experiment worked.</p>
+
+    <h2>What we're seeing — week one</h2>
+
+    <p>Honest numbers from the live Firebase database, not vanity metrics:</p>
+
+    <div class="callout">
+      <p><strong>Declan is using it.</strong> As of writing he's at <strong style="color:var(--gold);">42 lifetime points, Knight rank, 2 books finished, a 3-day streak, 30 minutes logged</strong>. Three days in.</p>
+    </div>
+
+    <div class="callout">
+      <p><strong>Friends joined.</strong> Real entries from kids his age — 7 to 18 points each, all logging activity within the same 48-hour window. Different themes (some picked gaming, one sports, Declan picked chess). The leaderboard works.</p>
+    </div>
+
+    <div class="callout">
+      <p><strong>It's habit-forming on the right axis.</strong> The streak counter and rank ladder pull him toward consistency, not intensity. The dashboard rewards 5 days of 15 minutes over 1 day of 75 minutes — because the research says consistency drives reading growth, not marathon sessions.</p>
+    </div>
+
+    <p>I can't claim a fall test score yet — that's the real proof, and it's three months away. But I can say this: <strong>a kid who wasn't reading in his free time is now opening a dashboard, picking up a book, and logging minutes. That's a behavior change. The MAP RIT number will tell us in September whether it sticks.</strong></p>
+
+    <h2>What this means for other parents</h2>
+
+    <p>Three years ago, building this would have meant either hiring a developer (~$15k–30k for this scope) or settling for a generic reading-tracker app that doesn't match my kid's needs.</p>
+
+    <p>Today, I described it in plain English to Claude and shipped it in a weekend. The whole thing is HTML, CSS, JavaScript, and a free Firebase database. There's no native app, no app store, no team. The repo is one folder. The deploy is <code style="background:var(--panel);padding:2px 6px;border-radius:4px;font-family:monospace;color:var(--gold);">git push</code>.</p>
+
+    <p>I've been a PM for years. I know what a 6-week sprint looks like. This wasn't that. This was me typing in a chat window during nap time. The friction between "I have an idea for my kid" and "my kid is using it tonight" is now measured in hours, not months.</p>
+
+    <p>A few specific things I built into it that you'd want for your kid:</p>
+
+    <ul>
+      <li><strong>Customizable everything</strong>: themes, prizes, baseline test scores, who gets the family-summary email — all editable from a parents-only section behind a PIN</li>
+      <li><strong>Multi-family</strong>: every parent who signs in with Google gets their own admin space for their own kids; nobody sees anyone else's settings</li>
+      <li><strong>Multi-kid</strong>: one parent can run dashboards for two kids on the same device, each fully separated</li>
+      <li><strong>Cross-device</strong>: log activity on Declan's iPad, see it on my phone, edit prizes on my laptop — all synced through Firebase</li>
+    </ul>
+
+    <p>The pattern is replicable. If you have a kid who needs to practice piano, or work on multiplication tables, or do 10 minutes of mindfulness — the same loop (track + reward + visualize progress + light social competition) ports to any goal. You don't need to know JavaScript. You need to know <strong>what your kid needs</strong> and be willing to iterate.</p>
+
+    <h2>What I haven't proven yet</h2>
+
+    <div class="caveat">
+      <p><strong>Fall test scores are the real evidence.</strong> MAP retest is September 2026. If the number doesn't move I'll write a follow-up explaining why and what I'd build differently.</p>
+    </div>
+
+    <div class="caveat">
+      <p><strong>Sample size is small.</strong> A handful of kids over a few days isn't a study. Whether engagement holds over 12 weeks is the open question.</p>
+    </div>
+
+    <div class="caveat">
+      <p><strong>Survivor bias is real.</strong> I'm a PM with an internet connection, patience for tooling, and access to Claude. Not every parent will sit through three "PERMISSION_DENIED" errors from Firebase. Most of the friction in this build was infrastructure, not coding. As the tools get better, even that goes away.</p>
+    </div>
+
+  </article>
+
+  <div class="cta-card">
+    <h2>Try it for your kid</h2>
+    <p>Enroll in two minutes. No signup required, no app to download. If it's useful, fork the repo and customize it for your family.</p>
+    <a href="https://beatthesummerslide.com" class="cta-btn">🚀 Open the app</a>
+    <a href="https://github.com/brentomalley150/declansummerlearning" target="_blank" class="cta-btn secondary">View on GitHub</a>
+  </div>
+
+  <footer class="foot">
+    September 2026: I'll post Declan's fall scores. Either it worked or I learned something. ·
+    <a href="founders.html">Docs &amp; roadmap</a>
+  </footer>
+
+</div>
+</body>
+</html>

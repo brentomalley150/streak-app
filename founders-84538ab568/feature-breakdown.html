@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Breakdown — The Summer Slide (Founders)</title>
+<style>
+  :root{
+    --navy:#1B3B5C;--teal:#2BA7A0;--teal-deep:#178079;--cyan:#54C6E0;--orange:#F3922B;
+    --paper:#FBFCFD;--ink:#2C3E50;--muted:#6B7C8C;--line:#E4EBF0;
+    --shadow:0 10px 30px rgba(27,59,92,.10);--accent:var(--cyan);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:radial-gradient(1000px 400px at 85% -10%,rgba(84,198,224,.16),transparent 60%),var(--paper);
+    min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--navy);font-weight:700;font-size:.92rem}
+  .back svg{width:16px;height:16px}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-mark{width:42px;height:42px;flex:0 0 auto}
+  .brand-text{display:flex;flex-direction:column;line-height:1}
+  .brand-name{font-weight:700;color:var(--navy);font-size:.9rem;letter-spacing:1.3px}
+  .brand-name b{font-weight:800}
+  .brand-tag{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-top:4px}
+  .badge-private{font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--orange);
+    background:rgba(243,146,43,.12);padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25)}
+  .head{padding:30px 0 8px;border-bottom:4px solid var(--accent);margin-bottom:8px}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+  .head h1{font-size:clamp(1.9rem,4.5vw,2.7rem);color:var(--navy);font-weight:800;letter-spacing:-.5px;margin:10px 0 6px}
+  .meta{color:var(--muted);font-size:.9rem}.meta b{color:var(--ink)}
+  main{padding:18px 0 30px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 18px}
+  .lg{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted)}
+  .chip{font-size:.68rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:999px;color:#fff}
+  .p0{background:var(--orange)}.p1{background:var(--teal)}.p2{background:var(--cyan)}
+  .epic{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-top:18px;overflow:hidden}
+  .epic > h2{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:1.15rem;font-weight:800;padding:18px 22px;border-bottom:1px solid var(--line)}
+  .epic > h2 .dot{width:12px;height:12px;border-radius:4px;background:var(--ec,var(--teal))}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:12px 22px;font-size:.92rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.72rem;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:700;background:#FAFCFD}
+  tr:last-child td{border-bottom:none}
+  td.feat{font-weight:700;color:var(--navy);width:34%}
+  td.who{color:var(--muted);width:24%}
+  .e1 h2 .dot{background:var(--teal)}.e2 h2 .dot{background:var(--orange)}
+  .e3 h2 .dot{background:var(--cyan)}.e4 h2 .dot{background:var(--navy)}
+  .gap-intro{margin-top:36px;border-top:2px dashed var(--line);padding-top:24px}
+  .gap-intro h2{font-size:clamp(1.4rem,3vw,1.8rem);color:var(--navy);font-weight:800;letter-spacing:-.3px}
+  .gap-intro p{color:var(--muted);font-size:.95rem;margin-top:8px;line-height:1.55;max-width:760px}
+  td.why{color:var(--ink);font-size:.9rem}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer a{color:var(--teal);text-decoration:none;font-weight:600}
+  .brand-logo{height:44px;width:auto;display:block}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="founders.html" aria-label="The Summer Slide — Reading Competition"><img class="brand-logo" src="logo-full.jpg" alt="The Summer Slide"></a>
+      <span class="badge-private">In planning</span>
+    </div>
+
+    <div class="head">
+      <span class="eyebrow">What We're Shipping</span>
+      <h1>The Summer Slide — Feature Breakdown</h1>
+      <p class="meta">Owner: <b>Kate O'Malley</b> · Status: <b>In planning</b> · Grouped by epic, tagged by priority</p>
+    </div>
+
+    <main>
+      <div class="legend">
+        <span class="lg"><span class="chip p0">P0</span> Launch-critical</span>
+        <span class="lg"><span class="chip p1">P1</span> Important</span>
+        <span class="lg"><span class="chip p2">P2</span> Fast-follow</span>
+      </div>
+
+      <section class="epic e1">
+        <h2><span class="dot"></span> Reading &amp; Logging</h2>
+        <table>
+          <tr><th>Feature</th><th>Primary user</th><th>Priority</th></tr>
+          <tr><td class="feat">Log a reading session / book</td><td class="who">Student</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Reading streaks &amp; daily goals</td><td class="who">Student</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Book catalog / search</td><td class="who">Student</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Reading-time verification</td><td class="who">Parent / Teacher</td><td><span class="chip p1">P1</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic e2">
+        <h2><span class="dot"></span> Competition &amp; Motivation</h2>
+        <table>
+          <tr><th>Feature</th><th>Primary user</th><th>Priority</th></tr>
+          <tr><td class="feat">Leaderboards (class / school / region)</td><td class="who">Student</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Badges &amp; rewards</td><td class="who">Student</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Team / cohort challenges</td><td class="who">Student / Teacher</td><td><span class="chip p2">P2</span></td></tr>
+          <tr><td class="feat">Prizes &amp; sponsor integration</td><td class="who">Admin / Sponsor</td><td><span class="chip p2">P2</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic e3">
+        <h2><span class="dot"></span> Parents &amp; Educators</h2>
+        <table>
+          <tr><th>Feature</th><th>Primary user</th><th>Priority</th></tr>
+          <tr><td class="feat">Parent dashboard / progress view</td><td class="who">Parent</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Teacher class management</td><td class="who">Teacher</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Notifications &amp; reminders</td><td class="who">Parent / Student</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Reading-level recommendations</td><td class="who">Parent / Student</td><td><span class="chip p2">P2</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic e4">
+        <h2><span class="dot"></span> Platform &amp; Trust</h2>
+        <table>
+          <tr><th>Feature</th><th>Primary user</th><th>Priority</th></tr>
+          <tr><td class="feat">Accounts, roles &amp; onboarding</td><td class="who">All</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Child safety &amp; privacy (COPPA)</td><td class="who">All</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Admin / program setup</td><td class="who">Admin</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Analytics &amp; reporting</td><td class="who">Admin</td><td><span class="chip p2">P2</span></td></tr>
+        </table>
+      </section>
+
+      <div class="gap-intro">
+        <h2>What we might be missing</h2>
+        <p>Feature gap analysis — the current set above benchmarked against the live dashboard, the PRD (incl. the agentic parent layer + child-safety), and competitors (Beanstack, Scholastic, Renaissance / Accelerated Reader, Epic!). Grouped by theme; priority reflects launch impact, not effort.</p>
+      </div>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--orange)"></span> Learning depth &amp; integrity</h2>
+        <table>
+          <tr><th>Missing capability</th><th>Why it matters</th><th>Priority</th></tr>
+          <tr><td class="feat">Writing capture &amp; prompts</td><td class="why">Our own hypothesis says the <em>writing</em> block is the lever for comprehension and written-expression scores — yet there's no writing feature in the set.</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Comprehension checks / quizzes</td><td class="why">Verifies real reading (not just minutes) and is table-stakes against Accelerated Reader; feeds the parent projection.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Reading-level placement (Lexile / RIT)</td><td class="why">Needed to recommend right-level books and to ground the fall-score projection in a real baseline.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Audiobook / read-aloud logging</td><td class="why">Inclusive of striving and younger readers; most summer programs already count listening.</td><td><span class="chip p2">P2</span></td></tr>
+          <tr><td class="feat">Anti-gaming / log integrity</td><td class="why">A competition invites inflated logs — needs reasonable-pace limits plus parent/teacher confirmation.</td><td><span class="chip p1">P1</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--teal)"></span> The agentic parent layer</h2>
+        <table>
+          <tr><th>Missing capability</th><th>Why it matters</th><th>Priority</th></tr>
+          <tr><td class="feat">Weekly analysis digest</td><td class="why">The core agentic differentiator — turns raw logs into "what happened and what to do." Specced in the PRD but not yet in the feature set.</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Fall-score projection model</td><td class="why">The parent's hook; currently a concept on the dashboard, needs to be a real modeled, explainable feature.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Recommended nudges (confirm-before-action)</td><td class="why">Closes the loop from insight to action and writes back to the kid app with parent approval.</td><td><span class="chip p1">P1</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--cyan)"></span> Access &amp; equity</h2>
+        <table>
+          <tr><th>Missing capability</th><th>Why it matters</th><th>Priority</th></tr>
+          <tr><td class="feat">Sponsored / free access</td><td class="why">The kids hit hardest by the summer slide are the lowest-income — equity, mission, and a grant-funding angle all point here.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Library / Title I / district partnerships</td><td class="why">Distribution to the target population plus the book access that makes reading possible.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Accessibility (dyslexia font, text-to-speech, screen reader)</td><td class="why">A reading product must serve striving readers; also a compliance requirement for schools.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Multilingual / Spanish</td><td class="why">Reaches ESL families and broadens the school market.</td><td><span class="chip p2">P2</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--navy)"></span> School &amp; program channel</h2>
+        <table>
+          <tr><th>Missing capability</th><th>Why it matters</th><th>Priority</th></tr>
+          <tr><td class="feat">SSO &amp; rostering (Clever / ClassLink)</td><td class="why">Effectively required to sell into schools — enables bulk, consent-clean onboarding.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">District outcome reporting &amp; exports</td><td class="why">Schools and funders need proof of impact (tied to fall scores) to renew and to justify grants.</td><td><span class="chip p1">P1</span></td></tr>
+          <tr><td class="feat">Summer reading-list alignment / assigned books</td><td class="why">Slots into the summer programs schools and libraries already run.</td><td><span class="chip p2">P2</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--orange)"></span> Engagement &amp; retention</h2>
+        <table>
+          <tr><th>Missing capability</th><th>Why it matters</th><th>Priority</th></tr>
+          <tr><td class="feat">Streak insurance / comeback mechanics</td><td class="why">Proven retention levers (Duolingo) that soften a missed day so kids don't abandon the streak.</td><td><span class="chip p2">P2</span></td></tr>
+          <tr><td class="feat">Avatar / customization progression</td><td class="why">Identity investment deepens the daily habit beyond points alone.</td><td><span class="chip p2">P2</span></td></tr>
+          <tr><td class="feat">Seasonal events &amp; team challenges</td><td class="why">Re-engagement spikes and a social pull that brings friends back.</td><td><span class="chip p2">P2</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--teal-deep)"></span> Platform resilience</h2>
+        <table>
+          <tr><th>Missing capability</th><th>Why it matters</th><th>Priority</th></tr>
+          <tr><td class="feat">Cross-device sync &amp; account recovery</td><td class="why">Progress is currently device-local (localStorage) — a lost or wiped phone means a lost summer, and it undermines competition integrity. The biggest hidden risk.</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Subscription / billing management</td><td class="why">Required to operate the school + family business model from the pitch.</td><td><span class="chip p1">P1</span></td></tr>
+        </table>
+      </section>
+
+      <section class="epic">
+        <h2><span class="dot" style="background:var(--navy)"></span> Top 3 to add first</h2>
+        <table>
+          <tr><th>Capability</th><th>Why it's first</th><th>Priority</th></tr>
+          <tr><td class="feat">Writing capture &amp; prompts</td><td class="why">It's the lever our own outcome hypothesis depends on — the product can't prove its thesis without it.</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Weekly analysis digest (agentic)</td><td class="why">The differentiator and the parent's reason to stay; everything in the AI architecture builds to it.</td><td><span class="chip p0">P0</span></td></tr>
+          <tr><td class="feat">Cross-device sync &amp; recovery</td><td class="why">Quietly the highest-risk gap — without it, real users lose data and the competition can't be trusted.</td><td><span class="chip p0">P0</span></td></tr>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 The Summer Slide · Founders workspace</span>
+      <a href="founders.html">← Back to hub</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Agentic AI Is Used — The Summer Slide (Founders)</title>
+<style>
+  :root{
+    --navy:#1B3B5C;--navy-deep:#142B43;--teal:#2BA7A0;--teal-deep:#178079;--cyan:#54C6E0;--orange:#F3922B;
+    --paper:#FBFCFD;--ink:#2C3E50;--muted:#6B7C8C;--line:#E4EBF0;
+    --shadow:0 10px 30px rgba(27,59,92,.10);--accent:var(--teal);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:radial-gradient(1000px 400px at 85% -10%,rgba(43,167,160,.14),transparent 60%),var(--paper);
+    min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-logo{height:44px;width:auto;display:block}
+  .badge-private{font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--orange);
+    background:rgba(243,146,43,.12);padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25)}
+  .head{padding:30px 0 8px;border-bottom:4px solid var(--accent);margin-bottom:8px}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+  .head h1{font-size:clamp(1.9rem,4.5vw,2.7rem);color:var(--navy);font-weight:800;letter-spacing:-.5px;margin:10px 0 6px}
+  .meta{color:var(--muted);font-size:.9rem}.meta b{color:var(--ink)}
+  main{padding:14px 0 30px}
+  section.block{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 26px 22px;box-shadow:var(--shadow);margin-top:20px}
+  section.block h2{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:1.22rem;font-weight:800;margin-bottom:10px}
+  section.block h2 .n{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;border-radius:8px;background:var(--accent);color:#fff;font-size:.8rem;font-weight:800;flex:0 0 auto}
+  .hint{color:var(--muted);font-size:.92rem;margin:2px 0 12px}
+  p{font-size:.96rem;margin-bottom:8px}
+  ul.q{list-style:none;display:grid;gap:10px;margin-top:6px}
+  ul.q li{display:flex;gap:10px;align-items:flex-start;color:var(--ink);font-size:.95rem;line-height:1.5}
+  ul.q li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px;flex:0 0 auto}
+  /* split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0 4px}
+  .split .col{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#FCFDFE}
+  .split .col .k{font-size:.68rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+  .split .rules .k{color:var(--orange)}.split .agentic .k{color:var(--teal)}
+  .split .col h3{font-size:.98rem;color:var(--navy);margin-bottom:6px}
+  .split .col p{font-size:.9rem;color:var(--ink);line-height:1.5;margin:0}
+  /* loop */
+  ol.loop{list-style:none;counter-reset:s;display:grid;gap:10px;margin-top:8px}
+  ol.loop li{counter-increment:s;display:flex;gap:13px;align-items:flex-start;font-size:.95rem;line-height:1.5}
+  ol.loop li::before{content:counter(s);flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  ol.loop b{color:var(--navy)}
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.9rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.7rem;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:700;background:#FAFCFD}
+  td.in{font-weight:700;color:var(--navy);width:38%}
+  tr:last-child td{border-bottom:none}
+  /* callout + guardrails */
+  .callout{border-left:4px solid var(--orange);background:#FFF6EC;border-radius:10px;padding:14px 18px;margin-top:8px;font-size:.95rem;color:var(--ink)}
+  .guard{background:var(--navy);border-radius:14px;padding:20px 22px;margin-top:8px}
+  .guard .k{font-size:.72rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+  .guard ul{list-style:none;display:grid;gap:8px}
+  .guard li{display:flex;gap:9px;align-items:flex-start;color:#CADCFC;font-size:.92rem;line-height:1.45}
+  .guard li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-top:7px;flex:0 0 auto}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+  .metric{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#FCFDFE}
+  .metric .big{font-size:1.5rem;font-weight:800;color:var(--teal)}
+  .metric .lbl{font-size:.8rem;color:var(--muted);margin-top:2px}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer a{color:var(--teal);text-decoration:none;font-weight:600}
+  @media(max-width:640px){.split,.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="founders.html" aria-label="The Summer Slide — Reading Competition"><img class="brand-logo" src="logo-full.jpg" alt="The Summer Slide"></a>
+      <span class="badge-private">AI Architecture</span>
+    </div>
+
+    <div class="head">
+      <span class="eyebrow">AI Architecture</span>
+      <h1>How agentic AI is used</h1>
+      <p class="meta">Owner: <b>Kate O'Malley</b> · The split: rules for the kid's game, agentic AI for the parent's analysis · Updated: <b>May 30, 2026</b></p>
+    </div>
+
+    <main>
+      <section class="block">
+        <h2><span class="n">1</span> The principle</h2>
+        <p class="hint">Use determinism where fairness, speed, and safety matter; use agentic AI where judgment and synthesis matter. The split <em>is</em> the architecture.</p>
+        <div class="split">
+          <div class="col rules">
+            <div class="k">Kid game · rules-based</div>
+            <h3>The competition must be deterministic</h3>
+            <p>Points, streaks, ranks, and leaderboards have to be exact and un-gameable, run instantly on-device/offline, never expose a child to model free-text, keep a minor's data local, and cost nothing per tap.</p>
+          </div>
+          <div class="col agentic">
+            <div class="k">Parent analysis · agentic</div>
+            <h3>Turning activity into insight is judgment</h3>
+            <p>Synthesizing raw logs into "what happened and what to do" — diagnosing against the hypothesis and recommending the next action — is exactly the judgment work an agent is for.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">2</span> Why the kid side stays rules-based</h2>
+        <ul class="q">
+          <li><b>Fairness.</b> A competition's scoring must be exact and reproducible — an LLM would be inconsistent and trivially gameable by kids.</li>
+          <li><b>Speed &amp; offline.</b> The dashboard runs on-device (localStorage); rules compute instantly with no network.</li>
+          <li><b>Safety.</b> No live model free-text reaches a child — no hallucination, no inappropriate content, no prompt-injection surface.</li>
+          <li><b>Privacy.</b> A minor's activity stays local by default (COPPA-friendly), nothing sent to a model to play the game.</li>
+          <li><b>Cost.</b> Every tap calling an LLM would be expensive; rules are free at any scale.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">3</span> What makes the parent side agentic</h2>
+        <div class="callout">A weekly summary written by an LLM is an <b>AI feature</b>. It becomes <b>agentic</b> when the system runs a multi-step loop with judgment and proposed actions — not just text generation.</div>
+        <p class="hint" style="margin-top:14px">The parent-analysis loop:</p>
+        <ol class="loop">
+          <li><b>Retrieve</b> — this week's activity log, the spring baseline (MAP RIT 185, Lexile, writing %), and research-backed targets.</li>
+          <li><b>Diagnose</b> — interpret signals against the hypothesis (e.g., "minutes on pace, writing skipped — and writing is the lever for comprehension").</li>
+          <li><b>Prioritize</b> — surface the one thing that matters this week, not ten metrics.</li>
+          <li><b>Propose</b> — a concrete next action plus a draft nudge.</li>
+          <li><b>Confirm-before-action</b> — the parent approves; only then does it write back to the kid app (set the week's focus, add a bonus challenge, schedule a reminder).</li>
+        </ol>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">4</span> Parent-agent behavior spec</h2>
+        <p class="hint">Representative input → expected output.</p>
+        <table>
+          <thead><tr><th>Input</th><th>Expected output</th></tr></thead>
+          <tbody>
+            <tr><td class="in">6 days logged, minutes high, 0 writing entries</td><td>"On pace for volume, behind on writing — the lever for the 17%→32% target. Suggested focus: one sentence per session." Plus a proposed nudge.</td></tr>
+            <tr><td class="in">4-day gap in activity</td><td>Surfaces the slip gently; proposes a re-engagement nudge and a smaller daily goal. Never shaming.</td></tr>
+            <tr><td class="in">Parent asks "is he reading hard enough books?"</td><td>Answers from logged titles/levels vs. his Lexile band; flags if books are too easy or too hard.</td></tr>
+            <tr><td class="in">Projection drifts below the fall target</td><td>Explains why in plain language and the single change that would bend the curve back.</td></tr>
+            <tr><td class="in">Strong, balanced week</td><td>Specific, genuine encouragement tied to the data; suggests a stretch goal.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">5</span> Guardrails</h2>
+        <div class="guard">
+          <div class="k">Must hold across every response</div>
+          <ul>
+            <li>Ground every claim in the logged numbers — no hallucinated progress.</li>
+            <li>The fall-score projection is an <b style="color:#fff">estimate</b>, never stated as a promise.</li>
+            <li>No clinical or diagnostic inferences (e.g., "dyslexia") — escalate to "worth raising with his teacher."</li>
+            <li>Supportive tone; never shame the child or the parent.</li>
+            <li>A minor's data is consent-gated and never shared across families.</li>
+            <li>Confirm-before-action on anything that writes back to the kid app.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">6</span> Where AI touches the kid side</h2>
+        <p>AI can still improve the kid experience — but only <b>batch, server-side, curated, and content-filtered</b>, never live.</p>
+        <ul class="q">
+          <li><b>Book recommendations</b> at the right level and interest — pre-computed and filtered, served into the rules engine.</li>
+          <li><b>Comprehension questions</b> generated and reviewed ahead of time, then cached.</li>
+          <li><b>Adaptive difficulty</b> tuned offline from aggregate data.</li>
+        </ul>
+        <p class="hint" style="margin-top:10px">The child never talks to a live model; the rules engine only ever serves pre-approved, safe options.</p>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">7</span> The riskiest assumption &amp; how we'll know it works</h2>
+        <p>The bet isn't "can we summarize data" — it's whether the agent's analysis is accurate and trustworthy enough that <b>parents act on it</b>, and whether that <b>actually moves the fall score</b>. The MVP is one cadence (the weekly digest) for one cohort, with an eval harness.</p>
+        <div class="metrics">
+          <div class="metric"><div class="big">"Useful"</div><div class="lbl">Parents rate the weekly analysis useful (thumbs-up rate)</div></div>
+          <div class="metric"><div class="big">Acted</div><div class="lbl">Parents accept a proposed nudge / focus change</div></div>
+          <div class="metric"><div class="big">+8 pts</div><div class="lbl">Projection tracks real fall MAP RIT lift (185 → 193+)</div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 The Summer Slide · Founders workspace</span>
+      <a href="founders.html">← Back to hub</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD Gap Analysis — The Summer Slide (Founders)</title>
+<style>
+  :root{
+    --navy:#1B3B5C;--teal:#2BA7A0;--teal-deep:#178079;--cyan:#54C6E0;--orange:#F3922B;
+    --paper:#FBFCFD;--ink:#2C3E50;--muted:#6B7C8C;--line:#E4EBF0;
+    --shadow:0 10px 30px rgba(27,59,92,.10);--accent:var(--navy);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:radial-gradient(1000px 400px at 85% -10%,rgba(27,59,92,.10),transparent 60%),var(--paper);
+    min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-mark{width:42px;height:42px;flex:0 0 auto}
+  .brand-text{display:flex;flex-direction:column;line-height:1}
+  .brand-name{font-weight:700;color:var(--navy);font-size:.9rem;letter-spacing:1.3px}
+  .brand-name b{font-weight:800}
+  .brand-tag{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-top:4px}
+  .badge-private{font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--orange);
+    background:rgba(243,146,43,.12);padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25)}
+  .head{padding:30px 0 8px;border-bottom:4px solid var(--accent);margin-bottom:8px}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+  .head h1{font-size:clamp(1.9rem,4.5vw,2.7rem);color:var(--navy);font-weight:800;letter-spacing:-.5px;margin:10px 0 6px}
+  .meta{color:var(--muted);font-size:.9rem}.meta b{color:var(--ink)}
+  main{padding:14px 0 30px}
+  section.block{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 26px 22px;box-shadow:var(--shadow);margin-top:20px}
+  section.block h2{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:1.22rem;font-weight:800;margin-bottom:10px}
+  section.block h2 .n{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;border-radius:8px;background:var(--accent);color:#fff;font-size:.8rem;font-weight:800;flex:0 0 auto}
+  section.block p{color:var(--ink);font-size:.96rem;margin-bottom:6px}
+  section.block p.lead{color:var(--muted)}
+  .tldr{border-left:4px solid var(--orange);background:#FFFaf3}
+  ul.b{list-style:none;display:grid;gap:9px;margin:8px 0 2px}
+  ul.b li{display:flex;gap:10px;align-items:flex-start;color:var(--ink);font-size:.94rem}
+  ul.b li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);margin-top:8px;flex:0 0 auto}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:.9rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.7rem;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:700;background:#FAFCFD}
+  tr:last-child td{border-bottom:none}
+  td.sec{font-weight:700;color:var(--navy);width:30%}
+  .miss{color:#C0561E;font-weight:700}.partial{color:var(--orange);font-weight:700}
+  /* Action items */
+  .grouptag{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin:22px 0 2px}
+  .grouptag.p0{color:#C0561E;background:rgba(243,146,43,.14)}
+  .grouptag.p1{color:var(--teal-deep);background:rgba(43,167,160,.14)}
+  .grouptag.p2{color:#2E6E92;background:rgba(84,198,224,.18)}
+  ul.ai{list-style:none;display:grid;gap:10px;margin-top:10px}
+  li.item{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;padding:14px 16px;background:#FCFDFE}
+  li.item input{margin-top:3px;width:17px;height:17px;accent-color:var(--teal);flex:0 0 auto;cursor:pointer}
+  li.item .txt{flex:1}
+  li.item .txt b{color:var(--navy);font-weight:700;display:block;margin-bottom:2px;font-size:.96rem}
+  li.item .txt span{color:var(--muted);font-size:.88rem;line-height:1.5}
+  li.item .who{font-size:.68rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--teal);background:rgba(43,167,160,.1);padding:3px 9px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:2px}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer a{color:var(--teal);text-decoration:none;font-weight:600}
+  .brand-logo{height:44px;width:auto;display:block}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="founders.html" aria-label="The Summer Slide — Reading Competition"><img class="brand-logo" src="logo-full.jpg" alt="The Summer Slide"></a>
+      <span class="badge-private">Review</span>
+    </div>
+
+    <div class="head">
+      <span class="eyebrow">PRD Gap Analysis</span>
+      <h1>What's missing from the Summer Slide PRD</h1>
+      <p class="meta">Benchmarked against <b>CrewCares / BuildtheCrew v2</b> · Owner: <b>Kate O'Malley</b> · Updated: <b>May 30, 2026</b></p>
+    </div>
+
+    <main>
+      <section class="block tldr">
+        <h2><span class="n">TL;DR</span></h2>
+        <p>The Summer Slide PRD is a <b>5-section scaffold of prompts</b> — the headings are right, but every section is a placeholder with no real content. CrewCares v2 is a near-review-ready Stage-4 document with 14 sections.</p>
+        <p>Beyond empty content, the Summer Slide PRD is missing <b>seven whole sections v2 treats as core</b>: a testable hypothesis, strategic fit / competition, a defensibility (MOAT) argument, a "why agentic" justification, an AI behavior spec with safety guardrails, an eval-driven roadmap, and open questions with working positions. Because Summer Slide targets <b>children</b>, the absent child-safety / COPPA / consent posture is the single most urgent gap.</p>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">1</span> The bar — what CrewCares v2 does well</h2>
+        <ul class="b">
+          <li>A <b>falsifiable hypothesis</b> with an outcome metric, leading indicators, a validated measurement instrument, and an explicit falsification condition.</li>
+          <li>A <b>problem section with cited evidence</b> — real stats, current workarounds, and the cost of inaction.</li>
+          <li>Three <b>deep personas</b> with jobs-to-be-done, pains, the key product moment, and build-for / cut-for lists.</li>
+          <li><b>Strategic fit</b> — why-now, a brand wedge, and a named competitive table with each rival's structural gap.</li>
+          <li>A standalone <b>Defensibility / MOAT</b> section with falsifiable watch metrics and an honest "what we don't have yet."</li>
+          <li>A <b>"why agentic, not rule-based"</b> argument that puts judgment in the agent and safety-critical decisions in deterministic rules.</li>
+          <li>An <b>AI behavior spec</b> (20 input→output examples) plus hard rejection / safety criteria.</li>
+          <li>An <b>eval-driven roadmap</b>: riskiest-assumption MVP, quantified go/no-go gates, eval harness, and rollback.</li>
+          <li>A <b>metrics table</b> with baselines, targets, timeframes and guardrails, and open questions paired with working positions.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">2</span> Section-by-section gaps</h2>
+        <table>
+          <thead><tr><th>CrewCares v2 section</th><th>Summer Slide status</th><th>Gap</th></tr></thead>
+          <tbody>
+            <tr><td class="sec">Hypothesis</td><td><span class="miss">Missing</span></td><td>No testable belief, outcome metric, leading indicators, or falsification condition.</td></tr>
+            <tr><td class="sec">Problem</td><td><span class="partial">Prompts only</span></td><td>No cited stats, no parent/teacher quotes, no current workarounds, no cost-of-inaction.</td></tr>
+            <tr><td class="sec">Personas</td><td><span class="partial">User-type labels</span></td><td>Lists students/buyers/admins; zero developed personas (no JTBD, pains, key moment, build/cut).</td></tr>
+            <tr><td class="sec">Strategic Fit / Competition</td><td><span class="miss">Missing</span></td><td>No why-now, no brand wedge, no competitive table, no "why we win."</td></tr>
+            <tr><td class="sec">Defensibility / MOAT</td><td><span class="miss">Missing</span></td><td>No moat thesis, no data/network-effect argument, no watch metrics.</td></tr>
+            <tr><td class="sec">Why agentic, not rule-based</td><td><span class="miss">Missing</span></td><td>No justification that AI is the right tool; no agent-vs-rules line.</td></tr>
+            <tr><td class="sec">Solution / AI behavior</td><td><span class="partial">Prompts only</span></td><td>No user flow, no key states, no AI behavior spec, no rejection/safety criteria.</td></tr>
+            <tr><td class="sec">Non-Goals</td><td><span class="partial">One sub-bullet</span></td><td>Not a developed "we are NOT building…" list.</td></tr>
+            <tr><td class="sec">Success Metrics</td><td><span class="partial">Prompts only</span></td><td>No table, no baselines/targets/timeframes, no guardrails.</td></tr>
+            <tr><td class="sec">Roadmap</td><td><span class="partial">One prompt</span></td><td>No component breakdown, risk assessment, MVP bet, eval gates, or rollback.</td></tr>
+            <tr><td class="sec">Open Questions</td><td><span class="partial">Prompt only</span></td><td>No questions, none with working positions or owners.</td></tr>
+            <tr><td class="sec">Stage Checklist</td><td><span class="miss">Missing</span></td><td>No readiness self-assessment.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">3</span> Action items</h2>
+        <p class="lead">Prioritized work to bring the PRD up to the v2 bar. Owners are starting assignments — adjust as needed.</p>
+
+        <span class="grouptag p0">P0 · Critical — do first</span>
+        <ul class="ai">
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Write the Child-Safety, Privacy &amp; Consent section</b><span>COPPA (under-13 data + verifiable parental consent), FERPA if selling to schools, parent/teacher account control, data minimization for minors, and safe leaderboard/social design (no exposing kids' names, locations, or contact).</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Write the AI Behavior Spec + "why agentic" + hard safety rules</b><span>Define what the AI does (level-appropriate recommendations, comprehension check-ins, parent summaries, nudges), justify agent vs. rules, then 15–20 input→output examples and refusals (never recommend age-inappropriate content; never message a child without guardian visibility; never expose one child's data to another).</span></span><span class="who">Kate</span></li>
+        </ul>
+
+        <span class="grouptag p1">P1 · Core PRD rigor</span>
+        <ul class="ai">
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add a testable hypothesis</b><span>Intervention → outcome → metric, with leading indicators and an explicit falsification condition (e.g., "if engagement rises but the fall reading benchmark doesn't move, we're wrong").</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Replace user-type labels with 2–3 developed personas</b><span>e.g., the reluctant 4th-grade reader, the time-starved motivated parent, the summer-program coordinator — each with JTBD, pains, trigger moment, key product moment, and build-for / cut-for.</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Build an evidence-backed Problem section</b><span>Cited learning-loss and market stats, 3–5 parent/teacher/student quotes from research, current workarounds (paper logs, school programs), and the cost of inaction.</span></span><span class="who">Kate + research</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add Strategic Fit + competitive table</b><span>Why-now + brand wedge, and a named landscape — Beanstack, Scholastic Summer Reading, Renaissance/Accelerated Reader, library programs, Epic!/Reading Eggs — each with its structural gap and our "why we win."</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add a Defensibility / MOAT section</b><span>What compounds with use (engagement data, a school/district graph, a reading-level model, parent trust), an honest "what we don't have on day one," and falsifiable watch metrics.</span></span><span class="who">Kate</span></li>
+        </ul>
+
+        <span class="grouptag p2">P2 · Completeness &amp; launch readiness</span>
+        <ul class="ai">
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Specify reading verification / anti-gaming</b><span>How reading is verified (quizzes, timers, comprehension checks, parent confirmation) and how leaderboard manipulation is prevented; add the gaming rate to guardrail metrics.</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Build the metrics table + guardrails</b><span>Metric · type · baseline · target · timeframe, plus guardrails that must not get worse (verification-gaming rate, parent-reported pressure/stress, week-1 churn), with a "how targets were set" rationale.</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Write an eval-driven roadmap</b><span>Name the single riskiest assumption, define the MVP that tests it, set quantified go/no-go gates and an eval harness (especially for AI recommendation quality), plus phases tied to the summer calendar and a rollback plan.</span></span><span class="who">Kate</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add Non-Goals, Open Questions, and a Stage checklist</b><span>A true "we are NOT building" list; open questions with working positions + owners (pricing, school vs. consumer GTM, content/book sourcing, age bands, prize/incentive design); and a Stage-readiness self-assessment.</span></span><span class="who">Kate</span></li>
+        </ul>
+
+        <span class="grouptag p1">Research inputs needed</span>
+        <ul class="ai">
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Collect real interview quotes</b><span>3–5 verbatim parent / teacher / student quotes to replace placeholders in the Problem and Persona sections.</span></span><span class="who">Research</span></li>
+          <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Source the stats</b><span>Summer learning-loss effect sizes and market sizing (K-8 readers, school/library summer-program spend) with citations.</span></span><span class="who">Research</span></li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2><span class="n">4</span> Suggested next step</h2>
+        <p>Filling the hypothesis, evidence-backed problem, and real personas — plus the AI behavior spec and the child-safety section — closes roughly two-thirds of the distance to the v2 bar. Start with the <b>child-safety section</b> and the <b>AI behavior spec</b>: both are load-bearing and currently empty.</p>
+        <p class="lead">Full write-up: <a href="prd-gap-analysis.md" style="color:var(--teal);font-weight:600;text-decoration:none">prd-gap-analysis.md</a> · Source PRD: <a href="prd.html" style="color:var(--teal);font-weight:600;text-decoration:none">Summer Slide PRD</a></p>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 The Summer Slide · Founders workspace</span>
+      <a href="founders.html">← Back to hub</a>
+    </footer>
+  </div>
+</body>
+</html>

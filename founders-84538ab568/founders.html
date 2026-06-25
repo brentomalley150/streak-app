@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founders Hub — The Summer Slide</title>
+<style>
+  :root{
+    --navy:#1B3B5C;
+    --navy-deep:#142B43;
+    --teal:#2BA7A0;
+    --teal-deep:#178079;
+    --cyan:#54C6E0;
+    --orange:#F3922B;
+    --orange-soft:#F7A84B;
+    --paper:#FBFCFD;
+    --ink:#2C3E50;
+    --muted:#6B7C8C;
+    --line:#E4EBF0;
+    --shadow:0 10px 30px rgba(27,59,92,.10);
+    --shadow-lg:0 18px 50px rgba(27,59,92,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(84,198,224,.18), transparent 60%),
+      radial-gradient(900px 450px at -10% 10%, rgba(243,146,43,.10), transparent 55%),
+      var(--paper);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* Top bar */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 0;
+  }
+  .brand{display:flex;align-items:center;gap:13px;text-decoration:none}
+  .brand-mark{width:50px;height:50px;flex:0 0 auto}
+  .brand-text{display:flex;flex-direction:column;line-height:1}
+  .brand-name{font-weight:700;color:var(--navy);font-size:1.02rem;letter-spacing:1.5px}
+  .brand-name b{font-weight:800}
+  .brand-tag{
+    font-size:.62rem;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;
+    color:var(--teal);margin-top:5px;
+  }
+  .badge-private{
+    font-size:.72rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--orange);background:rgba(243,146,43,.12);
+    padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25);
+  }
+
+  /* Hero */
+  .hero{padding:34px 0 30px;text-align:center}
+  .hero-mark{width:110px;height:110px;margin:0 auto 10px;display:block}
+  .hero-logo-img{width:min(460px,88%);height:auto;display:block;margin:0 auto 6px}
+  .eyebrow{
+    display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;color:var(--teal);margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.05;color:var(--navy);
+    font-weight:800;letter-spacing:-.5px;
+  }
+  .hero h1 .pop{color:var(--orange)}
+  .hero p{
+    max-width:620px;margin:18px auto 0;color:var(--muted);font-size:1.08rem;line-height:1.6;
+  }
+  .wave{display:block;width:120px;height:auto;margin:22px auto 0}
+
+  /* Cards */
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:22px;margin:42px 0 16px;
+  }
+  .card{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;
+    padding:30px 26px 26px;box-shadow:var(--shadow);text-decoration:none;color:inherit;
+    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    overflow:hidden;display:flex;flex-direction:column;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+  .card::before{
+    content:"";position:absolute;left:0;top:0;height:5px;width:100%;
+    background:var(--accent,var(--teal));
+  }
+  .card .ic{
+    width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    background:var(--accent-soft,rgba(43,167,160,.12));margin-bottom:18px;
+  }
+  .card .ic svg{width:28px;height:28px}
+  .card h3{font-size:1.28rem;color:var(--navy);font-weight:800;margin-bottom:8px}
+  .card .tag{
+    font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--accent,var(--teal));margin-bottom:14px;display:block;
+  }
+  .card p{color:var(--muted);font-size:.95rem;line-height:1.55;flex:1}
+  .card .go{
+    margin-top:18px;display:inline-flex;align-items:center;gap:7px;
+    font-weight:700;color:var(--navy);font-size:.92rem;
+  }
+  .card .go svg{width:16px;height:16px;transition:transform .2s ease}
+  .card:hover .go svg{transform:translateX(4px)}
+
+  .c-prd{--accent:var(--teal);--accent-soft:rgba(43,167,160,.12)}
+  .c-deck{--accent:var(--orange);--accent-soft:rgba(243,146,43,.13)}
+  .c-feat{--accent:var(--cyan);--accent-soft:rgba(84,198,224,.16)}
+  .c-gap{--accent:var(--navy);--accent-soft:rgba(27,59,92,.10)}
+  .c-live{--accent:var(--teal-deep);--accent-soft:rgba(23,128,121,.12)}
+  .c-ai{--accent:var(--teal);--accent-soft:rgba(43,167,160,.12)}
+  .c-llc{--accent:var(--orange);--accent-soft:rgba(243,146,43,.13)}
+  .c-kate{--accent:var(--teal-deep);--accent-soft:rgba(23,128,121,.12)}
+
+  /* Action items section */
+  .ai-sec{margin:52px 0 8px}
+  .ai-head{text-align:center;margin-bottom:6px}
+  .ai-head h2{font-size:clamp(1.6rem,3.4vw,2.15rem);color:var(--navy);font-weight:800;letter-spacing:-.3px}
+  .ai-head p{max-width:660px;margin:12px auto 0;color:var(--muted);font-size:1rem;line-height:1.55}
+  .grouptag{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin:26px 0 2px}
+  .grouptag.p0{color:#C0561E;background:rgba(243,146,43,.14)}
+  .grouptag.p1{color:var(--teal-deep);background:rgba(43,167,160,.14)}
+  .grouptag.p2{color:#2E6E92;background:rgba(84,198,224,.18)}
+  ul.ai{list-style:none;display:grid;gap:11px;margin-top:10px}
+  li.item{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 18px;box-shadow:var(--shadow)}
+  li.item input{margin-top:3px;width:17px;height:17px;accent-color:var(--teal);flex:0 0 auto;cursor:pointer}
+  li.item .txt{flex:1}
+  li.item .txt b{color:var(--navy);font-weight:700;display:block;margin-bottom:2px;font-size:.97rem}
+  li.item .txt span{color:var(--muted);font-size:.89rem;line-height:1.5}
+  li.item .who{font-size:.66rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--teal);background:rgba(43,167,160,.1);padding:3px 9px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:2px}
+  .ai-foot{text-align:center;margin-top:20px}
+  .ai-foot a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#fff;background:var(--navy);font-weight:700;font-size:.92rem;padding:12px 22px;border-radius:12px;box-shadow:0 8px 22px rgba(27,59,92,.22);transition:transform .18s ease,background .18s ease}
+  .ai-foot a:hover{transform:translateY(-2px);background:var(--navy-deep)}
+  .ai-foot a svg{width:16px;height:16px}
+
+  /* Status strip */
+  .status{
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
+    margin:34px 0 10px;
+  }
+  .pill{
+    display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+    padding:11px 18px;border-radius:999px;font-size:.88rem;color:var(--ink);box-shadow:var(--shadow);
+  }
+  .dot{width:9px;height:9px;border-radius:50%}
+  .dot.draft{background:var(--orange)}
+  .dot.progress{background:var(--cyan)}
+  .dot.todo{background:#C7D2DC}
+  .pill b{color:var(--navy)}
+
+  /* Footer */
+  footer{
+    margin-top:56px;border-top:1px solid var(--line);padding:26px 0 40px;
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    color:var(--muted);font-size:.85rem;
+  }
+  footer a{color:var(--teal);text-decoration:none;font-weight:600}
+  footer a:hover{text-decoration:underline}
+  .brand-logo{height:44px;width:auto;display:block}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="founders.html" aria-label="The Summer Slide — Reading Competition"><img class="brand-logo" src="logo-full.jpg" alt="The Summer Slide"></a>
+      <span class="badge-private">Founders Only · Kate O'Malley</span>
+    </div>
+
+    <section class="hero">
+      <img class="hero-logo-img" src="logo-full.jpg" alt="The Summer Slide — Reading Competition">
+      <span class="eyebrow">Founders Hub</span>
+      <h1>Founder <span class="pop">workspace</span></h1>
+      <p>The private home for everything that defines the product — the PRD, the investor pitch deck, and the full feature breakdown. Separate from the public site, owned by the founding team.</p>
+      <svg class="wave" viewBox="0 0 120 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 12c10-12 20 10 30 0s20-12 30 0 20 10 30 0 18-9 26-3" stroke="#F3922B" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </section>
+
+    <section class="grid">
+      <a class="card c-prd" href="prd.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2BA7A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6M9 9h1"/></svg>
+        </span>
+        <span class="tag">Product Requirements</span>
+        <h3>PRD</h3>
+        <p>The single source of truth for what we're building and why — problem, users, scope, success metrics, and release plan.</p>
+        <span class="go">Open document
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-deck" href="pitch-deck.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F3922B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h20v12H2z"/><path d="M12 16v4M8 20h8"/><path d="M7 11l3-3 2 2 4-4"/></svg>
+        </span>
+        <span class="tag">Investor Story</span>
+        <h3>Pitch Deck</h3>
+        <p>The narrative for partners, schools, and investors — vision, market, traction, and the ask, slide by slide.</p>
+        <span class="go">Open deck
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-feat" href="feature-breakdown.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#54C6E0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </span>
+        <span class="tag">What We're Shipping</span>
+        <h3>Feature Breakdown</h3>
+        <p>Every feature mapped to a user, a priority, and a release — from reading streaks to leaderboards and parent dashboards.</p>
+        <span class="go">Open breakdown
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-gap" href="gap-analysis.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1B3B5C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/><circle cx="7" cy="15" r="1"/><circle cx="11" cy="11" r="1"/><circle cx="14" cy="14" r="1"/><circle cx="19" cy="8" r="1"/></svg>
+        </span>
+        <span class="tag">PRD Review</span>
+        <h3>Gap Analysis</h3>
+        <p>Where the PRD stands vs. the CrewCares v2 benchmark — the missing sections and a prioritized list of what we need to do.</p>
+        <span class="go">Open analysis
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-ai" href="agentic-ai.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2BA7A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h6a4 4 0 0 1 4 4M7 18h6a4 4 0 0 0 4-4"/></svg>
+        </span>
+        <span class="tag">AI Architecture</span>
+        <h3>How Agentic AI Is Used</h3>
+        <p>The split that defines the product — deterministic rules for the kid's game, agentic AI for the parent's analysis, with guardrails.</p>
+        <span class="go">Open overview
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-live" href="../index.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#178079" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        </span>
+        <span class="tag">Live Product</span>
+        <h3>Summer Dashboard</h3>
+        <p>The live student-facing app — a 12-week summer reading challenge with streaks, chess ranks, leaderboards, trophies, and a parent hypothesis tracker.</p>
+        <span class="go">Open dashboard
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-llc" href="llc.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F3922B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4 8 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M13 9h.01M13 13h.01M13 17h.01"/></svg>
+        </span>
+        <span class="tag">Legal &amp; Formation</span>
+        <h3>Colorado LLC Guide</h3>
+        <p>The step-by-step plan to stand up The Summer Slide as a real company — naming, filing, EIN, operating agreement, and the annual report. About $50 to launch.</p>
+        <span class="go">Open guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card c-kate" href="kate.html">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#178079" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        </span>
+        <span class="tag">Founder Profile</span>
+        <h3>Kate O'Malley</h3>
+        <p>The founder behind The Summer Slide — what she's building, the company at a glance, current focus, and quick links across the hub.</p>
+        <span class="go">Open profile
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+    </section>
+
+    <section class="status">
+      <span class="pill"><span class="dot draft"></span><b>PRD</b>&nbsp;· Draft scaffold</span>
+      <span class="pill"><span class="dot todo"></span><b>Pitch Deck</b>&nbsp;· Outline ready</span>
+      <span class="pill"><span class="dot progress"></span><b>Features</b>&nbsp;· In planning</span>
+      <span class="pill"><span class="dot draft"></span><b>Gap Analysis</b>&nbsp;· Action items ready</span>
+    </section>
+
+    <section class="ai-sec">
+      <div class="ai-head">
+        <span class="eyebrow">Founder To-Do</span>
+        <h2>Kate's list to keep the app moving forward</h2>
+        <p>The cross-cutting priorities beyond the PRD — ship it, learn from beta, build the next features, and tell the story. Grouped Now / Next / Later.</p>
+      </div>
+
+      <span class="grouptag p0">Now</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Form the Colorado LLC</b><span>Stand up The Summer Slide as a real company — clear the name, file the Articles of Organization (~$50), get a free EIN, and write a simple operating agreement. <a href="llc.html" style="color:var(--teal-deep);font-weight:700;text-decoration:none">See the step-by-step guide →</a></span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Ship the latest dashboard updates</b><span>Push the pending commits and turn on Enforce HTTPS in GitHub Pages once the certificate is ready.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Lock down the founder docs</b><span>Confirm the GitHub repo is private so the PRD, deck, and gap analysis aren't recoverable from history.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Launch the beta</b><span>Send the invite to the tester moms and recruit 5–10 families to start logging this summer.</span></span><span class="who">Kate</span></li>
+      </ul>
+
+      <span class="grouptag p1">Next</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Collect beta feedback</b><span>What's confusing, what's fun, what's missing — and watch week-1 streak retention as the key signal.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Build the P0 features</b><span>Writing capture &amp; prompts, the weekly agentic parent digest, and cross-device sync &amp; account recovery.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Fill the PRD P1 sections</b><span>Hypothesis, real personas, an evidence-backed problem, strategic fit, and the defensibility / MOAT.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Design the invited-parent welcome</b><span>The invite loop bootstraps the kid's dashboard but gives the joining parent nothing. Think through a one-screen welcome on first open — what it is · it's safe · how to help · open your tools — as both a trust move and a growth-loop activation lever.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Decide the backend &amp; COPPA-consent path</b><span>A live all-users admin dashboard needs a backend (managed BaaS) and verifiable parental consent. Pick the stack, validate the consent flow with a tiny cohort, then phase in cloud sync → the admin dashboard. Full spec in admin-dashboard-backend-plan.md.</span></span><span class="who">Kate</span></li>
+      </ul>
+
+      <span class="grouptag p2">Later</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Finalize the raise &amp; market numbers</b><span>Replace the placeholder figures in the pitch deck with validated TAM/SAM/SOM and the actual ask.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Child-safety review</b><span>COPPA / FERPA review with counsel before any wider (school) launch.</span></span><span class="who">Kate + legal</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Round out the experience</b><span>Reading verification / anti-gaming, plus accessibility — text-to-speech, dyslexia-friendly font, audiobook logging.</span></span><span class="who">Kate</span></li>
+      </ul>
+    </section>
+
+    <section class="ai-sec">
+      <div class="ai-head">
+        <span class="eyebrow">PRD Gap Analysis · Action Items</span>
+        <h2>What we need to do</h2>
+        <p>The PRD is a strong scaffold but still mostly placeholders. Benchmarked against the CrewCares v2 PRD, here's the prioritized work to make it review-ready. Owners are starting assignments — adjust as needed.</p>
+      </div>
+
+      <span class="grouptag p0">P0 · Critical — do first</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Write the Child-Safety, Privacy &amp; Consent section</b><span>COPPA (under-13 data + verifiable parental consent), FERPA if selling to schools, parent/teacher account control, data minimization for minors, and safe leaderboard design (no exposing kids' names, locations, or contact). The single most urgent gap.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Write the AI Behavior Spec + "why agentic" + hard safety rules</b><span>Define what the AI does, justify agent vs. rules, then 15–20 input→output examples and refusals (never recommend age-inappropriate content; never message a child without guardian visibility; never expose one child's data to another).</span></span><span class="who">Kate</span></li>
+      </ul>
+
+      <span class="grouptag p1">P1 · Core PRD rigor</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add a testable hypothesis</b><span>Intervention → outcome → metric, with leading indicators and an explicit falsification condition (e.g., "if engagement rises but the fall reading benchmark doesn't move, we're wrong").</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Replace user-type labels with 2–3 developed personas</b><span>e.g., the reluctant 4th-grade reader, the time-starved motivated parent, the summer-program coordinator — each with JTBD, pains, trigger moment, key product moment, and build-for / cut-for.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Build an evidence-backed Problem section</b><span>Cited learning-loss and market stats, 3–5 parent/teacher/student quotes, current workarounds (paper logs, school programs), and the cost of inaction.</span></span><span class="who">Kate + research</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add Strategic Fit + competitive table</b><span>Why-now + brand wedge, and a named landscape — Beanstack, Scholastic Summer Reading, Renaissance/Accelerated Reader, library programs, Epic!/Reading Eggs — each with its structural gap and our "why we win."</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add a Defensibility / MOAT section</b><span>What compounds with use (engagement data, a school/district graph, a reading-level model, parent trust), an honest "what we don't have on day one," and falsifiable watch metrics.</span></span><span class="who">Kate</span></li>
+      </ul>
+
+      <span class="grouptag p2">P2 · Completeness &amp; launch readiness</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Specify reading verification / anti-gaming</b><span>How reading is verified (quizzes, timers, comprehension checks, parent confirmation) and how leaderboard manipulation is prevented; add the gaming rate to guardrail metrics.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Build the metrics table + guardrails</b><span>Metric · type · baseline · target · timeframe, plus guardrails that must not get worse (verification-gaming rate, parent-reported pressure, week-1 churn), with a "how targets were set" rationale.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Write an eval-driven roadmap</b><span>Name the riskiest assumption, define the MVP that tests it, set quantified go/no-go gates and an eval harness (esp. for AI recommendation quality), plus phases tied to the summer calendar and a rollback plan.</span></span><span class="who">Kate</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Add Non-Goals, Open Questions, and a Stage checklist</b><span>A true "we are NOT building" list; open questions with working positions + owners (pricing, school vs. consumer GTM, content sourcing, age bands, incentive design); and a Stage-readiness self-assessment.</span></span><span class="who">Kate</span></li>
+      </ul>
+
+      <span class="grouptag p1">Research inputs needed</span>
+      <ul class="ai">
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Collect real interview quotes</b><span>3–5 verbatim parent / teacher / student quotes to replace placeholders in the Problem and Persona sections.</span></span><span class="who">Research</span></li>
+        <li class="item"><input type="checkbox" aria-label="done"><span class="txt"><b>Source the stats</b><span>Summer learning-loss effect sizes and market sizing (K-8 readers, school/library summer-program spend) with citations.</span></span><span class="who">Research</span></li>
+      </ul>
+
+      <div class="ai-foot">
+        <a href="gap-analysis.html">Open the full gap analysis
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 The Summer Slide · Reading Competition — Founders workspace</span>
+      <span>Private page · not linked from the public site</span>
+    </footer>
+  </div>
+</body>
+</html>

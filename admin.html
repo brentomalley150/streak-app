@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SummerStreak — Admin</title>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<style>
+  :root {
+    --bg: #0F1A2E;
+    --bg-light: #1a2942;
+    --panel: #1E3050;
+    --panel-light: #2a3f63;
+    --ink: #ffffff;
+    --soft: #d6e2f5;
+    --muted: #8aa0c0;
+    --gold: #ffd84a;
+    --gold-dark: #c9a227;
+    --green: #5eea93;
+    --red: #ff6b6b;
+    --orange: #ffa552;
+    --purple: #b89dff;
+    --blue: #7eb6ff;
+    --border: #3a5380;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(255, 216, 74, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(126, 182, 255, 0.05) 0%, transparent 40%);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+    font-size: 16px;
+  }
+  .container { max-width: 1180px; margin: 0 auto; padding: 24px; }
+
+  /* Top nav */
+  .topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .topnav .brand { font-weight: 800; letter-spacing: 3px; color: var(--gold); font-size: 13px; }
+  .topnav nav a {
+    color: var(--soft);
+    text-decoration: none;
+    margin-left: 16px;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+  .topnav nav a:hover { background: var(--panel-light); color: var(--gold); }
+  .topnav nav a.active { background: var(--gold); color: var(--bg); }
+
+  /* Header */
+  header.hub-header {
+    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-light) 100%);
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .hub-tag {
+    background: var(--gold);
+    color: var(--bg);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header .lede { color: var(--soft); font-size: 17px; max-width: 800px; }
+
+  /* Users section */
+  .users-section {
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 22px;
+  }
+  .users-section h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .users-section .users-sub { color: var(--soft); font-size: 14px; margin-bottom: 14px; }
+  .users-counts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .users-count {
+    background: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .users-count .uc-num { font-size: 28px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .users-count .uc-lbl { font-size: 11px; color: var(--soft); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+  .users-list { display: flex; flex-direction: column; gap: 8px; }
+  .user-row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .user-row.player { border-color: var(--blue); }
+  .user-row.admin  { border-color: var(--gold); }
+  .user-row.parent { border-color: var(--purple); }
+  .user-row.friend { border-color: var(--green); }
+  .user-row .u-avatar { font-size: 30px; text-align: center; line-height: 1; }
+  .user-row .u-name { font-weight: 800; font-size: 16px; }
+  .user-row .u-meta { font-size: 12px; color: var(--soft); margin-top: 2px; }
+  .user-row .u-stat {
+    background: var(--bg);
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 70px;
+  }
+  .user-row .u-stat .v { color: var(--gold); font-weight: 800; font-size: 14px; }
+  .user-row .u-stat .l { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .user-row .u-actions { display: flex; gap: 6px; }
+  .user-row .u-actions button {
+    background: var(--panel-light);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .user-row .u-actions button:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .user-row .u-actions button.danger { color: var(--red); }
+  .user-row .u-actions button.danger:hover { background: var(--red); color: white; border-color: var(--red); }
+
+  .users-empty {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    background: var(--bg-light);
+    border-radius: 10px;
+    border: 2px dashed var(--border);
+  }
+  .users-caveat {
+    background: rgba(184, 157, 255, 0.1);
+    border-left: 3px solid var(--purple);
+    color: var(--soft);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* Edit modal */
+  .edit-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .edit-backdrop.show { display: flex; }
+  .edit-modal {
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .edit-modal h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .edit-modal .em-sub { color: var(--soft); font-size: 14px; margin-bottom: 18px; }
+  .edit-modal label { display: block; font-size: 12px; color: var(--soft); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .edit-modal input, .edit-modal select {
+    width: 100%;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    color: var(--ink);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .edit-modal .em-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .edit-modal .em-actions button {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .edit-modal .em-save { background: var(--gold); color: var(--bg); }
+  .edit-modal .em-cancel { background: var(--panel-light); color: var(--ink); border: 1px solid var(--border) !important; }
+
+  /* Debug card */
+  .debug-card {
+    background: rgba(184, 157, 255, 0.05);
+    border: 2px solid var(--purple);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 22px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .debug-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .debug-card code {
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 13px;
+    color: var(--gold);
+  }
+  .debug-card .debug-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .debug-card .debug-row button {
+    background: var(--purple);
+    color: var(--bg);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  pre.debug-output {
+    background: #000;
+    color: var(--green);
+    padding: 14px;
+    border-radius: 8px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+  }
+  pre.debug-output.show { display: block; }
+
+  @media (max-width: 720px) {
+    header h1 { font-size: 24px; }
+    .topnav nav a { margin-left: 6px; padding: 4px 8px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">SUMMERSTREAK</span>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="story.html">Story</a>
+    <a href="founders.html">Docs Hub</a>
+    <a href="admin.html" class="active">Admin</a>
+  </nav>
+</nav>
+
+<div class="container">
+
+  <header class="hub-header">
+    <div class="hub-tag">⚙️ ADMIN · INTERNAL TOOL</div>
+    <h1>SummerStreak Admin</h1>
+    <div class="lede">Manage signed-up users, edit leaderboard entries, troubleshoot live state. For docs and TODOs, head to the <a href="founders.html" style="color:var(--gold);">Docs Hub</a>.</div>
+  </header>
+
+  <div class="users-section" style="border-color: var(--green); background: rgba(94,234,147,0.04);">
+    <h2>🔌 Backend Status</h2>
+    <div style="color:var(--soft);font-size:14px;margin-bottom:12px;">Firebase config is baked into <code style="background:var(--bg);padding:2px 6px;border-radius:4px;color:var(--gold);font-family:'SF Mono',Menlo,monospace;font-size:12px;">firebase-config.js</code> — every device auto-connects on page load. No per-parent setup required.</div>
+    <div id="backend-config-status" style="font-size:14px;margin-bottom:14px;display:flex;align-items:center;gap:8px;"></div>
+    <div id="backend-project-info" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-family:'SF Mono',Menlo,monospace;font-size:12px;color:var(--soft);margin-bottom:12px;"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" style="background:var(--gold);color:var(--bg);border:none;padding:10px 18px;border-radius:8px;font-family:inherit;font-weight:800;cursor:pointer;font-size:14px;" onclick="copyMyUid()">Copy my UID</button>
+      <a href="https://console.firebase.google.com/u/1/project/summerstreak/overview" target="_blank" style="background:var(--panel-light);color:var(--ink);border:2px solid var(--border);padding:10px 18px;border-radius:8px;font-family:inherit;font-weight:800;cursor:pointer;font-size:14px;text-decoration:none;">Open Firebase Console ↗</a>
+      <a href="BACKEND-SETUP.md" target="_blank" style="background:var(--panel-light);color:var(--ink);border:2px solid var(--border);padding:10px 18px;border-radius:8px;font-family:inherit;font-weight:800;cursor:pointer;font-size:14px;text-decoration:none;">Setup guide ↗</a>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:12px;">If a new browser shows "permission denied" when editing users below, copy that session's UID and add it to <code style="background:var(--bg);padding:2px 6px;border-radius:4px;color:var(--gold);font-family:'SF Mono',Menlo,monospace;">/admins</code> in Firebase Console.</div>
+  </div>
+
+  <div class="users-section">
+    <h2>👥 Signed-Up Users <span id="users-mode-tag" style="font-size:11px;font-weight:800;padding:3px 10px;border-radius:8px;background:var(--bg-light);color:var(--soft);margin-left:6px;letter-spacing:1px;">LOCAL</span></h2>
+    <div class="users-sub" id="users-sub">Everyone whose data is saved in this browser's localStorage. Connect Firebase above to flip to LIVE mode.</div>
+    <div id="backend-status-line" style="font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:8px;"></div>
+    <div class="users-counts" id="users-counts"></div>
+    <div class="users-list" id="users-list"></div>
+    <div class="users-caveat" id="users-caveat"></div>
+  </div>
+
+  <div class="debug-card">
+    <h3>💡 Troubleshooting</h3>
+    <div>Open the dashboard in your browser → press <code>F12</code> (or Cmd+Opt+I on Mac) → Application tab → Local Storage → <code>declan-dashboard-v3</code>. That's the full state. Or click the button below to dump this device's state inline.</div>
+    <div style="margin-top:8px;">If a user is stuck, ask them: <em>"What's the URL in your address bar?"</em> The bit after <code>#</code> tells you which tab. Add <code>?parent=1</code> to auto-expand the parent section.</div>
+    <div class="debug-row">
+      <div>Dump this device's dashboard state for debugging:</div>
+      <button onclick="dumpState()">Show localStorage state</button>
+    </div>
+    <pre class="debug-output" id="debug-out"></pre>
+  </div>
+
+  <div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;font-style:italic;">
+    SummerStreak Admin · For internal use · See <a href="founders.html" style="color:var(--gold);">Docs Hub</a> for features &amp; roadmap
+  </div>
+
+</div>
+
+<!-- Edit user modal -->
+<div class="edit-backdrop" id="edit-backdrop">
+  <div class="edit-modal" id="edit-modal-body"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'declan-dashboard-v3';
+const THEME_EMOJI = { chess: '♟️', sports: '⚽', music: '🎵', gaming: '🎮' };
+
+// ===== Firebase backend =====
+const Backend = {
+  enabled: false,
+  uid: null,
+  userEmail: null,
+  db: null,
+  config: null,
+  status: 'offline',
+  liveUsers: [],
+  init() {
+    // Config is baked into firebase-config.js — auto-connects on page load.
+    // localStorage override still honored for testing against a different Firebase project.
+    const cfg = this.loadConfig() || window.SUMMERSTREAK_FIREBASE_CONFIG;
+    if (!cfg || !cfg.apiKey || !cfg.databaseURL) { this.status = 'offline'; this.renderStatus(); return; }
+    if (typeof firebase === 'undefined') { this.status = 'sdk-missing'; this.renderStatus(); return; }
+    try {
+      if (firebase.apps.length) { try { firebase.app().delete(); } catch (e) {} }
+      firebase.initializeApp(cfg);
+      this.db = firebase.database();
+      this.config = cfg;
+      this.status = 'checking-auth';
+      this.renderStatus();
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          this.uid = user.uid;
+          this.userEmail = user.email || null;
+          this.enabled = true;
+          this.status = 'connected';
+          this.renderStatus();
+          this.subscribeAll();
+        } else {
+          this.uid = null;
+          this.userEmail = null;
+          this.enabled = false;
+          this.status = 'needs-signin';
+          this.renderStatus();
+        }
+      });
+    } catch (e) { this.status = 'error'; this.renderStatus(); console.error(e); }
+  },
+  async signInWithGoogle() {
+    if (!firebase || !firebase.auth) { alert('Backend not initialized'); return; }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try { await firebase.auth().signInWithPopup(provider); }
+    catch (e) {
+      console.error('Google sign-in failed', e);
+      alert('Sign-in failed: ' + (e.message || e) + '\n\nEnable Google in Firebase Console → Authentication → Sign-in method.');
+    }
+  },
+  async signOut() {
+    try { await firebase.auth().signOut(); } catch (e) {}
+  },
+  loadConfig() {
+    try { const raw = localStorage.getItem('summerstreak-firebase-config'); if (raw) return JSON.parse(raw); } catch (e) {}
+    return null;
+  },
+  subscribeAll() {
+    if (!this.enabled) return;
+    this.db.ref('leaderboard').on('value', snap => {
+      const data = snap.val() || {};
+      // Stamp each entry with its actual /leaderboard child key so callers can target
+      // the right path even when older entries lack the leaderboardKey field internally.
+      this.liveUsers = Object.entries(data).map(([k, v]) => Object.assign({}, v, { __key: k }));
+      renderUsers();
+    });
+  },
+  // entryKey = the path under /leaderboard. For new (Google-auth) entries this is `{uid}_{profileId}`;
+  // for legacy (anonymous) entries it's just the old uid. Callers must pass the full key, NOT user.uid.
+  async adminUpdate(entryKey, updates) {
+    if (!this.enabled) throw new Error('Backend not connected');
+    if (!entryKey) throw new Error('Missing leaderboard entry key');
+    await this.db.ref('leaderboard/' + entryKey).update(updates);
+  },
+  async adminRemove(entryKey) {
+    if (!this.enabled) throw new Error('Backend not connected');
+    if (!entryKey) throw new Error('Missing leaderboard entry key');
+    await this.db.ref('leaderboard/' + entryKey).remove();
+  },
+  saveConfig(cfg) {
+    if (cfg) localStorage.setItem('summerstreak-firebase-config', JSON.stringify(cfg));
+    else localStorage.removeItem('summerstreak-firebase-config');
+  },
+  disconnect() {
+    if (firebase && firebase.apps.length) {
+      try { firebase.auth().signOut(); } catch(e) {}
+      try { firebase.app().delete(); } catch(e) {}
+    }
+    this.enabled = false;
+    this.uid = null;
+    this.liveUsers = [];
+    this.status = 'offline';
+    this.renderStatus();
+  },
+  renderStatus() {
+    const tag = document.getElementById('users-mode-tag');
+    const configStatus = document.getElementById('backend-config-status');
+    const signInBtn = `<button onclick="Backend.signInWithGoogle()" style="background:white;border:1px solid #ddd;color:#222;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-left:8px;">Sign in with Google</button>`;
+    const signOutBtn = `<button onclick="Backend.signOut()" style="background:transparent;border:1px solid var(--border);color:var(--soft);padding:4px 10px;border-radius:8px;font-size:12px;cursor:pointer;margin-left:8px;">Sign out</button>`;
+    const labels = {
+      offline:        { dot: '#6B7280', text: 'Backend off — localStorage only.', tag: 'LOCAL', tagBg: 'var(--bg-light)', tagColor: 'var(--soft)' },
+      'checking-auth':{ dot: '#FFA552', text: 'Checking sign-in…', tag: 'CHECKING', tagBg: 'var(--orange)', tagColor: 'var(--bg)' },
+      'needs-signin': { dot: '#FFA552', text: 'Not signed in — admin actions are read-only until you sign in.' + signInBtn, tag: 'SIGN IN', tagBg: 'var(--orange)', tagColor: 'var(--bg)' },
+      connecting:     { dot: '#FFA552', text: 'Connecting to Firebase…', tag: 'CONNECTING', tagBg: 'var(--orange)', tagColor: 'var(--bg)' },
+      connected:      { dot: '#5EEA93', text: '✓ Live · signed in as <strong>' + (this.userEmail || this.uid || '...') + '</strong>' + signOutBtn, tag: 'LIVE', tagBg: 'var(--green)', tagColor: 'var(--bg)' },
+      error:          { dot: '#FF6B6B', text: 'Backend error — see browser console.', tag: 'ERROR', tagBg: 'var(--red)', tagColor: 'white' },
+      'sdk-missing':  { dot: '#FF6B6B', text: 'Firebase SDK failed to load.', tag: 'ERROR', tagBg: 'var(--red)', tagColor: 'white' },
+      'auth-failed':  { dot: '#FF6B6B', text: 'Auth failed (enable Google Sign-In in Firebase Console).', tag: 'AUTH FAIL', tagBg: 'var(--red)', tagColor: 'white' }
+    };
+    const meta = labels[this.status] || labels.offline;
+    if (configStatus) configStatus.innerHTML = `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${meta.dot};"></span><span style="color:var(--soft);">${meta.text}</span>`;
+    if (tag) {
+      tag.textContent = meta.tag;
+      tag.style.background = meta.tagBg;
+      tag.style.color = meta.tagColor;
+    }
+  }
+};
+
+function copyMyUid() {
+  if (!Backend.uid) { alert('Not connected yet — wait a moment for Firebase to authenticate.'); return; }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(Backend.uid).then(() => alert('UID copied: ' + Backend.uid));
+  } else {
+    prompt('Copy your UID:', Backend.uid);
+  }
+}
+
+// Show which Firebase project is connected
+function renderProjectInfo() {
+  const el = document.getElementById('backend-project-info');
+  if (!el) return;
+  const cfg = window.SUMMERSTREAK_FIREBASE_CONFIG || Backend.loadConfig();
+  if (!cfg) { el.textContent = 'No Firebase config loaded.'; return; }
+  el.innerHTML = `<div><span style="color:var(--muted);">Project:</span> ${cfg.projectId || '(unknown)'}</div>` +
+                 `<div><span style="color:var(--muted);">Database:</span> ${cfg.databaseURL || '(unknown)'}</div>`;
+}
+renderProjectInfo();
+
+// ===== Users / signups =====
+function loadDashState() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch (e) {}
+  return null;
+}
+function saveDashState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+function computePlayerPoints(s) {
+  let pts = s.pointAdjustments || 0;
+  Object.values(s.entries || {}).forEach(e => { pts += e.points || 0; });
+  (s.claimHistory || []).forEach(c => { pts -= c.cost || 0; });
+  return Math.max(0, pts);
+}
+
+function rankNameForPoints(pts, theme) {
+  const ladders = {
+    chess: ['Pawn','Knight','Bishop','Rook','Queen','King','Grandmaster'],
+    sports: ['Rookie','Starter','All-Star','Captain','MVP','Champion','Hall of Famer'],
+    music: ['Beginner','Bandmate','Performer','Headliner','Star','Icon','Legend'],
+    gaming: ['Noob','Player','Pro','Elite','Champion','Master','Grandmaster']
+  };
+  const mins = [0,20,50,90,140,200,270];
+  const names = ladders[theme] || ladders.chess;
+  for (let i = mins.length - 1; i >= 0; i--) if (pts >= mins[i]) return names[i];
+  return names[0];
+}
+
+function getUsers() {
+  if (Backend.enabled && Backend.liveUsers.length) {
+    const users = Backend.liveUsers.map(p => ({
+      // Use the actual Firebase path key (handles both new composite-key entries and legacy uid-only ones)
+      id: 'fb:' + (p.__key || p.leaderboardKey || p.uid),
+      role: 'friend',
+      name: p.name || 'Unknown',
+      avatar: p.avatar || '🦊',
+      theme: p.theme || 'chess',
+      points: p.points || 0,
+      rank: p.rank || rankNameForPoints(p.points || 0, p.theme || 'chess'),
+      meta: 'Live · last seen ' + (p.lastSeen ? new Date(p.lastSeen).toLocaleString() : 'recently'),
+      editable: true, removable: true, backendUid: p.uid
+    }));
+    return { users, state: loadDashState(), live: true };
+  }
+  const s = loadDashState();
+  if (!s) return { users: [], state: null };
+  const users = [];
+  const playerPts = computePlayerPoints(s);
+  const playerTheme = s.preference || 'chess';
+  users.push({
+    id: 'player', role: 'player', name: (s.player && s.player.name) || 'Declan',
+    avatar: s.playerAvatar || '👑', theme: playerTheme, points: playerPts,
+    rank: rankNameForPoints(playerPts, playerTheme), meta: 'The kid using this dashboard',
+    editable: true, removable: false
+  });
+  if (s.parentAuth && s.parentAuth.adminName) {
+    users.push({
+      id: 'admin', role: 'admin', name: s.parentAuth.adminName, avatar: '👨‍💼',
+      theme: null, points: null, rank: 'Admin parent · Full control',
+      meta: 'Set during parent setup', editable: true, removable: false
+    });
+  }
+  (s.parentAuth?.parents || []).forEach(p => {
+    users.push({
+      id: 'parent:' + p.id, role: 'parent', name: p.name, avatar: '👤',
+      theme: null, points: null, rank: 'Parent · PIN access',
+      meta: 'Added ' + (p.addedDate || 'previously'), editable: true, removable: true, parentRef: p
+    });
+  });
+  (s.friends || []).forEach(f => {
+    const fTheme = f.theme || 'chess';
+    users.push({
+      id: 'friend:' + f.id, role: 'friend', name: f.name, avatar: f.emoji || '🦊',
+      theme: fTheme, points: f.points || 0, rank: rankNameForPoints(f.points || 0, fTheme),
+      meta: f.lastUpdated ? 'Last update ' + f.lastUpdated : 'Friend on leaderboard',
+      editable: true, removable: true, friendRef: f
+    });
+  });
+  return { users, state: s };
+}
+
+function renderUsers() {
+  const { users, state, live } = getUsers();
+  const list = document.getElementById('users-list');
+  const counts = document.getElementById('users-counts');
+  const caveat = document.getElementById('users-caveat');
+  const sub = document.getElementById('users-sub');
+  if (live) {
+    if (sub) sub.innerHTML = "Live view of every player who's synced to Firebase. Edits write back to the shared leaderboard in real time.";
+    if (caveat) caveat.innerHTML = "✓ <strong>Live mode:</strong> changes propagate to every connected device instantly.";
+  } else {
+    if (sub) sub.innerHTML = "Everyone whose data is saved in this browser's localStorage. Connect Firebase via Dashboard → Parent Settings to flip to LIVE mode.";
+    if (caveat) caveat.innerHTML = "⚠️ <strong>Per-device scope:</strong> Backend not connected — this shows only users in <em>this</em> browser.";
+  }
+  if (!state && !users.length) {
+    counts.innerHTML = '';
+    list.innerHTML = '<div class="users-empty"><div style="font-size:32px;margin-bottom:6px;">📭</div>No dashboard data in this browser yet. Open <a href="./dashboard.html" style="color:var(--gold);">/dashboard.html</a> first.</div>';
+    return;
+  }
+  const c = { player: 0, admin: 0, parent: 0, friend: 0 };
+  users.forEach(u => c[u.role]++);
+  counts.innerHTML = `
+    <div class="users-count"><div class="uc-num">${c.player}</div><div class="uc-lbl">Player</div></div>
+    <div class="users-count"><div class="uc-num">${c.admin}</div><div class="uc-lbl">Admin</div></div>
+    <div class="users-count"><div class="uc-num">${c.parent}</div><div class="uc-lbl">Other parents</div></div>
+    <div class="users-count"><div class="uc-num">${c.friend}</div><div class="uc-lbl">${live ? 'Players (live)' : 'Friends'}</div></div>
+    <div class="users-count"><div class="uc-num">${users.length}</div><div class="uc-lbl">Total signups</div></div>
+  `;
+  list.innerHTML = users.map(u => {
+    const stat = (u.points !== null) ? `<div class="u-stat"><div class="v">${u.points} ★</div><div class="l">${escapeHtml(u.rank)}</div></div>` :
+                  `<div class="u-stat" style="background:transparent;border:1px dashed var(--border);"><div class="l" style="font-size:11px;">${escapeHtml(u.rank)}</div></div>`;
+    const themeBadge = u.theme ? `<span style="display:inline-block;background:rgba(255,216,74,0.15);color:var(--gold);padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-left:6px;">${THEME_EMOJI[u.theme] || ''} ${u.theme}</span>` : '';
+    return `
+      <div class="user-row ${u.role}">
+        <div class="u-avatar">${escapeHtml(u.avatar)}</div>
+        <div>
+          <div class="u-name">${escapeHtml(u.name)} ${themeBadge}</div>
+          <div class="u-meta">${escapeHtml(u.meta)}</div>
+        </div>
+        ${stat}
+        <div class="u-actions">
+          <button onclick="openEditUser('${u.id}')">Edit</button>
+          ${u.removable ? `<button class="danger" onclick="removeUser('${u.id}')">Remove</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+let currentEditId = null;
+function openEditUser(id) {
+  const { users } = getUsers();
+  const u = users.find(x => x.id === id);
+  if (!u) return;
+  currentEditId = id;
+  const body = document.getElementById('edit-modal-body');
+  const themeOptions = ['chess','sports','music','gaming'].map(t =>
+    `<option value="${t}" ${u.theme === t ? 'selected' : ''}>${THEME_EMOJI[t]} ${t}</option>`
+  ).join('');
+  let fields = `<label>Name</label><input type="text" id="edit-name" value="${escapeHtmlAttr(u.name)}" />`;
+  if (u.role === 'player' || u.role === 'friend') {
+    fields += `<label>Avatar (emoji)</label><input type="text" id="edit-avatar" value="${escapeHtmlAttr(u.avatar)}" maxlength="4" />
+      <label>Theme</label><select id="edit-theme">${themeOptions}</select>`;
+  }
+  if (u.role === 'friend') {
+    fields += `<label>Points</label><input type="number" id="edit-points" value="${u.points || 0}" min="0" />`;
+  }
+  if (u.role === 'parent' || u.role === 'admin') {
+    fields += `<label>New PIN (4-6 digits; leave blank to keep)</label>
+      <input type="password" id="edit-pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Leave blank to keep" />`;
+  }
+  body.innerHTML = `
+    <h3>${u.avatar} Edit ${escapeHtml(u.name)}</h3>
+    <div class="em-sub">${u.role === 'player' ? 'The kid using this dashboard.' :
+                       u.role === 'admin'  ? 'The admin parent who set up this dashboard.' :
+                       u.role === 'parent' ? 'Authorized parent with their own PIN.' :
+                       'Friend on the leaderboard.'}</div>
+    ${fields}
+    <div class="em-actions">
+      <button class="em-cancel" onclick="closeEdit()">Cancel</button>
+      <button class="em-save" onclick="saveEdit()">Save changes</button>
+    </div>
+  `;
+  document.getElementById('edit-backdrop').classList.add('show');
+}
+function closeEdit() { document.getElementById('edit-backdrop').classList.remove('show'); currentEditId = null; }
+
+async function saveEdit() {
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) { alert('Name cannot be empty.'); return; }
+  const id = currentEditId;
+  if (id.startsWith('fb:')) {
+    const entryKey = id.slice(3); // full /leaderboard child key (composite or legacy)
+    const updates = { name };
+    const a = document.getElementById('edit-avatar')?.value.trim(); if (a) updates.avatar = a;
+    const t = document.getElementById('edit-theme')?.value; if (t) updates.theme = t;
+    const pts = parseInt(document.getElementById('edit-points')?.value);
+    if (!isNaN(pts) && pts >= 0) updates.points = pts;
+    try { await Backend.adminUpdate(entryKey, updates); closeEdit(); }
+    catch (e) { alert('Backend write failed: ' + e.message); }
+    return;
+  }
+  const state = loadDashState();
+  if (!state) return;
+  if (id === 'player') {
+    state.player = state.player || {};
+    state.player.name = name;
+    const a = document.getElementById('edit-avatar')?.value.trim(); if (a) state.playerAvatar = a;
+    const t = document.getElementById('edit-theme')?.value; if (t) state.preference = t;
+  } else if (id === 'admin') {
+    state.parentAuth = state.parentAuth || {};
+    state.parentAuth.adminName = name;
+    const pin = document.getElementById('edit-pin')?.value.trim();
+    if (pin) { if (pin.length < 4) { alert('PIN must be 4+ digits.'); return; } state.parentAuth.adminPinHash = hashPin(pin); }
+  } else if (id.startsWith('parent:')) {
+    const pid = id.slice(7);
+    const p = (state.parentAuth?.parents || []).find(x => x.id === pid);
+    if (p) {
+      p.name = name;
+      const pin = document.getElementById('edit-pin')?.value.trim();
+      if (pin) { if (pin.length < 4) { alert('PIN must be 4+ digits.'); return; } p.pinHash = hashPin(pin); }
+    }
+  } else if (id.startsWith('friend:')) {
+    const fid = id.slice(7);
+    const f = (state.friends || []).find(x => x.id === fid);
+    if (f) {
+      f.name = name;
+      const a = document.getElementById('edit-avatar')?.value.trim(); if (a) f.emoji = a;
+      const t = document.getElementById('edit-theme')?.value; if (t) f.theme = t;
+      const pts = parseInt(document.getElementById('edit-points')?.value);
+      if (!isNaN(pts) && pts >= 0) f.points = pts;
+      f.lastUpdated = todayKeyStr();
+    }
+  }
+  saveDashState(state);
+  closeEdit();
+  renderUsers();
+}
+
+async function removeUser(id) {
+  if (id.startsWith('fb:')) {
+    const entryKey = id.slice(3); // full /leaderboard child key (composite or legacy)
+    const user = Backend.liveUsers.find(u => (u.__key || u.leaderboardKey || u.uid) === entryKey);
+    if (!confirm(`Remove ${user?.name || 'this user'} from the live leaderboard?\n\nIf this user has a dashboard tab open on another device, it may re-create the entry on its next sync. Close those tabs first for the deletion to stick.`)) return;
+    try { await Backend.adminRemove(entryKey); }
+    catch (e) { alert('Backend remove failed: ' + e.message); }
+    return;
+  }
+  const state = loadDashState();
+  if (!state) return;
+  if (id.startsWith('parent:')) {
+    const pid = id.slice(7);
+    const p = (state.parentAuth?.parents || []).find(x => x.id === pid);
+    if (!p) return;
+    if (!confirm(`Remove parent ${p.name}?`)) return;
+    state.parentAuth.parents = state.parentAuth.parents.filter(x => x.id !== pid);
+  } else if (id.startsWith('friend:')) {
+    const fid = id.slice(7);
+    const f = (state.friends || []).find(x => x.id === fid);
+    if (!f) return;
+    if (!confirm(`Remove friend ${f.name}?`)) return;
+    state.friends = state.friends.filter(x => x.id !== fid);
+  } else return;
+  saveDashState(state);
+  renderUsers();
+}
+
+function hashPin(pin) {
+  if (!pin) return '';
+  let h = 5381;
+  for (let i = 0; i < pin.length; i++) h = ((h << 5) + h) + pin.charCodeAt(i);
+  return 'h_' + Math.abs(h).toString(36) + '_' + pin.length;
+}
+
+function todayKeyStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeHtmlAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+
+function dumpState() {
+  const out = document.getElementById('debug-out');
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) out.textContent = 'No dashboard state in this browser. (Open dashboard.html first.)';
+    else out.textContent = JSON.stringify(JSON.parse(raw), null, 2);
+  } catch (e) { out.textContent = 'Error: ' + e.message; }
+  out.classList.add('show');
+}
+
+document.getElementById('edit-backdrop').addEventListener('click', e => {
+  if (e.target.id === 'edit-backdrop') closeEdit();
+});
+
+renderUsers();
+Backend.init();
+</script>
+</body>
+</html>

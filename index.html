@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beat the Summer Slide — The Reading Challenge</title>
+<meta name="description" content="A 12-week summer reading challenge for kids. Earn points, climb ranks, win prizes, and beat your friends." />
+<style>
+  :root {
+    --bg: #0F1A2E;
+    --bg-light: #1a2942;
+    --panel: #1E3050;
+    --panel-light: #2a3f63;
+    --ink: #ffffff;
+    --soft: #d6e2f5;
+    --muted: #8aa0c0;
+    --gold: #ffd84a;
+    --gold-dark: #c9a227;
+    --green: #5eea93;
+    --red: #ff6b6b;
+    --orange: #ffa552;
+    --purple: #b89dff;
+    --blue: #7eb6ff;
+    --border: #3a5380;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+    font-size: 18px;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* Top bar */
+  .topbar {
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1148px;
+    margin: 0 auto;
+  }
+  .brand {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 4px;
+  }
+  .topbar nav a {
+    color: var(--soft);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    margin-left: 18px;
+  }
+  .topbar nav a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 60px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "♚";
+    position: absolute;
+    right: -60px;
+    top: -100px;
+    font-size: 500px;
+    color: var(--gold);
+    opacity: 0.04;
+    pointer-events: none;
+    line-height: 1;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255, 216, 74, 0.15);
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+  .hero h1 .accent { color: var(--gold); display: block; }
+  .hero .lede {
+    color: var(--soft);
+    font-size: clamp(17px, 2vw, 21px);
+    max-width: 640px;
+    margin: 0 auto 32px;
+    line-height: 1.5;
+  }
+  .hero .cta-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 28px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 18px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--bg);
+    box-shadow: 0 6px 20px rgba(255, 216, 74, 0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255, 216, 74, 0.4); }
+  .btn-secondary {
+    background: var(--panel-light);
+    color: var(--ink);
+    border: 2px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .hero .micro {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  /* Sections */
+  section.feature {
+    padding: 60px 0;
+  }
+  section.feature h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  section.feature .section-lede {
+    color: var(--soft);
+    font-size: 17px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 36px;
+    line-height: 1.6;
+  }
+  .alt-bg { background: var(--bg-light); }
+
+  /* Big stat strip */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .stat {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: center;
+  }
+  .stat .stat-num {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat .stat-label {
+    font-size: 14px;
+    color: var(--soft);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+
+  /* 3-step daily routine */
+  .step-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+  .step {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .step:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .step-num {
+    position: absolute;
+    top: -16px;
+    left: 22px;
+    background: var(--gold);
+    color: var(--bg);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .step .step-emoji {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 14px;
+  }
+  .step h3 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .step p {
+    color: var(--soft);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .step-pts {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 14px;
+  }
+  .step-callout {
+    background: rgba(94, 234, 147, 0.1);
+    border: 2px solid var(--green);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: 18px 24px;
+    margin-top: 22px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .step-callout strong { color: var(--green); }
+
+  /* Rank ladder */
+  .ranks {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 20px 4px 8px;
+  }
+  .rank-card {
+    flex: 1;
+    min-width: 110px;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 8px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .rank-card:nth-child(1) { background: linear-gradient(180deg, var(--panel), rgba(139, 175, 226, 0.12)); }
+  .rank-card:nth-child(7) {
+    background: linear-gradient(180deg, rgba(255, 216, 74, 0.2), rgba(255, 216, 74, 0.05));
+    border-color: var(--gold);
+    box-shadow: 0 0 24px rgba(255, 216, 74, 0.2);
+  }
+  .rank-piece {
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .rank-card:nth-child(7) .rank-piece { font-size: 46px; }
+  .rank-name {
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .rank-pts {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .rank-card:nth-child(7) .rank-pts { color: var(--gold); font-weight: 700; }
+
+  /* Theme picker */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .theme-card {
+    background: var(--panel);
+    border: 3px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 14px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .theme-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+  }
+  .theme-emoji {
+    font-size: 72px;
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .theme-name {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .theme-desc {
+    font-size: 13px;
+    color: var(--soft);
+  }
+
+  /* Prize row */
+  .prize-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .prize-mini {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .prize-mini.ultimate {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(255, 216, 74, 0.18), rgba(184, 157, 255, 0.12));
+    border-color: var(--gold);
+    padding: 22px;
+  }
+  .prize-mini .pe {
+    font-size: 36px;
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .prize-mini.ultimate .pe { font-size: 56px; }
+  .prize-mini .pn {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .prize-mini.ultimate .pn { font-size: 18px; }
+  .prize-mini .pc {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 800;
+  }
+  .prize-mini.ultimate .pc { font-size: 14px; }
+  .prize-note {
+    text-align: center;
+    color: var(--soft);
+    font-size: 15px;
+    margin-top: 18px;
+    font-style: italic;
+  }
+  .prize-mini.ultimate .ribbon {
+    background: var(--gold);
+    color: var(--bg);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  /* Friends teaser */
+  .friends-card {
+    background: linear-gradient(135deg, var(--panel), var(--bg-light));
+    border: 2px solid var(--purple);
+    border-radius: 18px;
+    padding: 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 30px;
+    align-items: center;
+  }
+  .friends-card h3 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .friends-card p {
+    color: var(--soft);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .friends-icons {
+    font-size: 80px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    padding: 80px 24px;
+  }
+  .final-cta h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .final-cta h2 .gold { color: var(--gold); }
+  .final-cta p {
+    color: var(--soft);
+    font-size: 18px;
+    margin-bottom: 30px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer a { color: var(--soft); text-decoration: none; margin: 0 10px; }
+  footer a:hover { color: var(--gold); }
+
+  /* Fade-in on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 720px) {
+    section.feature { padding: 40px 0; }
+    .friends-card { grid-template-columns: 1fr; text-align: center; padding: 24px; }
+    .friends-icons { font-size: 60px; }
+    .ranks { padding-bottom: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">SUMMERSTREAK</span>
+  <nav>
+    <a href="#how-it-works">How it works</a>
+    <a href="dashboard.html">Open dashboard</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-tag">SUMMER 2026 CHALLENGE</span>
+    <h1>Beat the<br><span class="accent">Summer Slide.</span></h1>
+    <p class="lede">A 12-week reading challenge that turns daily reading into a game. Points. Ranks. Real prizes. Friends to beat.</p>
+    <div class="cta-row" id="cta-row">
+      <!-- Populated by JS: shows "Enroll Your Child" for new visitors, "Continue X's Challenge" for returning -->
+      <a href="dashboard.html" class="btn-primary" id="cta-primary">🚀 Enroll My Child</a>
+      <a href="#how-it-works" class="btn-secondary">How it works ↓</a>
+    </div>
+    <div class="micro" id="cta-micro">No signup. Works on your phone or laptop. Free.</div>
+  </div>
+</section>
+
+<!-- BIG NUMBERS -->
+<section class="feature">
+  <div class="container">
+    <div class="stat-strip">
+      <div class="stat reveal">
+        <div class="stat-num">12</div>
+        <div class="stat-label">Weeks of challenge</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-num">30 min</div>
+        <div class="stat-label">A day, that's it</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-num">27</div>
+        <div class="stat-label">Trophies to earn</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Ranks to climb</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="feature alt-bg" id="how-it-works">
+  <div class="container">
+    <h2>How it works</h2>
+    <p class="section-lede">Three things every day. That's the whole challenge. Tap to check off, earn points, climb the ranks.</p>
+
+    <div class="step-grid">
+      <div class="step reveal">
+        <span class="step-num">1</span>
+        <span class="step-emoji">📖</span>
+        <h3>Read</h3>
+        <p>15 minutes a day. Any book, comic, magazine, recipe — even the back of a cereal box counts.</p>
+        <span class="step-pts">+1 point</span>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">2</span>
+        <span class="step-emoji">✏️</span>
+        <h3>Write</h3>
+        <p>At least 50 words. Doesn't have to be perfect. Stuck? Tap "💡 Need ideas?" — there are 67+ ready to go.</p>
+        <span class="step-pts">+1 point</span>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">3</span>
+        <span class="step-emoji">🎯</span>
+        <h3>Wrap-Up</h3>
+        <p>5 minutes to lock it in. Talk about what you read, learn a new word, fix one sentence in your writing.</p>
+        <span class="step-pts">+1 point</span>
+      </div>
+    </div>
+
+    <div class="step-callout reveal">
+      <strong>Bonus:</strong> Do all 3 the same day → that's a <strong>Perfect Day</strong>. +1 extra point. 🌟
+    </div>
+  </div>
+</section>
+
+<!-- CLIMB THE RANKS -->
+<section class="feature">
+  <div class="container">
+    <h2>Climb the ranks</h2>
+    <p class="section-lede">Every point gets you closer to the top. Each theme has its own ranks — here's chess. Sports kids climb Rookie → Hall of Famer. Music kids go Beginner → Legend. Gaming kids go Noob → Grandmaster.</p>
+
+    <div class="ranks reveal">
+      <div class="rank-card"><div class="rank-piece">♙</div><div class="rank-name">Pawn</div><div class="rank-pts">0+</div></div>
+      <div class="rank-card"><div class="rank-piece">♘</div><div class="rank-name">Knight</div><div class="rank-pts">20+</div></div>
+      <div class="rank-card"><div class="rank-piece">♗</div><div class="rank-name">Bishop</div><div class="rank-pts">50+</div></div>
+      <div class="rank-card"><div class="rank-piece">♖</div><div class="rank-name">Rook</div><div class="rank-pts">90+</div></div>
+      <div class="rank-card"><div class="rank-piece">♕</div><div class="rank-name">Queen</div><div class="rank-pts">140+</div></div>
+      <div class="rank-card"><div class="rank-piece">♔</div><div class="rank-name">King</div><div class="rank-pts">200+</div></div>
+      <div class="rank-card"><div class="rank-piece">👑</div><div class="rank-name">Grandmaster</div><div class="rank-pts">270+</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PICK YOUR THEME -->
+<section class="feature alt-bg">
+  <div class="container">
+    <h2>Pick your theme</h2>
+    <p class="section-lede">All the daily writing ideas are tailored to what you love. Change anytime.</p>
+
+    <div class="theme-grid">
+      <div class="theme-card reveal">
+        <span class="theme-emoji">♟️</span>
+        <div class="theme-name">Chess</div>
+        <div class="theme-desc">Strategy, openings, famous players, sneaky moves.</div>
+      </div>
+      <div class="theme-card reveal">
+        <span class="theme-emoji">⚽</span>
+        <div class="theme-name">Sports</div>
+        <div class="theme-desc">Plays, GOATs, championships, your team.</div>
+      </div>
+      <div class="theme-card reveal">
+        <span class="theme-emoji">🎵</span>
+        <div class="theme-name">Music</div>
+        <div class="theme-desc">Lyrics, bands, concerts, song reviews.</div>
+      </div>
+      <div class="theme-card reveal">
+        <span class="theme-emoji">🎮</span>
+        <div class="theme-name">Gaming</div>
+        <div class="theme-desc">Boss battles, characters, strategy guides, lore.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIZES -->
+<section class="feature">
+  <div class="container">
+    <h2>Earn real prizes 🎁</h2>
+    <p class="section-lede">Cash in your points for real-world rewards. Your parents pick what's on offer. Save up for the Ultimate Prize at the end.</p>
+
+    <div class="prize-row">
+      <div class="prize-mini reveal">
+        <span class="pe">🎬</span>
+        <div class="pn">Pick the movie</div>
+        <div class="pc">15 pts</div>
+      </div>
+      <div class="prize-mini reveal">
+        <span class="pe">🍦</span>
+        <div class="pn">Ice cream trip</div>
+        <div class="pc">35 pts</div>
+      </div>
+      <div class="prize-mini reveal">
+        <span class="pe">📚</span>
+        <div class="pn">New book</div>
+        <div class="pc">50 pts</div>
+      </div>
+      <div class="prize-mini reveal">
+        <span class="pe">🎳</span>
+        <div class="pn">Bowling / Mini golf</div>
+        <div class="pc">200 pts</div>
+      </div>
+      <div class="prize-mini ultimate reveal">
+        <span class="ribbon">🌟 ULTIMATE PRIZE 🌟</span>
+        <span class="pe">🎢</span>
+        <div class="pn">Trip to Elitch Gardens Theme &amp; Water Park</div>
+        <div class="pc">Save 300 points · One per challenge</div>
+      </div>
+    </div>
+
+    <p class="prize-note">Your parents customize the prize list — talk to them about what's on offer for your challenge.</p>
+  </div>
+</section>
+
+<!-- FRIENDS -->
+<section class="feature alt-bg">
+  <div class="container">
+    <div class="friends-card reveal">
+      <div>
+        <h3>Challenge your friends</h3>
+        <p>Send your friends an invite link. They get their own dashboard. Everyone's points show up on a shared leaderboard. Who's going to be Grandmaster first?</p>
+      </div>
+      <div class="friends-icons">🏅🏆</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Ready to <span class="gold">beat the summer slide?</span></h2>
+    <p>It takes 30 minutes a day. You'll come back to school stronger than half your class. Let's go.</p>
+    <a href="dashboard.html" class="btn-primary" id="cta-primary-bottom">🚀 Enroll My Child</a>
+  </div>
+</section>
+
+<footer>
+  <div>SummerStreak · Summer 2026 · A 12-week reading challenge</div>
+  <div style="margin-top:10px;">
+    <a href="dashboard.html">Open dashboard</a>
+    <a href="dashboard.html?parent=1">For parents</a>
+    <a href="story.html">Read the story</a>
+    <a href="founders.html">Founders Hub</a>
+  </div>
+</footer>
+
+<style>
+  .enroll-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .enroll-backdrop.show { display: flex; }
+  .enroll-modal {
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 540px;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    animation: enrollPop 0.3s ease;
+  }
+  @keyframes enrollPop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .enroll-modal .em-close {
+    float: right;
+    background: none; border: none;
+    color: var(--muted);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .enroll-modal h3 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .enroll-modal .em-sub { color: var(--soft); font-size: 15px; margin-bottom: 20px; }
+  .enroll-modal label {
+    display: block; font-size: 13px; color: var(--soft); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; margin-top: 14px;
+  }
+  .enroll-modal input.txt {
+    width: 100%;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    color: var(--ink);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 17px;
+  }
+  .enroll-modal input.txt:focus { outline: none; border-color: var(--gold); }
+  .enroll-modal .emoji-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+  }
+  .enroll-modal .emoji-row button {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 4px;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    font-family: inherit;
+  }
+  .enroll-modal .emoji-row button.selected {
+    border-color: var(--gold);
+    background: rgba(255, 216, 74, 0.15);
+  }
+  .enroll-modal .theme-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .enroll-modal .theme-row button {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 6px;
+    cursor: pointer;
+    color: var(--ink);
+    text-align: center;
+    font-family: inherit;
+  }
+  .enroll-modal .theme-row button.selected {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, rgba(255, 216, 74, 0.18), rgba(255, 216, 74, 0.04));
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .enroll-modal .theme-row .te { font-size: 28px; display: block; line-height: 1; margin-bottom: 4px; }
+  .enroll-modal .theme-row .tl { font-size: 12px; font-weight: 700; }
+  .enroll-modal .submit-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 22px;
+  }
+  .enroll-modal .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 216, 74, 0.4); }
+</style>
+
+<div class="enroll-backdrop" id="enroll-backdrop">
+  <div class="enroll-modal">
+    <button class="em-close" onclick="closeEnroll()">×</button>
+    <h3>🎉 Enroll your child</h3>
+    <p class="em-sub">30 seconds to set up. Their dashboard is saved on this device — no account, no password.</p>
+    <label>What's your child's name?</label>
+    <input type="text" class="txt" id="enroll-name" placeholder="e.g., Maya O'Connor" autocomplete="off" />
+    <label>Pick an avatar</label>
+    <div class="emoji-row" id="enroll-emojis"></div>
+    <label>What do they love? (We'll tailor daily activities)</label>
+    <div class="theme-row" id="enroll-themes"></div>
+    <button class="submit-btn" onclick="submitEnrollment()">🚀 Start the Challenge</button>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'declan-dashboard-v3';                  // Legacy mirror (read for migration)
+  const PROFILES_KEY = 'summerstreak-profiles';                // Profile-aware storage
+  const CURRENT_PROFILE_KEY = 'summerstreak-current-profile';
+  const AVATARS = ['👑','🦊','🐯','🦁','🐼','🐸','🦄','🐶'];
+  const THEMES = [
+    { key: 'chess',  emoji: '♟️', label: 'Chess' },
+    { key: 'sports', emoji: '⚽', label: 'Sports' },
+    { key: 'music',  emoji: '🎵', label: 'Music' },
+    { key: 'gaming', emoji: '🎮', label: 'Gaming' }
+  ];
+  let enrollState = { avatar: AVATARS[0], theme: THEMES[0].key };
+
+  function loadProfiles() {
+    try { const raw = localStorage.getItem(PROFILES_KEY); if (raw) return JSON.parse(raw) || []; } catch (e) {}
+    return [];
+  }
+  function persistProfiles(list) { localStorage.setItem(PROFILES_KEY, JSON.stringify(list)); }
+  function getCurrentProfileId() { return localStorage.getItem(CURRENT_PROFILE_KEY) || ''; }
+  function setCurrentProfileId(id) { localStorage.setItem(CURRENT_PROFILE_KEY, id); }
+  function makeProfileId() { return 'prof_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
+
+  // Migrate the legacy single-profile blob into the profiles array, exactly like the dashboard does.
+  function migrateLegacyToProfile() {
+    const profiles = loadProfiles();
+    if (profiles.length > 0) return;
+    let legacy = null;
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) legacy = JSON.parse(raw); } catch (e) {}
+    if (legacy) {
+      const id = makeProfileId();
+      persistProfiles([{ id, state: legacy }]);
+      setCurrentProfileId(id);
+    }
+  }
+  migrateLegacyToProfile();
+
+  // Returns the active profile's state (or null if no enrolled children yet)
+  function existingState() {
+    const profiles = loadProfiles();
+    if (profiles.length === 0) return null;
+    const curId = getCurrentProfileId();
+    const cur = profiles.find(p => p.id === curId) || profiles[0];
+    const s = cur && cur.state;
+    if (!s) return null;
+    // Treat default seed (untouched "Declan O'Malley", no entries, no friends) as not-yet-enrolled.
+    const name = (s.player && s.player.name) || '';
+    const hasActivity = s.entries && Object.keys(s.entries).length > 0;
+    const hasFriends = s.friends && s.friends.length > 0;
+    const renamedAway = name && name !== "Declan O'Malley" && name !== 'Declan';
+    if (hasActivity || hasFriends || renamedAway) return s;
+    return null;
+  }
+
+  function applyCtas() {
+    const state = existingState();
+    const profiles = loadProfiles().filter(p => {
+      const s = p.state || {};
+      const nm = (s.player && s.player.name) || '';
+      const hasActivity = s.entries && Object.keys(s.entries).length > 0;
+      const hasFriends = s.friends && s.friends.length > 0;
+      const renamedAway = nm && nm !== "Declan O'Malley" && nm !== 'Declan';
+      return hasActivity || hasFriends || renamedAway;
+    });
+    const primary = document.getElementById('cta-primary');
+    const primaryBottom = document.getElementById('cta-primary-bottom');
+    const micro = document.getElementById('cta-micro');
+    if (state && state.player && state.player.name) {
+      const first = state.player.name.split(/\s+/)[0];
+      const txt = `🚀 Continue ${first}'s Dashboard`;
+      if (primary) { primary.textContent = txt; primary.setAttribute('href', 'dashboard.html'); primary.removeAttribute('data-enroll'); }
+      if (primaryBottom) { primaryBottom.textContent = txt; primaryBottom.setAttribute('href', 'dashboard.html'); primaryBottom.removeAttribute('data-enroll'); }
+      if (micro) {
+        const switcher = profiles.length >= 2
+          ? ` <a href="dashboard.html" style="color:var(--purple,#b89dff);">Switch child →</a>`
+          : '';
+        micro.innerHTML = `Picking up where ${first} left off. Need a new child's dashboard? <a href="#" onclick="openEnroll(event)" style="color:var(--gold);">Enroll another →</a>${switcher}`;
+      }
+    } else {
+      [primary, primaryBottom].forEach(el => {
+        if (!el) return;
+        el.textContent = '🚀 Enroll My Child';
+        el.setAttribute('href', '#');
+        el.setAttribute('data-enroll', '1');
+        el.addEventListener('click', openEnroll);
+      });
+    }
+    // If we arrived with ?addChild=1, auto-open the enrollment modal (used by the dashboard's "+ Enroll another child")
+    try {
+      const qs = new URLSearchParams(window.location.search);
+      if (qs.get('addChild') === '1') {
+        setTimeout(() => openEnroll(), 50);
+      }
+    } catch (e) {}
+  }
+
+  function openEnroll(e) {
+    if (e) e.preventDefault();
+    renderEnrollPickers();
+    document.getElementById('enroll-backdrop').classList.add('show');
+    setTimeout(() => { document.getElementById('enroll-name')?.focus(); }, 100);
+  }
+  function closeEnroll() { document.getElementById('enroll-backdrop').classList.remove('show'); }
+
+  function renderEnrollPickers() {
+    const eRow = document.getElementById('enroll-emojis');
+    eRow.innerHTML = '';
+    AVATARS.forEach(e => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = e;
+      if (e === enrollState.avatar) b.classList.add('selected');
+      b.onclick = () => { enrollState.avatar = e; renderEnrollPickers(); };
+      eRow.appendChild(b);
+    });
+    const tRow = document.getElementById('enroll-themes');
+    tRow.innerHTML = '';
+    THEMES.forEach(t => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      if (t.key === enrollState.theme) b.classList.add('selected');
+      b.innerHTML = `<span class="te">${t.emoji}</span><span class="tl">${t.label}</span>`;
+      b.onclick = () => { enrollState.theme = t.key; renderEnrollPickers(); };
+      tRow.appendChild(b);
+    });
+  }
+
+  function submitEnrollment() {
+    const name = (document.getElementById('enroll-name').value || '').trim();
+    if (!name) {
+      const i = document.getElementById('enroll-name');
+      i.style.borderColor = 'var(--red, #ff6b6b)';
+      i.focus();
+      setTimeout(() => { i.style.borderColor = 'var(--border)'; }, 800);
+      return;
+    }
+    // Seed a fresh dashboard state with the enrolled child's identity
+    const today = new Date();
+    const todayKey = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+    const fresh = {
+      player: { name: name },
+      entries: {},
+      earnedBadges: {},
+      prizes: [
+        { id: 'p1',  emoji: '🎬', name: 'Pick the family movie',     cost: 15 },
+        { id: 'p2',  emoji: '📱', name: 'Extra 30 min screen time',  cost: 25 },
+        { id: 'p3',  emoji: '🍦', name: 'Ice cream trip',            cost: 35 },
+        { id: 'p4',  emoji: '📚', name: 'A new book you pick',       cost: 50 },
+        { id: 'p6',  emoji: '🧹', name: 'Skip one chore',            cost: 100 },
+        { id: 'p7',  emoji: '🏆', name: 'Chess tournament entry',    cost: 150 },
+        { id: 'p8',  emoji: '🎳', name: 'Bowling or mini golf trip', cost: 200 },
+        { id: 'p9',  emoji: '🎲', name: 'New strategy board game',   cost: 225 },
+        { id: 'p_elitch', emoji: '🎢', name: 'Trip to Elitch Gardens Theme & Water Park!', cost: 300, ultimate: true }
+      ],
+      claimHistory: [],
+      pointAdjustments: 0,
+      summerStart: '2026-06-01',
+      selectedDate: todayKey,
+      friends: [],
+      playerAvatar: enrollState.avatar,
+      playerGoals: [],
+      acceptedInvites: [],
+      preference: enrollState.theme,
+      parentAuth: { setupComplete: false, adminName: '', adminPinHash: '', parents: [] }
+    };
+    try {
+      // Append as a new profile (preserves any existing children's data on this device)
+      const profiles = loadProfiles();
+      const newId = makeProfileId();
+      profiles.push({ id: newId, state: fresh });
+      persistProfiles(profiles);
+      setCurrentProfileId(newId);
+      // Also write to the legacy key so admin.html/founders.html see the freshly active profile
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+    } catch (e) {
+      alert('Could not save to this browser. Try a different browser or check storage settings.');
+      return;
+    }
+    // Redirect to the dashboard
+    window.location.href = 'dashboard.html';
+  }
+
+  // Close modal on backdrop click
+  document.getElementById('enroll-backdrop').addEventListener('click', e => {
+    if (e.target.id === 'enroll-backdrop') closeEnroll();
+  });
+
+  applyCtas();
+
+  // Reveal-on-scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Invite-link redirect: preserve old shared URLs that hit the root
+  const params = new URLSearchParams(location.search);
+  if (params.has('invite')) {
+    location.replace('dashboard.html' + location.search + location.hash);
+  }
+</script>
+
+</body>
+</html>
