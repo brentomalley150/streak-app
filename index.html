@@ -3,32 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SummerStreak — Founders Hub (Docs)</title>
+<title>Streak — Vision Hub</title>
 <style>
   :root {
-    --bg: #0F1A2E;
-    --bg-light: #1a2942;
-    --panel: #1E3050;
-    --panel-light: #2a3f63;
-    --ink: #ffffff;
-    --soft: #d6e2f5;
-    --muted: #8aa0c0;
-    --gold: #ffd84a;
-    --gold-dark: #c9a227;
-    --green: #5eea93;
-    --red: #ff6b6b;
-    --orange: #ffa552;
-    --purple: #b89dff;
-    --blue: #7eb6ff;
-    --border: #3a5380;
+    --bg: #ffffff;
+    --bg-light: #F7F8FB;
+    --panel: #ffffff;
+    --panel-light: #F3F4F8;
+    --ink: #1A1F2E;
+    --soft: #4A5568;
+    --muted: #8B95A7;
+    --gold: #D97706;          /* darker amber — readable on white */
+    --gold-dark: #92400E;
+    --green: #059669;
+    --red: #DC2626;
+    --orange: #EA580C;
+    --purple: #6D28D9;
+    --blue: #2563EB;
+    --border: #E5E7EB;
+    --text-on-accent: #ffffff;  /* white text on bold colored fills (badges/buttons) */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     background-image:
-      radial-gradient(circle at 10% 10%, rgba(255, 216, 74, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 90% 90%, rgba(126, 182, 255, 0.05) 0%, transparent 40%);
+      radial-gradient(circle at 10% 10%, rgba(217, 119, 6, 0.04) 0%, transparent 45%),
+      radial-gradient(circle at 90% 90%, rgba(37, 99, 235, 0.03) 0%, transparent 45%);
     color: var(--ink);
     line-height: 1.55;
     min-height: 100vh;
@@ -44,7 +45,7 @@
   }
   .hub-tag {
     background: var(--gold);
-    color: var(--bg);
+    color: var(--text-on-accent);
     display: inline-block;
     padding: 4px 12px;
     border-radius: 8px;
@@ -67,7 +68,7 @@
     font-weight: 700;
     font-size: 14px;
   }
-  header .live-link:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  header .live-link:hover { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
 
   .toolbar {
     display: grid;
@@ -103,7 +104,7 @@
     font-weight: 700;
     cursor: pointer;
   }
-  .chip.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .chip.active { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
   .chip:hover:not(.active) { background: var(--panel-light); color: var(--ink); }
 
   .results-info {
@@ -191,7 +192,7 @@
   .card-actions { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
   .btn {
     background: var(--gold);
-    color: var(--bg);
+    color: var(--text-on-accent);
     border: none;
     padding: 9px 14px;
     border-radius: 8px;
@@ -210,7 +211,7 @@
     color: var(--ink);
     border: 2px solid var(--border);
   }
-  .btn.secondary:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .btn.secondary:hover { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
 
   .card-url {
     font-family: 'SF Mono', Menlo, monospace;
@@ -303,7 +304,8 @@
     margin-top: 4px;
   }
   .todo-item .todo-meta-line code {
-    background: rgba(0,0,0,0.3);
+    background: var(--bg-light);
+    border: 1px solid var(--border);
     padding: 1px 6px;
     border-radius: 3px;
     color: var(--gold);
@@ -345,7 +347,7 @@
   .todo-add-row input:focus { outline: none; border-color: var(--purple); }
   .todo-add-row button {
     background: var(--purple);
-    color: var(--bg);
+    color: var(--text-on-accent);
     border: none;
     padding: 8px 14px;
     border-radius: 8px;
@@ -432,7 +434,7 @@
     font-weight: 700;
     font-size: 12px;
   }
-  .user-row .u-actions button:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .user-row .u-actions button:hover { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
   .user-row .u-actions button.danger { color: var(--red); }
   .user-row .u-actions button.danger:hover { background: var(--red); color: white; border-color: var(--red); }
 
@@ -458,7 +460,7 @@
   /* Edit modal */
   .edit-backdrop {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(26, 31, 46, 0.55);  /* tinted ink, softer than pure black on a white page */
     display: none;
     align-items: center;
     justify-content: center;
@@ -505,7 +507,7 @@
     font-size: 14px;
     cursor: pointer;
   }
-  .edit-modal .em-save { background: var(--gold); color: var(--bg); }
+  .edit-modal .em-save { background: var(--gold); color: var(--text-on-accent); }
   .edit-modal .em-cancel { background: var(--panel-light); color: var(--ink); border: 1px solid var(--border) !important; }
 
   .footer-card {
@@ -537,7 +539,7 @@
   }
   .footer-card .debug-row button {
     background: var(--purple);
-    color: var(--bg);
+    color: var(--text-on-accent);
     border: none;
     padding: 8px 14px;
     border-radius: 8px;
@@ -548,8 +550,8 @@
   }
 
   pre.debug-output {
-    background: #000;
-    color: var(--green);
+    background: #1A1F2E;             /* deliberate dark — code blocks read best as inverse */
+    color: #5EEA93;                  /* mint, high-contrast on dark */
     padding: 14px;
     border-radius: 8px;
     font-family: 'SF Mono', Menlo, monospace;
@@ -572,12 +574,12 @@
 <body>
 <div class="container">
 
-  <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--panel);border-bottom:1px solid var(--border);border-radius:14px;margin-bottom:18px;">
+  <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--bg-light);border:1px solid var(--border);border-radius:14px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,0.04);">
     <span style="font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px;">SUMMERSTREAK</span>
     <div>
-      <a href="dashboard.html" style="color:var(--soft);text-decoration:none;margin-left:16px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Dashboard</a>
+      <a href="index.html" style="background:var(--gold);color:var(--text-on-accent);text-decoration:none;margin-left:16px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Home</a>
+      <a href="dashboard.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Dashboard</a>
       <a href="story.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Story</a>
-      <a href="index.html" style="background:var(--gold);color:var(--bg);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Home</a>
       <a href="admin.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Admin</a>
     </div>
   </nav>
@@ -674,7 +676,7 @@
     <div style="background:linear-gradient(135deg,rgba(255,216,74,0.10),rgba(126,182,255,0.06));border:2px solid var(--gold);border-radius:18px;padding:22px 26px;margin-bottom:20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;">
       <div style="font-size:48px;">📖</div>
       <div style="flex:1;min-width:260px;">
-        <div style="background:var(--gold);color:var(--bg);display:inline-block;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;margin-bottom:8px;">CASE STUDY · FEATURED</div>
+        <div style="background:var(--gold);color:var(--text-on-accent);display:inline-block;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;margin-bottom:8px;">CASE STUDY · FEATURED</div>
         <div style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:4px;">How I vibe-coded a reading app for my 10-year-old</div>
         <div style="font-size:14px;color:var(--soft);line-height:1.55;">A weekend, $0, no engineering background. The honest story of what got built, what kids are actually doing with it, and what any parent could replicate for their own family.</div>
       </div>
@@ -762,7 +764,7 @@
   </div>
 
   <div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;font-style:italic;">
-    SummerStreak Founders Hub · For internal use · Bookmark <code style="font-family:'SF Mono',Menlo,monospace;color:var(--gold);">/founders.html</code>
+    Streak — Vision Hub · For internal use · Bookmark <code style="font-family:'SF Mono',Menlo,monospace;color:var(--gold);background:var(--bg-light);padding:1px 6px;border-radius:3px;">/</code>
   </div>
 
 </div>
