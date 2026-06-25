@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streak — Product Requirements Document (v2.0)</title>
+<meta name="description" content="Streak v2.0 PRD: the year-round multi-track kid habit platform that evolves SummerStreak. Author: Brent O'Malley.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-light: #F7F8FB;
+    --panel: #ffffff;
+    --panel-light: #F3F4F8;
+    --ink: #1A1F2E;
+    --soft: #4A5568;
+    --muted: #8B95A7;
+    --gold: #D97706;
+    --gold-dark: #92400E;
+    --green: #059669;
+    --red: #DC2626;
+    --orange: #EA580C;
+    --purple: #6D28D9;
+    --blue: #2563EB;
+    --border: #E5E7EB;
+    --text-on-accent: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 5%, rgba(217, 119, 6, 0.04) 0%, transparent 45%),
+      radial-gradient(circle at 90% 95%, rgba(109, 40, 217, 0.03) 0%, transparent 45%);
+    color: var(--ink);
+    line-height: 1.65;
+    min-height: 100vh;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 24px; }
+
+  nav.topnav {
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 22px;background:var(--bg-light);
+    border:1px solid var(--border);border-radius:14px;
+    margin-bottom:24px;flex-wrap:wrap;gap:8px;
+    box-shadow:0 1px 2px rgba(0,0,0,0.04);
+  }
+  nav .brand { font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px; }
+  nav a {
+    color:var(--soft);text-decoration:none;font-weight:700;font-size:13px;
+    padding:6px 12px;border-radius:6px;margin-left:6px;
+  }
+  nav a.active { background:var(--gold);color:var(--text-on-accent); }
+  nav a:hover:not(.active) { background:var(--panel-light); color:var(--ink); }
+
+  header.hero {
+    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-light) 100%);
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 32px 28px;
+    margin-bottom: 22px;
+  }
+  .eyebrow {
+    background: var(--gold); color: var(--text-on-accent);
+    display: inline-block; padding: 4px 12px; border-radius: 8px;
+    font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-size: 36px; font-weight: 800; line-height: 1.2;
+    margin-bottom: 10px; letter-spacing: -0.5px;
+  }
+  header .deck { color: var(--soft); font-size: 16px; line-height: 1.6; }
+  header .meta { margin-top: 14px; color: var(--muted); font-size: 13px; display: flex; gap: 16px; flex-wrap: wrap; }
+  header .meta strong { color: var(--ink); }
+
+  /* Table of contents */
+  .toc {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+  }
+  .toc-title { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; margin-bottom: 10px; }
+  .toc ol { list-style: none; padding: 0; counter-reset: tocsection; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 4px 14px; }
+  .toc li { counter-increment: tocsection; }
+  .toc a { display: block; color: var(--soft); text-decoration: none; font-size: 14px; padding: 4px 0; font-weight: 600; }
+  .toc a::before { content: counter(tocsection) ". "; color: var(--gold); font-weight: 800; }
+  .toc a:hover { color: var(--gold); }
+
+  article section { margin-bottom: 36px; scroll-margin-top: 20px; }
+  article h2 {
+    font-size: 26px; font-weight: 800;
+    margin-bottom: 14px;
+    letter-spacing: -0.3px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  article h2 .num { color: var(--gold); margin-right: 8px; }
+  article h3 {
+    font-size: 18px; font-weight: 800;
+    margin: 22px 0 10px 0; color: var(--ink);
+  }
+  article h4 {
+    font-size: 14px; font-weight: 800; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 18px 0 8px 0;
+  }
+  article p { margin-bottom: 14px; color: var(--soft); }
+  article p strong { color: var(--ink); font-weight: 700; }
+  article ul, article ol {
+    margin: 8px 0 18px 22px; color: var(--soft);
+  }
+  article li { margin-bottom: 6px; }
+  article code {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--gold);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 13px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 18px 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+  table th, table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table th {
+    background: var(--bg-light); color: var(--ink);
+    font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  table tr:last-child td { border-bottom: none; }
+  table td:first-child { font-weight: 700; color: var(--ink); }
+  table td.muted-cell { font-weight: 400; color: var(--soft); }
+  table.compact td, table.compact th { padding: 8px 12px; }
+
+  /* Callouts */
+  .callout {
+    background: var(--bg-light);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 14px 0 18px 0;
+    font-size: 14px;
+    color: var(--soft);
+  }
+  .callout strong { color: var(--ink); }
+  .callout.green { border-left-color: var(--green); background: rgba(5,150,105,0.06); }
+  .callout.purple { border-left-color: var(--purple); background: rgba(109,40,217,0.06); }
+  .callout.blue { border-left-color: var(--blue); background: rgba(37,99,235,0.06); }
+  .callout.red { border-left-color: var(--red); background: rgba(220,38,38,0.06); }
+
+  /* Stat tiles */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin: 14px 0 22px 0;
+  }
+  .stat-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .stat-card .label {
+    color: var(--muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .stat-card .value {
+    color: var(--gold); font-size: 22px; font-weight: 800; line-height: 1.1;
+  }
+  .stat-card .sub { color: var(--soft); font-size: 11px; margin-top: 2px; }
+
+  /* Priority badges */
+  .pri { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; }
+  .pri.p0 { background: rgba(220,38,38,0.12); color: var(--red); }
+  .pri.p1 { background: rgba(217,119,6,0.12); color: var(--gold); }
+  .pri.p2 { background: rgba(109,40,217,0.12); color: var(--purple); }
+
+  /* Back-to-top */
+  .back-to-top { display: inline-block; margin-top: 8px; color: var(--gold); text-decoration: none; font-weight: 700; font-size: 12px; }
+  .back-to-top:hover { text-decoration: underline; }
+
+  footer.foot {
+    margin-top: 30px;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+  }
+  footer.foot a { color: var(--gold); text-decoration: none; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 28px; }
+    header .deck { font-size: 15px; }
+    article h2 { font-size: 21px; }
+    nav.topnav { padding: 10px 14px; }
+    nav a { padding: 5px 9px; font-size: 12px; margin-left: 4px; }
+    table { font-size: 13px; }
+    table th, table td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="topnav">
+    <span class="brand">STREAK</span>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="proof.html">Proof</a>
+      <a href="PRD.html" class="active">PRD</a>
+      <a href="vision.md">Vision Doc</a>
+      <a href="https://github.com/brentomalley150/streak-app" target="_blank">GitHub ↗</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="eyebrow">📄 PRD · v2.0 · DRAFT</div>
+    <h1>Streak</h1>
+    <p class="deck">The kid habit platform that started as a summer reading dashboard. Year-round, multi-track, gamified for elementary kids. This PRD is v2.0 — supersedes the SummerStreak v1.0 PRD (May 29, 2026).</p>
+    <div class="meta">
+      <span><strong>Author:</strong> Brent O'Malley</span>
+      <span><strong>Date:</strong> June 2026</span>
+      <span><strong>Status:</strong> Draft</span>
+      <span><strong>Supersedes:</strong> SummerStreak PRD v1.0</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">📑 Contents</div>
+    <ol>
+      <li><a href="#exec">Executive Summary</a></li>
+      <li><a href="#problem">Problem Definition</a></li>
+      <li><a href="#solution">Solution Overview</a></li>
+      <li><a href="#stories">User Stories &amp; Requirements</a></li>
+      <li><a href="#gtm">Go-to-Market Strategy</a></li>
+      <li><a href="#risks">Risks &amp; Mitigations</a></li>
+      <li><a href="#timeline">Timeline &amp; Milestones</a></li>
+      <li><a href="#team">Team &amp; Resources</a></li>
+      <li><a href="#questions">Open Questions</a></li>
+      <li><a href="#assumptions">Assumptions Made</a></li>
+    </ol>
+  </nav>
+
+  <article>
+
+    <!-- 1 EXEC SUMMARY -->
+    <section id="exec">
+      <h2><span class="num">1.</span>Executive Summary</h2>
+
+      <h3>Problem Statement</h3>
+      <p>Elementary-school kids fall behind on foundational skills not because they don't have access to learning content, but because they don't sustain the <em>habit</em>. The summer slide is the most visible symptom — average K-5 student loses 1-2 months of reading skill every June-August. But the same dynamic plays out year-round: math fluency stalls between tests, music practice falters between lessons, homework consistency collapses in the second half of every semester. Parents want to intervene, but lack a single tool that turns any kid skill goal into a daily routine the kid <strong>actually opens</strong>.</p>
+
+      <h3>Proposed Solution</h3>
+      <p><strong>Streak is a year-round, multi-track kid habit platform.</strong> It runs on the same gamified engine across content domains — daily activity check-ins, theme-aware idea prompts, points → ranks → leaderboards → real-world prizes, real-time cross-device sync, and parent-side outcome projection. Each <em>track</em> is a 12-week themed program (Reading Slide, Back to School, Math Facts, Music Practice, Mindful Kid, and more). A family enrolls in one track free; multi-track families pay $4.99/mo; schools and tutors pay $5/student/year for classroom dashboards.</p>
+      <div class="callout green"><strong>The engine is already proven</strong> in a single-track pilot (SummerStreak). The Streak vision generalizes it.</div>
+
+      <h3>Business Impact</h3>
+      <ul>
+        <li><strong>$11B TAM</strong> in US K-5 supplemental learning + adjacent kid SaaS (Grand View Research 2024)</li>
+        <li><strong>Year-round retention</strong> — families have a reason to engage 12 months instead of 3, ~4× the lifetime value per acquisition</li>
+        <li><strong>Network effects</strong> — friend leaderboards across tracks (a kid on Math can see siblings on Music on their family dashboard)</li>
+        <li><strong>Parent-built brand</strong> as the wedge: the SummerStreak case study + the "vibe-coded by a dad" narrative is the most defensible acquisition story in the category</li>
+        <li><strong>$0 marginal cost</strong> per free user (free-tier infrastructure); ~$2 ARPU/mo at scale on Premium</li>
+      </ul>
+
+      <h3>Key Milestones</h3>
+      <table>
+        <tr><th>Milestone</th><th>Target Date</th><th>Status</th></tr>
+        <tr><td>SummerStreak v1 (Reading track) shipped</td><td class="muted-cell">May 29, 2026</td><td class="muted-cell">DONE</td></tr>
+        <tr><td>First fall test validation (n=1 founder kid + cohort)</td><td class="muted-cell">Sep 2026</td><td class="muted-cell">In progress</td></tr>
+        <tr><td>Brand transition: SummerStreak → Streak</td><td class="muted-cell">Aug 2026</td><td class="muted-cell">Planned</td></tr>
+        <tr><td>Phase 2: Back to School track shipped</td><td class="muted-cell">Oct 2026</td><td class="muted-cell">Planned</td></tr>
+        <tr><td>Phase 3: Track marketplace + paid Family tier</td><td class="muted-cell">Mar 2027</td><td class="muted-cell">Planned</td></tr>
+        <tr><td>Phase 4: School pilot (3 schools, classroom dashboards)</td><td class="muted-cell">Aug 2027</td><td class="muted-cell">Planned</td></tr>
+      </table>
+
+      <h3>Success Metrics (Year 1 of v2)</h3>
+      <table>
+        <tr><th>Metric</th><th>Baseline (v1)</th><th>Target</th></tr>
+        <tr><td>Active families across all tracks</td><td class="muted-cell">6</td><td class="muted-cell">500</td></tr>
+        <tr><td>Tracks live</td><td class="muted-cell">1 (Reading Slide)</td><td class="muted-cell">5 (Reading, BTS, Math, Music, Mindful)</td></tr>
+        <tr><td>7-day active rate (kid logged ≥1 activity)</td><td class="muted-cell">TBD</td><td class="muted-cell">≥60%</td></tr>
+        <tr><td>Median tracks-per-family</td><td class="muted-cell">1.0</td><td class="muted-cell">2.0</td></tr>
+        <tr><td>Premium conversion (Family tier)</td><td class="muted-cell">n/a</td><td class="muted-cell">8% of active families</td></tr>
+        <tr><td>School pilots</td><td class="muted-cell">0</td><td class="muted-cell">3 (≥1 with renewal commit)</td></tr>
+        <tr><td>Net Promoter Score (parent)</td><td class="muted-cell">n/a</td><td class="muted-cell">≥55</td></tr>
+      </table>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 2 PROBLEM DEFINITION -->
+    <section id="problem">
+      <h2><span class="num">2.</span>Problem Definition</h2>
+
+      <h3>2.1 Customer Problem</h3>
+      <p><strong>Who:</strong> Parents of K-5 students (ages 5-11) who have specific habit goals for their child — academic (reading, math), creative (music, writing), or developmental (mindfulness, daily movement) — that the school year alone doesn't address.</p>
+      <p><strong>What:</strong> No single tool that turns any kid skill goal into a daily routine the kid voluntarily opens. Existing solutions are either single-purpose (Khan Kids for math), tutor-mediated (Outschool), invisible to the kid (assessment portals), or just lists (library reading challenges).</p>
+      <p><strong>When:</strong> Year-round. Different goals are urgent at different times — summer (reading regression), August (school routine reset), throughout the year (music practice, math fluency).</p>
+      <p><strong>Where:</strong> At home, without the structure or accountability that school provides — but ALSO during the school year when parents want supplementary practice without it feeling like homework #2.</p>
+      <p><strong>Why current tools fail:</strong> They're built around content. Streak is built around habit. A kid on Khan Kids gets math problems; a kid on Streak gets a streak, a rank, a leaderboard, and a real-world prize tied to their kid-chosen theme — and the math problems are just one of the activities that move the loop forward.</p>
+      <p><strong>Impact:</strong> A kid who doesn't sustain a daily habit on any single skill goal compounds the loss across all of them. The same gamified engine, applied across goals, lets parents build multiple habits in parallel without buying multiple apps.</p>
+
+      <h3>2.2 Market Opportunity</h3>
+      <p>US K-5 supplemental learning + adjacent kid productivity SaaS is an <strong>$11B market</strong> growing at <strong>12% annually</strong>. The serviceable addressable segment — families willing to pay $5-15/mo for structured kid habit tools — represents approximately <strong>$1.5B</strong>. Year-one obtainable market (SOM) is <strong>$300K</strong> based on 500 paying families at $59/year.</p>
+
+      <h4>Why existing solutions fall short</h4>
+      <table>
+        <tr><th>Solution</th><th>Price</th><th>Gap</th></tr>
+        <tr><td>Khan Academy Kids</td><td class="muted-cell">Free</td><td class="muted-cell">Single domain (math/early literacy); no habit/streak layer; no social</td></tr>
+        <tr><td>Prodigy Math</td><td class="muted-cell">Free + $7/mo</td><td class="muted-cell">Math-only; gamified but no parent-facing outcome projection</td></tr>
+        <tr><td>Outschool</td><td class="muted-cell">$30-75/session</td><td class="muted-cell">Tutor-dependent; expensive; not daily</td></tr>
+        <tr><td>Kumon</td><td class="muted-cell">$150-300/mo</td><td class="muted-cell">Generic worksheets; no kid-facing motivation; no real-time data</td></tr>
+        <tr><td>Atom Learning / IXL</td><td class="muted-cell">$20-30/mo</td><td class="muted-cell">Curriculum-focused, not habit-focused; feels like school</td></tr>
+        <tr><td>Marco Polo, Lingokids</td><td class="muted-cell">$10-15/mo</td><td class="muted-cell">Single domain; gamification thin; not multi-track</td></tr>
+        <tr><td><strong>Streak</strong> (proposed)</td><td class="muted-cell"><strong>Free / $4.99/mo / $5/student/yr</strong></td><td class="muted-cell"><strong>Multi-track engine + habit-first + parent outcome projection + cross-family social</strong></td></tr>
+      </table>
+
+      <h4>Why now</h4>
+      <ul>
+        <li>Post-COVID skill regression created a multi-year cohort effect; parental anxiety is at a structural high (NAEP 2024 4th grade reading at 32-year low)</li>
+        <li>AI inference cost dropped ~80% in 18 months, making per-track personalized prompts viable at &lt;$0.01/family/month</li>
+        <li>Static-hosting + AI-assisted build economics make multi-track expansion achievable as a solo + contributor build, not a "raise $1M" project</li>
+        <li>The SummerStreak pilot already proved the engine works for one track — extending to five is <em>content authoring</em>, not new engineering</li>
+      </ul>
+
+      <h3>2.3 Business Case</h3>
+      <p><strong>Revenue Potential:</strong></p>
+      <ul>
+        <li>Year 1: 500 paid families × $59/yr = $29K ARR, school pilot adds $5K-15K</li>
+        <li>Year 3: 5K paid families × $59/yr + 10 schools × $2.5K/yr = ~$320K ARR</li>
+        <li>Year 5: 25K paid families + 50 schools at scale = ~$1.6M ARR</li>
+      </ul>
+      <p><strong>Cost Savings vs. v1 model:</strong> Free tier remains $0 infra (GitHub Pages + Firebase free tier). Premium tier adds ~$3K/mo at 5K paid users. No employee headcount until Year 2.</p>
+      <p><strong>Strategic Position:</strong> Streak is positioned to own "kid habit tracking" as a category — the same way Duolingo owns "language streaks" and Headspace owns "adult meditation." First-mover advantage on the parent-built brand narrative; defensibility comes from the multi-track network (family stays for reading, discovers math, adds music — single-track competitors can't match).</p>
+      <div class="callout red"><strong>Risk of inaction:</strong> If a well-resourced kid-tech competitor (Khan, IXL, Duolingo Kids) ships a multi-track habit platform first, the category leader position is lost. The 4-week head start from the SummerStreak pilot is the wedge; turning that into a year-round product before competitors notice is the strategic priority.</div>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 3 SOLUTION OVERVIEW -->
+    <section id="solution">
+      <h2><span class="num">3.</span>Solution Overview</h2>
+
+      <h3>3.1 What We're Building</h3>
+      <p>A single-page web application (mobile + desktop responsive) hosted on GitHub Pages with a Firebase backend. The Streak app loads a <strong>Track</strong> the kid is currently enrolled in. Each track defines a daily activity grid + a 12-week themed challenge schedule + a curated idea pool. The kid sees their dashboard — Read/Write/Math (for Reading Slide), or Homework Started/20-min practice/Pack-the-bag-streak (for Back to School), or Practice/Listen/Learn-a-piece (for Music Practice). Same gamified loop, swappable content.</p>
+      <p>Parents access a PIN-gated section with hypothesis tracking + outcome projection (where applicable per track), prize editor, multi-kid switcher, and Family Summary export. Families can enroll a child in multiple tracks; the parent dashboard rolls up across them.</p>
+
+      <h3>3.2 In Scope</h3>
+      <h4><span class="pri p0">P0</span> Required for v2 launch (Phase 2-3)</h4>
+      <table>
+        <tr><th>Feature</th><th>Description</th></tr>
+        <tr><td>Track abstraction in data model</td><td class="muted-cell">Every leaderboard entry, weekly challenge, activity log includes a <code>trackId</code></td></tr>
+        <tr><td>Track switcher in hero</td><td class="muted-cell">Kid can toggle between active tracks (like multi-kid profile switcher)</td></tr>
+        <tr><td>Track marketplace (parent settings)</td><td class="muted-cell">Browse, enroll, deactivate tracks</td></tr>
+        <tr><td>Per-track leaderboards</td><td class="muted-cell">Kids on the same track compete; cross-track aggregate is parent-only</td></tr>
+        <tr><td>Reading Slide track (existing v1)</td><td class="muted-cell">Already shipped; ports to new data model</td></tr>
+        <tr><td>Back to School track</td><td class="muted-cell"><strong>NEW</strong> — fall semester habit-building (homework, practice routines, bag-packing streak)</td></tr>
+        <tr><td>Math Facts Master track</td><td class="muted-cell"><strong>NEW</strong> — times-tables fluency with theme-aware prompts</td></tr>
+        <tr><td>Music Practice track</td><td class="muted-cell"><strong>NEW</strong> — practice / listen / learn-a-piece daily structure</td></tr>
+        <tr><td>Mindful Kid track</td><td class="muted-cell"><strong>NEW</strong> — 5-min breathing, gratitude, check-in</td></tr>
+        <tr><td>Per-track theme picker</td><td class="muted-cell">Themes stay per-track (chess for reading, gaming for math, etc.)</td></tr>
+        <tr><td>Stable Google identity</td><td class="muted-cell">Already shipped (v1); reused without change</td></tr>
+        <tr><td>Cross-device sync</td><td class="muted-cell">Already shipped (v1); reused without change</td></tr>
+        <tr><td>Multi-profile per parent account</td><td class="muted-cell">Already shipped (v1); reused without change</td></tr>
+        <tr><td>Parent dashboard cross-track roll-up</td><td class="muted-cell"><strong>NEW</strong> — see all kids across all enrolled tracks in one summary</td></tr>
+      </table>
+
+      <h4><span class="pri p1">P1</span> Important, post-launch within 90 days</h4>
+      <table>
+        <tr><th>Feature</th><th>Description</th></tr>
+        <tr><td>AI-personalized weekly challenge</td><td class="muted-cell">Replaces curated pool with per-kid generated challenges (Premium)</td></tr>
+        <tr><td>Track recommender for parents</td><td class="muted-cell">Based on kid age + stated goals, suggest 2-3 tracks</td></tr>
+        <tr><td>Family digest email (auto-send)</td><td class="muted-cell">Scheduled via cron — was a manual button in v1</td></tr>
+        <tr><td>Achievement export</td><td class="muted-cell">PDF of "Streak Resume" at end of each completed track</td></tr>
+        <tr><td>Friend invite by track</td><td class="muted-cell">Invite Cooper to your Math track without exposing your Reading streak</td></tr>
+        <tr><td>Light theme + dark theme</td><td class="muted-cell">v1 was dark-only; add light theme for parent-facing surfaces</td></tr>
+      </table>
+
+      <h4><span class="pri p2">P2</span> Nice-to-have, Year 2</h4>
+      <table>
+        <tr><th>Feature</th><th>Description</th></tr>
+        <tr><td>Native iOS / Android wrappers</td><td class="muted-cell">Wrapping the PWA; push notifications</td></tr>
+        <tr><td>Teacher / classroom portal</td><td class="muted-cell">Cohort progress reporting, parent-teacher messaging</td></tr>
+        <tr><td>Custom track authoring</td><td class="muted-cell">Parents/teachers/tutors build their own 12-week programs</td></tr>
+        <tr><td>Track community pages</td><td class="muted-cell">Public discussion + leaderboards per track for top families</td></tr>
+        <tr><td>AI-graded writing samples</td><td class="muted-cell">Premium add-on; rubric-based feedback on uploaded writing</td></tr>
+      </table>
+
+      <h3>3.3 Out of Scope (v2)</h3>
+      <ul>
+        <li>Curriculum authoring tools for parents (Phase 4 if at all)</li>
+        <li>Real-time multiplayer challenges (kids racing each other live)</li>
+        <li>Voice / video features (privacy + COPPA complexity)</li>
+        <li>Integration with school assessment portals (manual baseline entry continues)</li>
+        <li>Hardware accessories (no smart-watch, no physical kit)</li>
+        <li>Adult version (Streak Adult) — focus stays on K-5 in v2</li>
+      </ul>
+
+      <h3>3.4 v2 MVP Definition</h3>
+      <p>Phase 2 (October 2026) ships:</p>
+      <ul>
+        <li>Track-aware data model deployed</li>
+        <li>Reading Slide track migrated to new model</li>
+        <li>Back to School track live, paired with the start of school</li>
+        <li>Track switcher in hero</li>
+        <li>Track marketplace in parent settings</li>
+        <li>Existing v1 families seamlessly upgraded (their Reading data preserved)</li>
+      </ul>
+      <div class="callout">
+        <strong>Learning goals from Phase 2:</strong>
+        <ol>
+          <li>Do existing summer families re-engage when Back to School ships, instead of churning?</li>
+          <li>Does the track abstraction actually generalize, or do we hit unexpected coupling?</li>
+          <li>What % of families enrolled in 1 track add a 2nd within 30 days? (Strong predictor for paid tier viability.)</li>
+        </ol>
+      </div>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 4 USER STORIES -->
+    <section id="stories">
+      <h2><span class="num">4.</span>User Stories &amp; Requirements</h2>
+
+      <h3>4.1 User Stories</h3>
+
+      <h4>US-1: Track switching (Kid)</h4>
+      <div class="callout purple">As Declan (10yo), I want to switch between my Reading and Math tracks with one tap, so I can do one in the morning and the other before bed without re-enrolling.</div>
+      <p><strong>Acceptance:</strong> Switch-track button in hero, visible when 2+ tracks active. Switch persists across sessions. Each track has its own theme, points, leaderboard.</p>
+
+      <h4>US-2: Track marketplace (Parent)</h4>
+      <div class="callout purple">As Brent (parent), I want to browse available tracks and enroll my kid in a second one (Math Facts), so my reading-focused summer routine becomes a year-round math + reading habit.</div>
+      <p><strong>Acceptance:</strong> Marketplace shows all available tracks with description, recommended age, expected daily time. Enroll = one click; sets up activity grid + leaderboard automatically. Free tier supports 1 active track at a time; Premium supports unlimited.</p>
+
+      <h4>US-3: Cross-track parent rollup (Parent)</h4>
+      <div class="callout purple">As a parent of two kids each in two tracks, I want one dashboard view showing all 4 streaks at once, so I don't have to context-switch between profiles + tracks.</div>
+      <p><strong>Acceptance:</strong> Parent dashboard groups by kid first, then by track. Each row shows: kid · track · current week · current streak · last activity time. Click any row to deep-link into that kid + track view.</p>
+
+      <h4>US-4: Friend invite by track (Kid)</h4>
+      <div class="callout purple">As Declan, I want to invite my friend Sebastian to the Math track without him seeing my Reading progress, so we can compete on math without baring all my stats.</div>
+      <p><strong>Acceptance:</strong> Invite link includes trackId. Friend's dashboard auto-enrolls them in the linked track. Cross-track visibility limited to family-only (kids can't browse strangers' other tracks).</p>
+
+      <h4>US-5: Streak Resume (Parent + Kid)</h4>
+      <div class="callout purple">As Declan (and proudly his parents), I want a printable "Streak Resume" at the end of a completed track, so we can show grandparents / save in a school portfolio / start a new track with momentum.</div>
+      <p><strong>Acceptance:</strong> Auto-generated PDF on track completion (12 weeks). Includes: kid name, track, dates, total activities, rank achieved, weekly winner badges, prizes claimed, baseline-to-outcome data if available. One-click download or email-to-parent.</p>
+
+      <h3>4.2 Functional Requirements</h3>
+      <table class="compact">
+        <tr><th>ID</th><th>Requirement</th><th>Priority</th></tr>
+        <tr><td>FR1</td><td class="muted-cell">All v1 functional requirements preserved (single-tap completion, localStorage + Firebase sync, Google Sign-In, multi-profile, etc.)</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR2</td><td class="muted-cell"><code>trackId</code> field on every leaderboard entry, weekly challenge, day entry, weekly winner</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR3</td><td class="muted-cell">Track switcher UI in dashboard hero</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR4</td><td class="muted-cell">Track marketplace UI in parent settings</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR5</td><td class="muted-cell">Per-track Firebase leaderboard isolation (kids on different tracks don't see each other on the leaderboard)</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR6</td><td class="muted-cell">Parent rollup view aggregating all kids × all tracks</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR7</td><td class="muted-cell">Free tier enforces 1 active track per kid; Premium allows unlimited</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR8</td><td class="muted-cell">Auto-migration of existing v1 users into the new track-aware data model</td><td><span class="pri p0">P0</span></td></tr>
+        <tr><td>FR9</td><td class="muted-cell">AI-personalized weekly challenges (Premium)</td><td><span class="pri p1">P1</span></td></tr>
+        <tr><td>FR10</td><td class="muted-cell">Weekly auto-send Family Summary email</td><td><span class="pri p1">P1</span></td></tr>
+        <tr><td>FR11</td><td class="muted-cell">PDF "Streak Resume" export at track completion</td><td><span class="pri p1">P1</span></td></tr>
+        <tr><td>FR12</td><td class="muted-cell">Track recommender based on kid age + stated goals</td><td><span class="pri p1">P1</span></td></tr>
+      </table>
+
+      <h3>4.3 Non-Functional Requirements</h3>
+      <ul>
+        <li><strong>Performance:</strong> Initial page load &lt; 2s on 4G mobile. Track switch &lt; 200ms. Cross-device sync latency &lt; 5s under normal load.</li>
+        <li><strong>Scalability:</strong> Static front-end CDN-served via GitHub Pages. Firebase backend scales to ~10K active families on Spark plan; cross over to Blaze plan at ~5K to avoid surprise (estimated $30-80/mo at that size).</li>
+        <li><strong>Security:</strong> Google OAuth via Firebase Auth (no password storage). Per-track Firebase security rules ensure kids can only write to their own track entries. PIN-gated parent section persists.</li>
+        <li><strong>Reliability:</strong> 99.9% uptime via GitHub Pages + Firebase SLA. Daily Firebase data backup to a cold-storage bucket.</li>
+        <li><strong>Usability:</strong> Kid-facing copy at ~2nd grade Lexile. Parent-facing copy reads at adult professional level. Mobile-first; WCAG AA contrast.</li>
+        <li><strong>Compliance:</strong> v2 launch requires COPPA-compliant parental consent flow before paid tier opens. Marketing site adds privacy policy + data deletion request handling.</li>
+      </ul>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 5 GTM -->
+    <section id="gtm">
+      <h2><span class="num">5.</span>Go-to-Market Strategy</h2>
+
+      <h3>5.1 Launch Plan</h3>
+      <p><strong>Phase 1 (Now → August 2026): Win the SummerStreak story</strong></p>
+      <ul>
+        <li>Continue iterating on the Reading track</li>
+        <li>Run the September MAP retest with the founder kid + cohort</li>
+        <li>Build the audience around the build story (see separate Marketing Plan doc)</li>
+        <li>Brand stays SummerStreak; the URL stays beatthesummerslide.com</li>
+      </ul>
+
+      <p><strong>Phase 2 (August → November 2026): Add Back to School + brand transition</strong></p>
+      <ul>
+        <li>Ship Back to School track in time for fall semester</li>
+        <li>Brand transition: SummerStreak → Streak. New marketing site at streak-something.com (TBD)</li>
+        <li>Existing families get a "We evolved" splash; data migrates automatically</li>
+        <li>All summer users get free access to the new fall track</li>
+        <li>Goal: 60%+ of summer users come back for fall</li>
+      </ul>
+
+      <p><strong>Phase 3 (November 2026 → March 2027): Marketplace + paid tier</strong></p>
+      <ul>
+        <li>Ship 3 more tracks (Math Facts, Music Practice, Mindful Kid)</li>
+        <li>Open the track marketplace; default to free 1-track, paywall the second</li>
+        <li>Pilot the $4.99/mo Family tier with 50 families</li>
+        <li>ProductHunt launch (~Feb 2027) — wait for ≥3 tracks live + retention data + September results</li>
+      </ul>
+
+      <p><strong>Phase 4 (March 2027+): Schools &amp; teachers</strong></p>
+      <ul>
+        <li>Teacher dashboard for classroom-wide use</li>
+        <li>Pilot with 3-5 elementary schools in Jefferson County at $5/student/year</li>
+        <li>B2B sales motion begins</li>
+      </ul>
+
+      <h3>5.2 Distribution Channels</h3>
+      <table>
+        <tr><th>Channel</th><th>Stage</th><th>Why</th></tr>
+        <tr><td>LinkedIn</td><td class="muted-cell">Phase 1-3</td><td class="muted-cell">Warmest audience for vibe-coded-by-a-dad narrative; PM-curious parents amplify</td></tr>
+        <tr><td>Substack</td><td class="muted-cell">Phase 1-3</td><td class="muted-cell">Long-form home for the case study; build to September reveal</td></tr>
+        <tr><td>Reddit (r/Parenting, r/Education)</td><td class="muted-cell">Phase 2-3</td><td class="muted-cell">Where the actual end users live; story-first, not pitchy</td></tr>
+        <tr><td>X / Build-in-public</td><td class="muted-cell">Phase 1-3</td><td class="muted-cell">Micro-updates; tag Anthropic + ed-tech voices</td></tr>
+        <tr><td>ProductHunt launch</td><td class="muted-cell">Phase 3</td><td class="muted-cell">One-shot amplifier once ≥3 tracks live + September data is real</td></tr>
+        <tr><td>Parent Facebook groups</td><td class="muted-cell">Phase 3-4</td><td class="muted-cell">High-trust referrals from existing families</td></tr>
+        <tr><td>Reading specialists + tutors</td><td class="muted-cell">Phase 3-4</td><td class="muted-cell">Specific track recommendation channel (Reading + Math)</td></tr>
+        <tr><td>School counselors</td><td class="muted-cell">Phase 4</td><td class="muted-cell">B2B wedge for the teacher portal</td></tr>
+        <tr><td>Parent podcasts (ed-tech)</td><td class="muted-cell">Phase 3-4</td><td class="muted-cell">Founder interviews drive trust and reach</td></tr>
+      </table>
+
+      <h3>5.3 Pricing</h3>
+      <table>
+        <tr><th>Tier</th><th>Price</th><th>Features</th></tr>
+        <tr><td><strong>Free</strong></td><td class="muted-cell">$0</td><td class="muted-cell">1 active track per kid, unlimited kids per Google account, all core features (dashboard, leaderboard, rank, prizes, weekly challenges, parent controls)</td></tr>
+        <tr><td><strong>Family</strong></td><td class="muted-cell">$4.99/mo or $39/yr</td><td class="muted-cell">Unlimited active tracks, AI-personalized weekly challenges, multi-kid roll-up dashboard, weekly auto-email, Streak Resume PDF export</td></tr>
+        <tr><td><strong>Schools</strong></td><td class="muted-cell">$5/student/yr</td><td class="muted-cell">Teacher classroom dashboard, cohort reporting, parent-teacher messaging, custom track support</td></tr>
+      </table>
+      <div class="callout">Free tier deliberately generous — it's the lead magnet. The Family tier sells on <strong>multi-track + AI personalization + parent ergonomics</strong>. The Schools tier is sold separately B2B and unlocks the teacher dashboard.</div>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 6 RISKS -->
+    <section id="risks">
+      <h2><span class="num">6.</span>Risks &amp; Mitigations</h2>
+      <table>
+        <tr><th>Risk</th><th>Prob.</th><th>Impact</th><th>Mitigation</th></tr>
+        <tr><td>September MAP retest doesn't show improvement → outcome claim weakens</td><td class="muted-cell">Med</td><td class="muted-cell">High</td><td class="muted-cell">Lean into engagement-based marketing; honest post-mortem; iterate the Reading track for v2.1</td></tr>
+        <tr><td>Brand transition (SummerStreak → Streak) loses existing users</td><td class="muted-cell">Med</td><td class="muted-cell">High</td><td class="muted-cell">Splash-page bridge; preserve all data; offer one new track free to existing families</td></tr>
+        <tr><td>Track abstraction breaks coupling assumptions in the engine</td><td class="muted-cell">Med</td><td class="muted-cell">Med</td><td class="muted-cell">Pilot Phase 2 with internal family + 5-10 beta families before public release</td></tr>
+        <tr><td>Free → Paid conversion stalls below 5%</td><td class="muted-cell">Med</td><td class="muted-cell">High</td><td class="muted-cell">Add lifecycle hooks (email digests, achievement unlocks) before paywall; iterate paywall placement</td></tr>
+        <tr><td>COPPA scrutiny at paid scale</td><td class="muted-cell">High</td><td class="muted-cell">High</td><td class="muted-cell">Add verifiable parental consent flow as part of Phase 3 ship; engage specialist counsel ($5K-10K)</td></tr>
+        <tr><td>Competitor (Khan, IXL, Duolingo Kids) ships multi-track first</td><td class="muted-cell">Med</td><td class="muted-cell">High</td><td class="muted-cell">Move fast on Phase 2; lock down the brand narrative; focus on unique "parent-built" position</td></tr>
+        <tr><td>Single-dev velocity caps Phase 3+</td><td class="muted-cell">High</td><td class="muted-cell">Med</td><td class="muted-cell">Plan for one contributor at Phase 3 inflection; budget $15-30K for a part-time engineer</td></tr>
+        <tr><td>Track quality varies (Reading great, Music mediocre)</td><td class="muted-cell">Med</td><td class="muted-cell">Med</td><td class="muted-cell">Co-author tracks with subject-matter experts before launch; A/B test track engagement before promoting</td></tr>
+        <tr><td>Firebase free tier crossed unexpectedly</td><td class="muted-cell">Low</td><td class="muted-cell">Low</td><td class="muted-cell">Active monitoring at 50% threshold; sharded leaderboard refactor in roadmap</td></tr>
+      </table>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 7 TIMELINE -->
+    <section id="timeline">
+      <h2><span class="num">7.</span>Timeline &amp; Milestones</h2>
+      <table>
+        <tr><th>Milestone</th><th>Date</th><th>Deliverables</th><th>Success Criteria</th></tr>
+        <tr><td><strong>Phase 1: Win SummerStreak</strong></td><td class="muted-cell">Now → Aug 2026</td><td class="muted-cell">Iterate Reading track; build audience</td><td class="muted-cell">≥10 enrolled families, MAP retest scheduled</td></tr>
+        <tr><td>September MAP retest</td><td class="muted-cell">Sep 2026</td><td class="muted-cell">Real outcome data</td><td class="muted-cell">Honest debrief regardless of result</td></tr>
+        <tr><td><strong>Phase 2: Brand + BTS</strong></td><td class="muted-cell">Aug → Nov 2026</td><td class="muted-cell">Streak rebrand, Back to School track, track-aware data model</td><td class="muted-cell">60%+ summer users re-engage</td></tr>
+        <tr><td><strong>Phase 3: Marketplace</strong></td><td class="muted-cell">Nov 2026 → Mar 2027</td><td class="muted-cell">3 more tracks live, paid Family tier, ProductHunt</td><td class="muted-cell">50 paying families, ≥2 tracks-per-family median</td></tr>
+        <tr><td><strong>Phase 4: Schools</strong></td><td class="muted-cell">Mar → Aug 2027</td><td class="muted-cell">Teacher dashboard, 3-5 school pilots</td><td class="muted-cell">≥1 school commits to renewal</td></tr>
+        <tr><td>Year 1 outcome review</td><td class="muted-cell">Aug 2027</td><td class="muted-cell">Annual retrospective, v3 PRD</td><td class="muted-cell">$30K+ ARR, 500+ active families, 1+ school renewal</td></tr>
+      </table>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 8 TEAM -->
+    <section id="team">
+      <h2><span class="num">8.</span>Team &amp; Resources</h2>
+      <table>
+        <tr><th>Role</th><th>Allocation</th><th>Notes</th></tr>
+        <tr><td>Founder / PM / Builder</td><td class="muted-cell">Brent O'Malley (100%)</td><td class="muted-cell">AI PM; continues vibe-coding through Phase 2-3</td></tr>
+        <tr><td>Part-time engineer</td><td class="muted-cell">1 contractor, ~10 hrs/wk from Phase 3</td><td class="muted-cell">$20-30K for 6 months</td></tr>
+        <tr><td>Subject-matter experts (per track)</td><td class="muted-cell">$500-1500/track</td><td class="muted-cell">Reading specialist (track exists), math teacher, music teacher, SEL specialist</td></tr>
+        <tr><td>COPPA legal review</td><td class="muted-cell">One-time, before Phase 3 paid launch</td><td class="muted-cell">$5-10K</td></tr>
+        <tr><td>Design polish (marketing site)</td><td class="muted-cell">1 contractor, 40 hrs</td><td class="muted-cell">$3-5K</td></tr>
+        <tr><td>Marketing / content</td><td class="muted-cell">Brent owns Phase 1-2; freelance ghostwriter possible at Phase 3</td><td class="muted-cell">$5-10K/yr</td></tr>
+      </table>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="label">Phase 2 budget</div><div class="value">$5K</div><div class="sub">Aug-Nov 2026 · mostly SME work</div></div>
+        <div class="stat-card"><div class="label">Phase 3 budget</div><div class="value">$35K</div><div class="sub">Nov 2026-Mar 2027 · engineer + legal + design + SMEs</div></div>
+        <div class="stat-card"><div class="label">Phase 4 budget</div><div class="value">$25K</div><div class="sub">Mar-Aug 2027 · school pilot + teacher portal</div></div>
+      </div>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 9 OPEN QUESTIONS -->
+    <section id="questions">
+      <h2><span class="num">9.</span>Open Questions</h2>
+      <ol>
+        <li><strong>Brand:</strong> Streak is the placeholder. Does it stick, or do we land on KidStreak, Quest, or something else? Decision needed before Phase 2 marketing.</li>
+        <li><strong>Domain:</strong> Stay on beatthesummerslide.com indefinitely (with <code>/streak</code> paths)? Buy a new primary domain? Decision drives Phase 2 marketing site build.</li>
+        <li><strong>First paid track:</strong> Math Facts has biggest TAM; Music has highest willingness-to-pay (parents already pay for lessons). Which behind the paywall first?</li>
+        <li><strong>Migration path for v1 users:</strong> Do they wake up to a new dashboard one day, or get a "Hey, we evolved" splash screen? UX research needed.</li>
+        <li><strong>AI prompt economics:</strong> Per-kid AI-generated challenges add real cost. Need a usage model — generate once per week and cache vs. on-demand?</li>
+        <li><strong>Teacher portal scope:</strong> Same dashboard with read-only multi-student view, or a separate experience? Latter is bigger investment; pilot with one school to learn before deciding.</li>
+        <li><strong>Outcome projection for non-academic tracks:</strong> Reading has MAP RIT. What's the equivalent for Music? Mindful Kid? Some tracks may not have an outcome projection at all — is that OK or does it weaken the brand?</li>
+      </ol>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- 10 ASSUMPTIONS -->
+    <section id="assumptions">
+      <h2><span class="num">10.</span>Assumptions Made</h2>
+      <ul>
+        <li>The SummerStreak engine generalizes to other content domains without major refactor (≥80% reusable). Validated in part by the Phase 1 build.</li>
+        <li>Parents will pay $4.99/mo for unlimited tracks if they get genuine value from the first free track. Untested.</li>
+        <li>Schools will adopt at $5/student/year IF the teacher portal is genuinely useful and parents like the product first. Untested.</li>
+        <li>The vibe-coded-by-a-dad narrative remains a defensible acquisition story through Year 2 (it gets less novel over time).</li>
+        <li>Firebase free tier supports ~100 active families per project before hitting limits. Need to actively monitor.</li>
+        <li>COPPA compliance is achievable as a parental-consent layer on top of Google OAuth, not a full rebuild. Confirm with counsel.</li>
+        <li>The September MAP result for the founder kid is broadly representative; it isn't, but it's the strongest single data point we'll have at launch.</li>
+      </ul>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+    <!-- APPENDIX -->
+    <section id="appendix">
+      <h2><span class="num">A.</span>Appendix — What carries over from v1</h2>
+      <p>The Streak v2 PRD assumes these v1 components ship-as-is, no refactor:</p>
+      <ul>
+        <li>Single-page HTML architecture</li>
+        <li>Firebase Realtime Database backend</li>
+        <li>Google Sign-In via Firebase Auth</li>
+        <li>Per-parent stable UID + multi-profile model</li>
+        <li>Composite leaderboard keys (<code>{googleUid}_{profileId}</code>)</li>
+        <li>Per-week point adjustments bucket</li>
+        <li>Firebase-backed canonical weekly winners</li>
+        <li>Theme picker (chess / sports / music / gaming)</li>
+        <li>One-click-per-day anti-spam locks</li>
+        <li>Days Done active-entry filter</li>
+        <li>Hub / Story / Admin / Vision-page surface</li>
+      </ul>
+
+      <h3>Source documents</h3>
+      <ul>
+        <li>v1 PRD: <code>SummerStreak-PRD.docx</code> (May 29, 2026)</li>
+        <li>Vision strategy: <a href="vision.md">vision.md</a></li>
+        <li>Proof reference: <a href="proof.html">proof.html</a> + <code>proof.md</code></li>
+        <li>Live v1 demo: <a href="https://beatthesummerslide.com" target="_blank">beatthesummerslide.com</a></li>
+        <li>Vision hub: <a href="https://github.com/brentomalley150/streak-app" target="_blank">github.com/brentomalley150/streak-app</a></li>
+      </ul>
+      <a href="#top" class="back-to-top">↑ Back to top</a>
+    </section>
+
+  </article>
+
+  <footer class="foot">
+    Streak PRD v2.0 · Draft · Updated as the vision evolves · <a href="https://github.com/brentomalley150/streak-app" target="_blank">github.com/brentomalley150/streak-app</a>
+  </footer>
+
+</div>
+</body>
+</html>
