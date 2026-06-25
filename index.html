@@ -924,6 +924,209 @@
     </ul>
   </section>
 
+  <!-- BRAINSTORM -->
+  <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+      <h2 style="font-size:22px;font-weight:800;">💡 Brainstorm</h2>
+      <span style="background:var(--purple);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:1px;">FEATURE IDEAS</span>
+    </div>
+    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">A working canvas of feature ideas across the Streak surface. Click ❤️ to vote up your favorites. Add your own. Filter by category. Persists locally.</div>
+
+    <!-- Filter chips -->
+    <div id="brain-filters" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>
+
+    <!-- Add new idea form -->
+    <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">+ ADD AN IDEA</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="brain-new-title" placeholder="Title (e.g. Streak Buddy System)" style="flex:2;min-width:200px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:var(--panel);color:var(--ink);">
+        <select id="brain-new-cat" style="padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:var(--panel);color:var(--ink);">
+          <option value="kid">🎮 Kid-facing</option>
+          <option value="parent">👨‍👩‍👧 Parent / family</option>
+          <option value="ai">🤖 AI / automation</option>
+          <option value="schools">🏫 Schools / classrooms</option>
+          <option value="platform">📱 Platform expansion</option>
+          <option value="money">💰 Monetization</option>
+          <option value="social">🤝 Social / community</option>
+          <option value="data">📊 Data / insights</option>
+          <option value="content">🎨 Content / curriculum</option>
+        </select>
+        <button onclick="addBrainIdea()" style="background:var(--purple);color:var(--text-on-accent);border:none;padding:8px 14px;border-radius:8px;font-weight:800;font-size:13px;cursor:pointer;">+ Add</button>
+      </div>
+      <input type="text" id="brain-new-desc" placeholder="One-line description (optional)" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:var(--panel);color:var(--ink);margin-top:8px;">
+    </div>
+
+    <div id="brain-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:12px;"></div>
+
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div id="brain-counts" style="font-size:13px;color:var(--soft);font-weight:600;">0 ideas</div>
+      <button onclick="resetBrainstorm()" style="background:transparent;border:1px solid var(--border);color:var(--soft);padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;">↺ Reset to seed list</button>
+    </div>
+  </section>
+
+  <script>
+    const BRAIN_CATS = {
+      kid:      { label: '🎮 Kid-facing',        color: 'var(--blue)' },
+      parent:   { label: '👨‍👩‍👧 Parent / family',color: 'var(--purple)' },
+      ai:       { label: '🤖 AI / automation',   color: 'var(--green)' },
+      schools:  { label: '🏫 Schools',            color: 'var(--orange)' },
+      platform: { label: '📱 Platform',           color: 'var(--gold)' },
+      money:    { label: '💰 Monetization',       color: 'var(--gold-dark, #92400E)' },
+      social:   { label: '🤝 Social',             color: 'var(--purple)' },
+      data:     { label: '📊 Data / insights',    color: 'var(--blue)' },
+      content:  { label: '🎨 Content',            color: 'var(--green)' }
+    };
+
+    const BRAIN_SEED = [
+      // Kid-facing
+      { id:'b01', cat:'kid', title:'Streak Buddy System', desc:'Pair with a friend; you each keep the other\'s streak alive when life happens. One free pass per week.', votes:0 },
+      { id:'b02', cat:'kid', title:'Pet Companion (Tamagotchi-style)', desc:'A virtual pet that thrives on your streak. Skip days = pet gets sad. Visual reward beyond points.', votes:0 },
+      { id:'b03', cat:'kid', title:'Daily Wildcard Mission', desc:'Surprise bonus activity each day. Random + themed. Adds variety to the daily grid.', votes:0 },
+      { id:'b04', cat:'kid', title:'Voice Journal', desc:'60-sec voice memo replaces a writing day occasionally. Lowers the writing-task friction.', votes:0 },
+      { id:'b05', cat:'kid', title:'Custom Theme Builder', desc:'Kid uploads emojis + picks colors. Personalization = ownership.', votes:0 },
+      { id:'b06', cat:'kid', title:'Emoji Reactions on Friends\' Progress', desc:'Tap a friend\'s streak to drop a 🔥 or 👏. Lightweight social warmth.', votes:0 },
+
+      // Parent / family
+      { id:'b07', cat:'parent', title:'Co-Parent Handoff Notes', desc:'Each parent can leave a one-line note for the other ("Declan finished Charlotte\'s Web today").', votes:0 },
+      { id:'b08', cat:'parent', title:'Grandparent Guest Mode', desc:'View-only link grandparents can bookmark. Streak as a relationship-keeper.', votes:0 },
+      { id:'b09', cat:'parent', title:'Family Streak (Together-Mode)', desc:'Whole family logs ONE shared activity per day (read aloud together). Different leaderboard.', votes:0 },
+      { id:'b10', cat:'parent', title:'Sibling Rivalry Leaderboard', desc:'Private leaderboard JUST for kids in the same family. Often the most motivating one.', votes:0 },
+      { id:'b11', cat:'parent', title:'Printable Track Completion Certificate', desc:'12-week wrap = real PDF certificate. Fridge magnet bait.', votes:0 },
+      { id:'b12', cat:'parent', title:'Parent Prep — Morning Brief', desc:'5-min email at 7am: yesterday\'s wins, today\'s prompt, this week\'s challenge.', votes:0 },
+
+      // AI / automation
+      { id:'b13', cat:'ai', title:'AI Prompt Personalization', desc:'Replace static prompt library with per-kid generated prompts (interests, reading level). Premium feature.', votes:0 },
+      { id:'b14', cat:'ai', title:'Habit Drift Detection', desc:'Predict churn before it happens. Alert parent when a kid\'s pattern shifts (skip 2 of 3 days).', votes:0 },
+      { id:'b15', cat:'ai', title:'AI Parent Coach', desc:'Chat sidebar for parents: "Why isn\'t my kid engaging this week?" Returns concrete suggestions.', votes:0 },
+      { id:'b16', cat:'ai', title:'Suggested Next Book', desc:'Based on what kid finished + their MAP level. Optional Amazon/library link.', votes:0 },
+      { id:'b17', cat:'ai', title:'Voice-to-Text Logging', desc:'Just talk to the dashboard. Especially useful for younger kids who can\'t type fast.', votes:0 },
+
+      // Schools / classrooms
+      { id:'b18', cat:'schools', title:'Classroom Cohort Dashboard', desc:'Teacher sees anonymized class progress, aggregate streaks, identifies struggling students.', votes:0 },
+      { id:'b19', cat:'schools', title:'Print Packet for Device-Free Kids', desc:'PDF version of the week\'s activities for kids without internet at home.', votes:0 },
+      { id:'b20', cat:'schools', title:'Substitute-Teacher Day Plan', desc:'Pre-built activity packet for sub days — kids do Streak instead of busywork.', votes:0 },
+
+      // Platform expansion
+      { id:'b21', cat:'platform', title:'Apple Watch / Wearable', desc:'Kid wears their streak. Daily activity reminders on the wrist.', votes:0 },
+      { id:'b22', cat:'platform', title:'Alexa Skill', desc:'"Alexa, log Declan\'s reading." Lowers friction for non-tech parents.', votes:0 },
+      { id:'b23', cat:'platform', title:'Chromebook Browser Extension', desc:'Most kid Chromebooks are school-issued. Browser extension surfaces Streak in the new tab.', votes:0 },
+
+      // Monetization
+      { id:'b24', cat:'money', title:'Gift Subscriptions', desc:'Grandparents gift Streak as a birthday present. Holiday revenue spike.', votes:0 },
+      { id:'b25', cat:'money', title:'Streak Boxes — Physical Reward Kits', desc:'Quarterly physical kit with bookmarks, stickers, themed prizes. Subscription add-on.', votes:0 },
+      { id:'b26', cat:'money', title:'Tutoring Marketplace Integration', desc:'When a kid plateaus, surface a tutor recommendation (revenue share with partner).', votes:0 },
+
+      // Social
+      { id:'b27', cat:'social', title:'Family-vs-Family Seasonal Tournaments', desc:'Two families compete on a track. Bragging rights + small prize pool.', votes:0 },
+      { id:'b28', cat:'social', title:'Public "Top Kids" Showcase (opt-in)', desc:'Anonymized leaderboard of top performers per track. Inspires others, validates effort.', votes:0 },
+      { id:'b29', cat:'social', title:'Parent Discord / Slack Per Track', desc:'Parents on the same track can share what\'s working. Community-driven retention.', votes:0 },
+
+      // Data / insights
+      { id:'b30', cat:'data', title:'Time-of-Day Optimizer', desc:'"Declan\'s best reading day is Tuesday after dinner." Surface patterns parents don\'t see.', votes:0 },
+      { id:'b31', cat:'data', title:'Reading Speed/Comprehension Projection', desc:'Beyond MAP RIT — project Lexile growth, comprehension growth based on activity mix.', votes:0 },
+      { id:'b32', cat:'data', title:'Burnout Warning System', desc:'Detect overuse — kid logging 4+ activities/day for a week. Suggest a rest day.', votes:0 },
+
+      // Content / curriculum
+      { id:'b33', cat:'content', title:'Holiday Micro-Tracks', desc:'Halloween reading challenge (2 weeks). Thanksgiving gratitude streak. Low commitment, viral.', votes:0 },
+      { id:'b34', cat:'content', title:'Branded Track Partnerships', desc:'National Geographic Kids reading track. Sesame Street SEL track. Co-branded content packs.', votes:0 },
+      { id:'b35', cat:'content', title:'Public Library Integration', desc:'Recommend books based on local library availability. Holds + checkout links.', votes:0 },
+      { id:'b36', cat:'content', title:'Author/Athlete of the Week', desc:'Themed weekly feature: "This week\'s author is Kwame Alexander." Boosts content variety.', votes:0 }
+    ];
+
+    const BRAIN_KEY = 'streak-brainstorm-v1';
+    let brainFilter = 'all';
+
+    function loadBrain() {
+      try {
+        const raw = localStorage.getItem(BRAIN_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return BRAIN_SEED.slice();
+    }
+    function saveBrain(arr) {
+      try { localStorage.setItem(BRAIN_KEY, JSON.stringify(arr)); } catch (e) {}
+    }
+    function voteBrain(id) {
+      const list = loadBrain();
+      const idea = list.find(i => i.id === id);
+      if (idea) { idea.votes = (idea.votes || 0) + 1; saveBrain(list); renderBrain(); }
+    }
+    function removeBrain(id) {
+      if (!confirm('Remove this idea?')) return;
+      saveBrain(loadBrain().filter(i => i.id !== id));
+      renderBrain();
+    }
+    function addBrainIdea() {
+      const title = (document.getElementById('brain-new-title').value || '').trim();
+      const cat = document.getElementById('brain-new-cat').value;
+      const desc = (document.getElementById('brain-new-desc').value || '').trim();
+      if (!title) { alert('Need a title.'); return; }
+      const list = loadBrain();
+      list.unshift({ id: 'b' + Date.now(), cat, title, desc, votes: 0 });
+      saveBrain(list);
+      document.getElementById('brain-new-title').value = '';
+      document.getElementById('brain-new-desc').value = '';
+      renderBrain();
+    }
+    function resetBrainstorm() {
+      if (!confirm('Reset to original seed list? Your votes and added ideas will be lost.')) return;
+      localStorage.removeItem(BRAIN_KEY);
+      brainFilter = 'all';
+      renderBrain();
+    }
+    function setBrainFilter(c) { brainFilter = c; renderBrain(); }
+
+    function renderBrain() {
+      const list = loadBrain();
+      const grid = document.getElementById('brain-grid');
+      const counts = document.getElementById('brain-counts');
+      const filtersEl = document.getElementById('brain-filters');
+      if (!grid) return;
+
+      // Filter chips
+      const counts_by_cat = {};
+      list.forEach(i => { counts_by_cat[i.cat] = (counts_by_cat[i.cat] || 0) + 1; });
+      const chipStyle = (active) => `background:${active ? 'var(--purple)' : 'var(--bg-light)'};color:${active ? 'var(--text-on-accent)' : 'var(--soft)'};border:1px solid ${active ? 'var(--purple)' : 'var(--border)'};padding:5px 12px;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;`;
+      let chips = `<button onclick="setBrainFilter('all')" style="${chipStyle(brainFilter === 'all')}">All (${list.length})</button>`;
+      Object.entries(BRAIN_CATS).forEach(([key, meta]) => {
+        const n = counts_by_cat[key] || 0;
+        if (n === 0) return;
+        chips += ` <button onclick="setBrainFilter('${key}')" style="${chipStyle(brainFilter === key)}">${meta.label} (${n})</button>`;
+      });
+      filtersEl.innerHTML = chips;
+
+      const visible = brainFilter === 'all' ? list : list.filter(i => i.cat === brainFilter);
+      // Sort by votes desc, then by id desc (newest first if tied)
+      visible.sort((a, b) => (b.votes || 0) - (a.votes || 0));
+
+      counts.textContent = `${list.length} ideas${brainFilter !== 'all' ? ' · ' + visible.length + ' in ' + BRAIN_CATS[brainFilter].label : ''}`;
+
+      if (!visible.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-style:italic;">No ideas in this category yet. Add one above.</div>';
+        return;
+      }
+
+      grid.innerHTML = visible.map(i => {
+        const cat = BRAIN_CATS[i.cat] || { label: i.cat, color: 'var(--muted)' };
+        return `<div style="background:var(--bg-light);border:1px solid var(--border);border-left:4px solid ${cat.color};border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <span style="background:${cat.color};color:var(--text-on-accent);padding:2px 8px;border-radius:5px;font-size:9px;font-weight:800;letter-spacing:0.5px;">${cat.label.toUpperCase()}</span>
+            <button onclick="removeBrain('${i.id}')" title="Remove" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;">×</button>
+          </div>
+          <div style="font-weight:800;font-size:14px;color:var(--ink);">${escapeHtmlBrain(i.title)}</div>
+          ${i.desc ? `<div style="font-size:12px;color:var(--soft);line-height:1.5;">${escapeHtmlBrain(i.desc)}</div>` : ''}
+          <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid var(--border);">
+            <button onclick="voteBrain('${i.id}')" style="background:transparent;border:1px solid var(--border);color:${(i.votes||0) > 0 ? 'var(--red)' : 'var(--muted)'};cursor:pointer;font-size:12px;padding:3px 10px;border-radius:14px;font-weight:700;">❤️ ${i.votes || 0}</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    function escapeHtmlBrain(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    renderBrain();
+  </script>
+
   <!-- WORKING DOCS -->
   <section style="margin-bottom:22px;">
     <h2 style="font-size:22px;font-weight:800;margin-bottom:14px;">Working Docs</h2>
