@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreakApp — Interactive Prototype</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0D0A1A;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 40px;
+}
+
+/* ── Header ── */
+.proto-eyebrow {
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.proto-title {
+  color: white;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+/* ── Scenario tabs ── */
+.scenario-selector {
+  display: flex;
+  gap: 6px;
+  background: rgba(255,255,255,0.07);
+  padding: 5px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.scenario-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.scenario-btn.active {
+  background: white;
+  color: #1a0a2e;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+/* ── Phone frame ── */
+.phone-frame {
+  width: 375px;
+  background: #1c1c2e;
+  border-radius: 52px;
+  padding: 14px;
+  box-shadow:
+    0 0 0 1.5px #2e2e48,
+    0 0 0 3px #141425,
+    0 40px 100px rgba(0,0,0,0.7),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+  position: relative;
+}
+
+/* Side buttons */
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 100px;
+  width: 3px;
+  height: 36px;
+  background: #2e2e48;
+  border-radius: 2px 0 0 2px;
+  box-shadow: 0 50px 0 #2e2e48;
+}
+.phone-frame::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 130px;
+  width: 3px;
+  height: 64px;
+  background: #2e2e48;
+  border-radius: 0 2px 2px 0;
+}
+
+.phone-screen {
+  width: 100%;
+  background: #F5F3FF;
+  border-radius: 40px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 760px;
+}
+
+/* Dynamic island */
+.dynamic-island {
+  width: 120px;
+  height: 34px;
+  background: #0a0a14;
+  border-radius: 20px;
+  margin: 10px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.island-camera {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1a1a2e;
+  border: 1.5px solid #2a2a3e;
+}
+
+/* Status bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 24px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* App header */
+.app-header {
+  padding: 4px 16px 12px;
+  background: white;
+  border-bottom: 1px solid #EDE9FF;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #5B21B6;
+  margin-bottom: 10px;
+}
+
+.scenario-chip {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: #999;
+  background: #F5F3FF;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.persona-tabs {
+  display: flex;
+  background: #F0ECFF;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.persona-tab {
+  flex: 1;
+  padding: 7px 2px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #9180C4;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.persona-tab.active {
+  background: white;
+  color: #5B21B6;
+  box-shadow: 0 1px 4px rgba(91,33,182,0.18);
+}
+
+/* Screen content */
+.screen-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #F5F3FF;
+}
+
+.screen-content::-webkit-scrollbar { display: none; }
+
+/* Bottom nav */
+.bottom-nav {
+  background: white;
+  border-top: 1px solid #EDE9FF;
+  padding: 10px 8px 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #C4B5FD;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+
+.nav-item.active {
+  color: #5B21B6;
+  background: #F0ECFF;
+}
+
+.nav-item .nav-icon { font-size: 19px; }
+
+/* ── Context banner ── */
+.context-banner {
+  margin-top: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 13px 16px;
+  width: 375px;
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.context-banner strong { color: white; }
+
+/* ───────────────────────────────
+   SCREEN COMPONENTS
+─────────────────────────────── */
+
+.screen {
+  display: none;
+  padding: 14px;
+  flex-direction: column;
+  gap: 12px;
+  animation: screenIn 0.25s ease;
+}
+
+.screen.active { display: flex; }
+
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card */
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 10px rgba(91,33,182,0.06);
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #B8AEDD;
+  margin-bottom: 10px;
+}
+
+/* AI Card */
+.ai-card {
+  background: linear-gradient(135deg, #5B21B6 0%, #2563EB 100%);
+  border-radius: 18px;
+  padding: 14px 16px;
+  color: white;
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.18);
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 9px;
+}
+
+.ai-text {
+  font-size: 13.5px;
+  line-height: 1.55;
+  opacity: 0.96;
+}
+
+.ai-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ai-btn-primary {
+  padding: 8px 14px;
+  background: white;
+  color: #5B21B6;
+  border: none;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ai-btn-ghost {
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.18);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Streak hero */
+.streak-hero {
+  border-radius: 20px;
+  padding: 20px 16px 16px;
+  text-align: center;
+  color: white;
+}
+
+.streak-hero.orange { background: linear-gradient(145deg, #F97316, #FBBF24); }
+.streak-hero.purple { background: linear-gradient(145deg, #7C3AED, #4F46E5); }
+.streak-hero.teal   { background: linear-gradient(145deg, #0891B2, #6366F1); }
+
+.streak-number {
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.streak-unit {
+  font-size: 22px;
+  font-weight: 900;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.streak-sub {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+/* Week dots */
+.week-grid {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.day-dot {
+  width: 38px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.7);
+}
+
+.day-dot.done {
+  background: rgba(255,255,255,0.9);
+  color: #F97316;
+}
+
+.day-dot.done.purple-theme { color: #7C3AED; }
+
+.day-dot.today {
+  background: white;
+  color: #F97316;
+  box-shadow: 0 0 0 2.5px rgba(255,255,255,0.6);
+}
+
+.day-dot.today.purple-theme { color: #7C3AED; }
+
+.day-dot .dlabel { font-size: 9px; font-weight: 800; opacity: 0.8; }
+.day-dot .dcheck { font-size: 13px; }
+
+/* Big action button */
+.action-btn-big {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: -0.2px;
+}
+
+/* Chat bubbles */
+.chat-flow { display: flex; flex-direction: column; gap: 9px; }
+
+.chat-msg { display: flex; gap: 7px; align-items: flex-end; }
+.chat-msg.user { flex-direction: row-reverse; }
+
+.chat-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  background: #F0ECFF;
+}
+
+.chat-msg.ai .chat-avatar {
+  background: #5B21B6;
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.bubble {
+  padding: 9px 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  max-width: 230px;
+}
+
+.chat-msg.ai .bubble {
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  color: white;
+  border-radius: 14px 14px 14px 3px;
+}
+
+.chat-msg.user .bubble {
+  background: white;
+  color: #333;
+  border-radius: 14px 14px 3px 14px;
+  border: 1.5px solid #EDE9FF;
+}
+
+/* Form field */
+.form-field { margin-bottom: 10px; }
+
+.field-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9180C4;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.field-value {
+  background: #FAF9FF;
+  border: 1.5px solid #EDE9FF;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #2d2d4e;
+  width: 100%;
+  font-weight: 500;
+}
+
+/* Stat row */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 900;
+  color: #5B21B6;
+  letter-spacing: -0.5px;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  color: #B8AEDD;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+/* Chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.chip-green  { background: #ECFDF5; color: #059669; }
+.chip-orange { background: #FFF7ED; color: #EA580C; }
+.chip-purple { background: #F0ECFF; color: #5B21B6; }
+.chip-red    { background: #FEF2F2; color: #DC2626; }
+.chip-blue   { background: #EFF6FF; color: #2563EB; }
+
+/* Roster row */
+.roster-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #F5F3FF;
+}
+.roster-item:last-child { border-bottom: none; }
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.roster-name { font-size: 14px; font-weight: 700; color: #2d2d4e; }
+.roster-sub  { font-size: 12px; color: #B8AEDD; margin-top: 1px; }
+.roster-info { flex: 1; }
+
+/* Progress bar */
+.pbar-wrap {
+  background: #EDE9FF;
+  border-radius: 100px;
+  height: 7px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.pbar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5B21B6, #2563EB);
+  border-radius: 100px;
+}
+
+/* Trend bars */
+.trend-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 64px;
+}
+
+.trend-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.trend-bar {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  background: #C4B5FD;
+}
+
+.trend-bar.now { background: #5B21B6; }
+.trend-lbl { font-size: 10px; color: #C4B5FD; font-weight: 700; }
+
+/* Heatmap */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.hm-day {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: #F0ECFF;
+}
+
+.hm-day.l1 { background: #DDD6FE; }
+.hm-day.l2 { background: #8B5CF6; }
+.hm-day.l3 { background: #4C1D95; }
+
+/* Badges */
+.badge-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.badge-row::-webkit-scrollbar { display: none; }
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.badge-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: linear-gradient(135deg, #FBBF24, #F59E0B);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+}
+
+.badge-icon.locked {
+  background: #F0ECFF;
+  box-shadow: none;
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.badge-name { font-size: 10.5px; color: #9180C4; font-weight: 700; text-align: center; }
+
+/* Section header */
+.sec-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sec-title { font-size: 15px; font-weight: 800; color: #2d2d4e; }
+.sec-link  { font-size: 12px; color: #5B21B6; font-weight: 700; }
+
+/* Notification card */
+.notif-card {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px;
+  background: white;
+  border-radius: 14px;
+  border: 1.5px solid #EDE9FF;
+  box-shadow: 0 2px 8px rgba(91,33,182,0.05);
+}
+
+.notif-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.notif-title { font-size: 13px; font-weight: 700; color: #2d2d4e; }
+.notif-body  { font-size: 12px; color: #888; margin-top: 2px; line-height: 1.4; }
+.notif-time  { font-size: 11px; color: #C4B5FD; margin-top: 4px; font-weight: 600; }
+
+/* AI prompt input */
+.ai-prompt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FAF9FF;
+  border: 1.5px solid #EDE9FF;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+
+.ai-prompt-text { font-size: 13px; color: #C4B5FD; font-style: italic; flex: 1; }
+
+/* Quick pick chips */
+.quick-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* Bar chart simple */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 56px;
+}
+
+.bc-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bc-bar {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.bc-lbl { font-size: 10px; color: #C4B5FD; font-weight: 700; }
+
+/* Highlighted roster row */
+.roster-highlight {
+  background: #F5F0FF;
+  margin: 0 -16px;
+  padding: 10px 16px;
+}
+</style>
+</head>
+<body>
+
+<p class="proto-eyebrow">Interactive Prototype</p>
+<h1 class="proto-title">🔥 StreakApp</h1>
+
+<!-- Scenario selector -->
+<div class="scenario-selector">
+  <button class="scenario-btn active" data-scenario="mom" onclick="setScenario('mom')">👩 Mom Group</button>
+  <button class="scenario-btn" data-scenario="teacher" onclick="setScenario('teacher')">📚 Teacher</button>
+  <button class="scenario-btn" data-scenario="drum" onclick="setScenario('drum')">🥁 Drum Instructor</button>
+</div>
+
+<!-- Phone -->
+<div class="phone-frame">
+  <div class="phone-screen">
+
+    <!-- Dynamic island -->
+    <div class="dynamic-island">
+      <div class="island-camera"></div>
+      <div class="island-camera" style="width:6px;height:6px;background:#1f1f3a;"></div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <span style="letter-spacing:-0.5px;">●●●● WiFi 🔋</span>
+    </div>
+
+    <!-- App header -->
+    <div class="app-header">
+      <div class="app-logo">
+        🔥 StreakApp
+        <span class="scenario-chip" id="scenario-chip">Summer Splash</span>
+      </div>
+      <div class="persona-tabs">
+        <button class="persona-tab active" data-persona="admin"       onclick="setPersona('admin')">🛠 Admin</button>
+        <button class="persona-tab"        data-persona="participant" onclick="setPersona('participant')">⭐ Participant</button>
+        <button class="persona-tab"        data-persona="parent"      onclick="setPersona('parent')">👪 Parent</button>
+      </div>
+    </div>
+
+    <!-- Screen -->
+    <div class="screen-content" id="screen-content"></div>
+
+    <!-- Bottom nav -->
+    <div class="bottom-nav">
+      <div class="nav-item active"><div class="nav-icon">🏠</div>Home</div>
+      <div class="nav-item"><div class="nav-icon">📊</div>Progress</div>
+      <div class="nav-item"><div class="nav-icon">👥</div>Group</div>
+      <div class="nav-item"><div class="nav-icon">👤</div>Profile</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Context banner -->
+<div class="context-banner" id="context-banner"></div>
+
+<script>
+let scenario = 'mom';
+let persona  = 'admin';
+
+const scenarioChips = {
+  mom:     'Summer Splash',
+  teacher: 'Math Minutes',
+  drum:    '30-Day Practice'
+};
+
+const contexts = {
+  mom: {
+    admin:       '<strong>Sarah (Group Organizer)</strong> sets up a summer swimming streak for the Maplewood Moms group. AI helps configure the challenge, suggests milestones, and drafts the group invite.',
+    participant: '<strong>Sofia, age 8</strong> (logged in by mom) is 9 days into the Summer Splash challenge. She logs today\'s swim and gets AI-powered encouragement based on her standing.',
+    parent:      '<strong>Sarah (Sofia\'s mom)</strong> checks Sofia\'s progress. AI surfaces personalized insights and predicts when Sofia will hit her next milestone reward.'
+  },
+  teacher: {
+    admin:       '<strong>Mrs. Chen (3rd Grade Teacher)</strong> sets up a Daily Math Minutes streak for her class of 28. AI monitors the whole class and flags students at risk of falling behind.',
+    participant: '<strong>Marcus, grade 3</strong> is on a 14-day streak. He logs today\'s practice and checks where he stands on the class leaderboard.',
+    parent:      '<strong>Marcus\'s parent</strong> receives a weekly AI-generated report on consistency, effort, and class benchmarks — without needing to ask the teacher.'
+  },
+  drum: {
+    admin:       '<strong>Mr. Rivera (Drum Instructor)</strong> runs a 30-day practice streak for 6 students. AI assigns per-student practice goals and alerts him when someone falls off track.',
+    participant: '<strong>Jake Chen (beginner student)</strong> logs today\'s drum practice. An AI prompt captures what he worked on, building his practice history over time.',
+    parent:      '<strong>Jake\'s parent</strong> gets AI-synthesized updates combining Jake\'s self-reported practice logs with Mr. Rivera\'s lesson notes.'
+  }
+};
+
+const screens = {
+  mom: {
+    admin: `
+<div class="screen active">
+
+  <div class="card">
+    <div class="card-label">✨ AI Setup — in progress</div>
+    <div class="chat-flow">
+      <div class="chat-msg ai">
+        <div class="chat-avatar">AI</div>
+        <div class="bubble">Hi Sarah! Tell me about your group challenge — what are you hoping the kids do this summer?</div>
+      </div>
+      <div class="chat-msg user">
+        <div class="chat-avatar">👩</div>
+        <div class="bubble">We want the kids to swim or do outdoor activity every week this summer</div>
+      </div>
+      <div class="chat-msg ai">
+        <div class="chat-avatar">AI</div>
+        <div class="bubble">Love it! I've drafted a challenge below — edit anything you'd like to change. I've also suggested a milestone at Week 4 🏆</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Challenge Details — AI Generated</div>
+    <div class="form-field">
+      <div class="field-label">Name</div>
+      <div class="field-value">🌊 Summer Splash Challenge</div>
+    </div>
+    <div class="form-field">
+      <div class="field-label">Goal</div>
+      <div class="field-value">Swim or outdoor play 4× per week</div>
+    </div>
+    <div class="form-field">
+      <div class="field-label">Duration</div>
+      <div class="field-value">June 15 → Aug 10  (8 weeks)</div>
+    </div>
+    <div class="form-field" style="margin-bottom:0">
+      <div class="field-label">Group</div>
+      <div class="field-value">Maplewood Moms · 12 families</div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Suggestions</div>
+    <div class="ai-text">I can add a <strong>Week 4 milestone badge</strong> for kids who hit 50% completion, and send <strong>weekly parent digests</strong> automatically — so you don't have to chase anyone for updates.</div>
+    <div class="ai-actions">
+      <button class="ai-btn-primary">✓ Add Milestone</button>
+      <button class="ai-btn-ghost">Enable Digest</button>
+    </div>
+  </div>
+
+  <button class="action-btn-big">🚀 Launch & Invite Group</button>
+
+</div>`,
+
+    participant: `
+<div class="screen active">
+
+  <div class="streak-hero orange">
+    <div class="streak-unit">Current Streak</div>
+    <div class="streak-number">🔥9</div>
+    <div class="streak-sub">days in a row — you're on fire, Sofia!</div>
+    <div class="week-grid">
+      <div class="day-dot done"><div class="dlabel">M</div><div class="dcheck">✓</div></div>
+      <div class="day-dot done"><div class="dlabel">T</div><div class="dcheck">✓</div></div>
+      <div class="day-dot done"><div class="dlabel">W</div><div class="dcheck">✓</div></div>
+      <div class="day-dot today"><div class="dlabel">T</div><div class="dcheck">●</div></div>
+      <div class="day-dot"><div class="dlabel">F</div><div class="dcheck">·</div></div>
+      <div class="day-dot"><div class="dlabel">S</div><div class="dcheck">·</div></div>
+      <div class="day-dot"><div class="dlabel">S</div><div class="dcheck">·</div></div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Cheer</div>
+    <div class="ai-text">Sofia is <strong>#3 out of 12 kids</strong> in the group! 🏆 One more session today makes it 10 days — a new personal best. The 2-week badge is right around the corner!</div>
+  </div>
+
+  <button class="action-btn-big">🌊 Log Today's Activity</button>
+
+  <div class="card">
+    <div class="sec-hdr">
+      <div class="sec-title">Badges</div>
+      <div class="sec-link">See all</div>
+    </div>
+    <div class="badge-row">
+      <div class="badge">
+        <div class="badge-icon">🌊</div>
+        <div class="badge-name">First Splash</div>
+      </div>
+      <div class="badge">
+        <div class="badge-icon">🔥</div>
+        <div class="badge-name">7-Day Streak</div>
+      </div>
+      <div class="badge">
+        <div class="badge-icon locked">🏆</div>
+        <div class="badge-name">10-Day Club</div>
+      </div>
+      <div class="badge">
+        <div class="badge-icon locked">⭐</div>
+        <div class="badge-name">2 Weeks</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">This Week — 3 of 4 sessions</div>
+    <div class="pbar-wrap">
+      <div class="pbar-fill" style="width:75%"></div>
+    </div>
+    <div style="font-size:12px; color:#9180C4; margin-top:6px; font-weight:600;">1 more activity to hit the weekly goal 💪</div>
+  </div>
+
+</div>`,
+
+    parent: `
+<div class="screen active">
+
+  <div class="card">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <div class="avatar" style="background:#FFF3EA; font-size:22px; width:46px; height:46px;">🧒</div>
+      <div>
+        <div style="font-size:17px; font-weight:800; color:#2d2d4e;">Sofia</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+          <span class="chip chip-green">🔥 9-day streak</span>
+          <span class="chip chip-purple">#3 in group</span>
+        </div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div><div class="stat-value">9</div><div class="stat-lbl">Streak</div></div>
+      <div><div class="stat-value">22</div><div class="stat-lbl">Total Days</div></div>
+      <div><div class="stat-value">88%</div><div class="stat-lbl">Completion</div></div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Weekly Summary</div>
+    <div class="ai-text">"Sofia has been incredibly consistent — active every day this week. She tends to log <strong>Tuesday–Thursday mornings</strong>. At this pace she'll hit the <strong>Week 4 milestone on July 13th</strong> 🎯"</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Weekly Consistency</div>
+    <div class="trend-wrap">
+      <div class="trend-col"><div class="trend-bar" style="height:40%"></div><div class="trend-lbl">Wk1</div></div>
+      <div class="trend-col"><div class="trend-bar" style="height:60%"></div><div class="trend-lbl">Wk2</div></div>
+      <div class="trend-col"><div class="trend-bar" style="height:78%"></div><div class="trend-lbl">Wk3</div></div>
+      <div class="trend-col"><div class="trend-bar now" style="height:100%"></div><div class="trend-lbl">Wk4</div></div>
+    </div>
+    <div style="font-size:12px; color:#5B21B6; font-weight:700; margin-top:8px;">📈 Improving every single week</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Group Standing</div>
+    <div style="font-size:13px; color:#666; line-height:1.5;">Sofia is <strong style="color:#5B21B6;">#3 of 12 kids</strong> — outperforming 75% of the group.</div>
+    <div class="pbar-wrap" style="margin-top:8px;">
+      <div class="pbar-fill" style="width:88%"></div>
+    </div>
+  </div>
+
+</div>`
+  },
+
+  teacher: {
+    admin: `
+<div class="screen active">
+
+  <div class="card">
+    <div class="card-label">✨ AI Setup</div>
+    <div class="chat-flow">
+      <div class="chat-msg ai">
+        <div class="chat-avatar">AI</div>
+        <div class="bubble">What grade level and subject for the streak challenge?</div>
+      </div>
+      <div class="chat-msg user">
+        <div class="chat-avatar">👩‍🏫</div>
+        <div class="bubble">3rd grade math — 10 minutes every school day</div>
+      </div>
+      <div class="chat-msg ai">
+        <div class="chat-avatar">AI</div>
+        <div class="bubble">Set! "Daily Math Minutes" — 10 min Mon–Fri. I'll track each student separately and flag anyone who misses 3+ days so you can act early 📊</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Class Alert</div>
+    <div class="ai-text"><strong>5 students</strong> haven't logged in 3+ days. I can send a gentle push notification now — or draft a note to their parents if you prefer.</div>
+    <div class="ai-actions">
+      <button class="ai-btn-primary">📨 Send Nudge</button>
+      <button class="ai-btn-ghost">Parent Notes</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-hdr">
+      <div class="sec-title">June Activity Heatmap</div>
+      <div class="sec-link">28 students</div>
+    </div>
+    <div class="heatmap" id="heatmap"></div>
+    <div style="display:flex; gap:10px; margin-top:8px; align-items:center;">
+      <div style="width:10px;height:10px;background:#F0ECFF;border-radius:3px;"></div><span style="font-size:11px;color:#C4B5FD;font-weight:600;">None</span>
+      <div style="width:10px;height:10px;background:#DDD6FE;border-radius:3px;"></div><span style="font-size:11px;color:#C4B5FD;font-weight:600;">Some</span>
+      <div style="width:10px;height:10px;background:#4C1D95;border-radius:3px;"></div><span style="font-size:11px;color:#C4B5FD;font-weight:600;">All</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-hdr">
+      <div class="sec-title">Student Spotlight</div>
+      <div class="sec-link">View all</div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6;">M</div>
+      <div class="roster-info">
+        <div class="roster-name">Marcus T.</div>
+        <div class="roster-sub">14-day streak · perfect this week</div>
+      </div>
+      <span class="chip chip-green">🔥 #1</span>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#FFF7ED; color:#EA580C;">A</div>
+      <div class="roster-info">
+        <div class="roster-name">Aisha K.</div>
+        <div class="roster-sub">12-day streak</div>
+      </div>
+      <span class="chip chip-orange">🔥 #2</span>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#FEF2F2; color:#DC2626;">J</div>
+      <div class="roster-info">
+        <div class="roster-name">Jake P.</div>
+        <div class="roster-sub">No activity — 4 days</div>
+      </div>
+      <span class="chip chip-red">⚠ At risk</span>
+    </div>
+  </div>
+
+</div>`,
+
+    participant: `
+<div class="screen active">
+
+  <div class="streak-hero orange">
+    <div class="streak-unit">Marcus's Streak</div>
+    <div class="streak-number">🔥14</div>
+    <div class="streak-sub">school days in a row!</div>
+    <div class="week-grid">
+      <div class="day-dot done"><div class="dlabel">M</div><div class="dcheck">✓</div></div>
+      <div class="day-dot done"><div class="dlabel">T</div><div class="dcheck">✓</div></div>
+      <div class="day-dot done"><div class="dlabel">W</div><div class="dcheck">✓</div></div>
+      <div class="day-dot today"><div class="dlabel">T</div><div class="dcheck">●</div></div>
+      <div class="day-dot"><div class="dlabel">F</div><div class="dcheck">·</div></div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Motivation</div>
+    <div class="ai-text">You're <strong>#2 in Mrs. Chen's class!</strong> Six more days and you'll break the class record of 20 consecutive days. You've got this 🎯</div>
+  </div>
+
+  <button class="action-btn-big">📐 Log Today's Math Minutes</button>
+
+  <div class="card">
+    <div class="sec-hdr">
+      <div class="sec-title">Class Leaderboard</div>
+      <div class="sec-link">Top 5</div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#FFFBEB; font-size:20px; width:38px; height:38px;">🥇</div>
+      <div class="roster-info">
+        <div class="roster-name">Aisha K.</div>
+        <div class="roster-sub">16 days</div>
+      </div>
+    </div>
+    <div class="roster-item roster-highlight">
+      <div class="avatar" style="background:#EDE9FF; font-size:20px; width:38px; height:38px;">🥈</div>
+      <div class="roster-info">
+        <div class="roster-name" style="color:#5B21B6;">Marcus T. (you)</div>
+        <div class="roster-sub">14 days</div>
+      </div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#F5F5F5; font-size:20px; width:38px; height:38px;">🥉</div>
+      <div class="roster-info">
+        <div class="roster-name">Jordan M.</div>
+        <div class="roster-sub">11 days</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">June Progress — 14 of 20 school days</div>
+    <div class="pbar-wrap">
+      <div class="pbar-fill" style="width:70%"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-top:6px;">
+      <span style="font-size:12px; color:#9180C4; font-weight:600;">70% complete</span>
+      <span style="font-size:12px; color:#5B21B6; font-weight:700;">6 days left</span>
+    </div>
+  </div>
+
+</div>`,
+
+    parent: `
+<div class="screen active">
+
+  <div class="card">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6; font-size:18px; width:46px; height:46px; font-weight:900;">M</div>
+      <div>
+        <div style="font-size:17px; font-weight:800; color:#2d2d4e;">Marcus</div>
+        <div style="font-size:12px; color:#C4B5FD; font-weight:600;">Mrs. Chen's Class · Grade 3</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div><div class="stat-value">14</div><div class="stat-lbl">Streak</div></div>
+      <div><div class="stat-value">5/5</div><div class="stat-lbl">This Week</div></div>
+      <div><div class="stat-value">Top 10%</div><div class="stat-lbl">Class Rank</div></div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Weekly Report</div>
+    <div class="ai-text">"Marcus completed math practice <strong>5/5 days</strong> this week — a perfect week! He averages <strong>11 minutes per session</strong> and has maintained consistency for 3 consecutive weeks. His dedication puts him in the <strong>top 10% of the class.</strong>"</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">4-Week Consistency</div>
+    <div class="trend-wrap">
+      <div class="trend-col"><div class="trend-bar" style="height:55%"></div><div class="trend-lbl">Wk1</div></div>
+      <div class="trend-col"><div class="trend-bar" style="height:75%"></div><div class="trend-lbl">Wk2</div></div>
+      <div class="trend-col"><div class="trend-bar" style="height:90%"></div><div class="trend-lbl">Wk3</div></div>
+      <div class="trend-col"><div class="trend-bar now" style="height:100%"></div><div class="trend-lbl">Wk4</div></div>
+    </div>
+    <div style="font-size:12px; color:#5B21B6; font-weight:700; margin-top:8px;">📈 Best week yet!</div>
+  </div>
+
+  <div class="notif-card">
+    <div class="notif-icon" style="background:#EDE9FF;">📬</div>
+    <div>
+      <div class="notif-title">Note from Mrs. Chen</div>
+      <div class="notif-body">"Marcus has become a great example in class this month — his consistency really shows up in his confidence."</div>
+      <div class="notif-time">June 28</div>
+    </div>
+  </div>
+
+</div>`
+  },
+
+  drum: {
+    admin: `
+<div class="screen active">
+
+  <div class="card">
+    <div class="card-label">✨ AI Setup</div>
+    <div class="chat-flow">
+      <div class="chat-msg ai">
+        <div class="chat-avatar">AI</div>
+        <div class="bubble">How many students, and do they have different skill levels?</div>
+      </div>
+      <div class="chat-msg user">
+        <div class="chat-avatar">🥁</div>
+        <div class="bubble">6 students, 30-day challenge — beginners and intermediates mixed</div>
+      </div>
+      <div class="chat-msg ai">
+        <div class="chat-avatar">AI</div>
+        <div class="bubble">I'll set tiered goals: Beginners 15 min/day focused on basics, Intermediates 25 min with rudiments + songs. Each student gets a custom practice focus 👇</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-hdr">
+      <div class="sec-title">Student Roster — Day 6/30</div>
+      <div class="sec-link">Manage</div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6;">J</div>
+      <div class="roster-info">
+        <div class="roster-name">Jake Chen</div>
+        <div class="roster-sub">Beginner · 15 min/day · hi-hat focus</div>
+      </div>
+      <span class="chip chip-green">🔥 6d</span>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#FFF7ED; color:#EA580C;">L</div>
+      <div class="roster-info">
+        <div class="roster-name">Lily Park</div>
+        <div class="roster-sub">Intermediate · 25 min/day</div>
+      </div>
+      <span class="chip chip-green">🔥 6d</span>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#FEF2F2; color:#DC2626;">S</div>
+      <div class="roster-info">
+        <div class="roster-name">Sam Torres</div>
+        <div class="roster-sub">Beginner · 15 min/day · timing struggles</div>
+      </div>
+      <span class="chip chip-red">⚠ 3d gap</span>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#EFF6FF; color:#2563EB;">R</div>
+      <div class="roster-info">
+        <div class="roster-name">Rosa Kim</div>
+        <div class="roster-sub">Intermediate · 25 min/day</div>
+      </div>
+      <span class="chip chip-green">🔥 5d</span>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Alert — Action Needed</div>
+    <div class="ai-text"><strong>Sam Torres</strong> hasn't practiced in 3 days. His last lesson notes show he was struggling with timing. Want me to draft a check-in message for his parents?</div>
+    <div class="ai-actions">
+      <button class="ai-btn-primary">✉️ Draft Message</button>
+      <button class="ai-btn-ghost">View Notes</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Challenge Progress — Day 6 of 30</div>
+    <div class="pbar-wrap">
+      <div class="pbar-fill" style="width:20%"></div>
+    </div>
+    <div style="font-size:12px; color:#9180C4; margin-top:6px; font-weight:600;">4 of 6 students on pace · 2 need attention</div>
+  </div>
+
+</div>`,
+
+    participant: `
+<div class="screen active">
+
+  <div class="streak-hero purple">
+    <div class="streak-unit">Jake's Practice Streak</div>
+    <div class="streak-number">🥁6</div>
+    <div class="streak-sub">days in a row — great work!</div>
+    <div class="week-grid">
+      <div class="day-dot done purple-theme"><div class="dlabel">M</div><div class="dcheck">✓</div></div>
+      <div class="day-dot done purple-theme"><div class="dlabel">T</div><div class="dcheck">✓</div></div>
+      <div class="day-dot done purple-theme"><div class="dlabel">W</div><div class="dcheck">✓</div></div>
+      <div class="day-dot today purple-theme"><div class="dlabel">T</div><div class="dcheck">●</div></div>
+      <div class="day-dot"><div class="dlabel">F</div><div class="dcheck">·</div></div>
+      <div class="day-dot"><div class="dlabel">S</div><div class="dcheck">·</div></div>
+      <div class="day-dot"><div class="dlabel">S</div><div class="dcheck">·</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Today's Practice Log</div>
+    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+      <span class="chip chip-purple">🎯 Goal: 15 min</span>
+      <span class="chip chip-green">Focus: hi-hat patterns</span>
+    </div>
+    <div class="ai-prompt">
+      <span style="font-size:18px;">🤖</span>
+      <div class="ai-prompt-text">What did you work on today? AI will remember this for Mr. Rivera…</div>
+    </div>
+    <div class="quick-picks">
+      <span class="chip chip-purple" style="cursor:pointer;">Hi-hat patterns</span>
+      <span class="chip chip-purple" style="cursor:pointer;">Basic beat</span>
+      <span class="chip chip-purple" style="cursor:pointer;">Rudiments</span>
+      <span class="chip chip-purple" style="cursor:pointer;">Song practice</span>
+    </div>
+  </div>
+
+  <button class="action-btn-big">✅ Log Practice Session</button>
+
+  <div class="card">
+    <div class="sec-hdr">
+      <div class="sec-title">Recent Sessions</div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6; font-size:18px;">🥁</div>
+      <div class="roster-info">
+        <div class="roster-name">Wednesday — 18 min</div>
+        <div class="roster-sub">"Hi-hat patterns and basic beat — felt better at the end"</div>
+      </div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6; font-size:18px;">🥁</div>
+      <div class="roster-info">
+        <div class="roster-name">Tuesday — 15 min</div>
+        <div class="roster-sub">"Rudiments practice — working on steady tempo"</div>
+      </div>
+    </div>
+    <div class="roster-item">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6; font-size:18px;">🥁</div>
+      <div class="roster-info">
+        <div class="roster-name">Monday — 16 min</div>
+        <div class="roster-sub">"Started hi-hat patterns from lesson"</div>
+      </div>
+    </div>
+  </div>
+
+</div>`,
+
+    parent: `
+<div class="screen active">
+
+  <div class="card">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <div class="avatar" style="background:#EDE9FF; color:#5B21B6; font-size:18px; width:46px; height:46px; font-weight:900;">J</div>
+      <div>
+        <div style="font-size:17px; font-weight:800; color:#2d2d4e;">Jake Chen</div>
+        <div style="font-size:12px; color:#C4B5FD; font-weight:600;">Beginner · Mr. Rivera's Studio</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div><div class="stat-value">6</div><div class="stat-lbl">Streak</div></div>
+      <div><div class="stat-value">16 min</div><div class="stat-lbl">Avg Session</div></div>
+      <div><div class="stat-value">6/30</div><div class="stat-lbl">Challenge</div></div>
+    </div>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-badge">✦ AI Practice Summary</div>
+    <div class="ai-text">"Jake has practiced <strong>6 days in a row</strong>! His logs show focus on <strong>hi-hat patterns and basic beats</strong> — averaging 16 min, just above his 15-min goal. Mr. Rivera's last lesson note: <em>'Improving on tempo consistency — keep it going!'</em>"</div>
+  </div>
+
+  <div class="notif-card">
+    <div class="notif-icon" style="background:#EDE9FF; font-size:22px;">🥁</div>
+    <div>
+      <div class="notif-title">Next Lesson — Thursday 4:00 PM</div>
+      <div class="notif-body">Mr. Rivera's Studio · Oak Street. Jake has been logging consistently — he'll arrive prepared.</div>
+      <div class="notif-time">In 2 days</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">This Week's Practice</div>
+    <div class="bar-chart">
+      <div class="bc-col">
+        <div class="bc-bar" style="height:42px; background:#5B21B6;">18m</div>
+        <div class="bc-lbl">Mon</div>
+      </div>
+      <div class="bc-col">
+        <div class="bc-bar" style="height:36px; background:#5B21B6;">15m</div>
+        <div class="bc-lbl">Tue</div>
+      </div>
+      <div class="bc-col">
+        <div class="bc-bar" style="height:46px; background:#5B21B6;">20m</div>
+        <div class="bc-lbl">Wed</div>
+      </div>
+      <div class="bc-col">
+        <div class="bc-bar" style="height:16px; background:#C4B5FD; opacity:0.6;"></div>
+        <div class="bc-lbl" style="color:#5B21B6; font-weight:800;">Today</div>
+      </div>
+      <div class="bc-col">
+        <div class="bc-bar" style="height:10px; background:#EDE9FF; opacity:0.4;"></div>
+        <div class="bc-lbl">Thu</div>
+      </div>
+    </div>
+    <div style="font-size:12px; color:#5B21B6; font-weight:700; margin-top:10px;">Goal: 15 min/day · On track ✓</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">30-Day Challenge</div>
+    <div class="pbar-wrap">
+      <div class="pbar-fill" style="width:20%"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-top:6px;">
+      <span style="font-size:12px; color:#9180C4; font-weight:600;">Day 6 of 30</span>
+      <span style="font-size:12px; color:#5B21B6; font-weight:700;">On pace 🎯</span>
+    </div>
+  </div>
+
+</div>`
+  }
+};
+
+function generateHeatmap() {
+  const el = document.getElementById('heatmap');
+  if (!el) return;
+  const weights = ['', 'l1', 'l1', 'l2', 'l2', 'l3'];
+  el.innerHTML = '';
+  for (let i = 0; i < 28; i++) {
+    const cell = document.createElement('div');
+    const cls = i > 20 ? (Math.random() > 0.6 ? 'l1' : '') : weights[Math.floor(Math.random() * weights.length)];
+    cell.className = 'hm-day ' + cls;
+    el.appendChild(cell);
+  }
+}
+
+function setScenario(s) {
+  scenario = s;
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.toggle('active', b.dataset.scenario === s));
+  document.getElementById('scenario-chip').textContent = scenarioChips[s];
+  render();
+}
+
+function setPersona(p) {
+  persona = p;
+  document.querySelectorAll('.persona-tab').forEach(t => t.classList.toggle('active', t.dataset.persona === p));
+  render();
+}
+
+function render() {
+  document.getElementById('screen-content').innerHTML = screens[scenario][persona];
+  document.getElementById('context-banner').innerHTML = contexts[scenario][persona];
+  if (scenario === 'teacher' && persona === 'admin') {
+    setTimeout(generateHeatmap, 30);
+  }
+}
+
+render();
+</script>
+</body>
+</html>
