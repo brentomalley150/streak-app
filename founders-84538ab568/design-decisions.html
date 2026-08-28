@@ -1,0 +1,639 @@
+<title>Two Streak Design Calls</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* ============================================================
+   PAGE TOKENS — the page's own identity, deliberately NOT the
+   Streak palette. Streak's real colors appear only inside the
+   demo panels, so the specimens read as specimens.
+   ============================================================ */
+:root {
+  --paper:      #F7F6F9;   /* warm violet-biased neutral, not default grey */
+  --paper-2:    #FFFFFF;
+  --rule:       #E2DEEA;
+  --ink:        #191526;
+  --ink-2:      #4A445C;
+  --ink-3:      #6B6480;
+  --accent:     #6C2BD9;   /* matches the decision under discussion */
+  --accent-dim: #F0ECFF;
+  --fail:       #B3261E;
+  --pass:       #1B6B4A;
+  --shadow:     0 1px 3px rgba(25,21,38,.07), 0 8px 24px rgba(25,21,38,.05);
+  --shadow-lg:  0 20px 50px rgba(25,21,38,.14);
+
+  --measure: 68ch;
+  --fs-micro: 11px;
+  --fs-cap:   13px;
+  --fs-body:  16.5px;
+  --fs-h3:    20px;
+  --fs-h2:    28px;
+  --fs-h1:    clamp(34px, 5.2vw, 52px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #131019;
+    --paper-2:    #1C1826;
+    --rule:       #2E2840;
+    --ink:        #F2EFF7;
+    --ink-2:      #B8B0C9;
+    --ink-3:      #8B839E;
+    --accent:     #C4B5FD;
+    --accent-dim: #241C3A;
+    --fail:       #F2A9A2;
+    --pass:       #6FD3A6;
+    --shadow:     0 1px 3px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+    --shadow-lg:  0 20px 50px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"] {
+  --paper:      #131019;
+  --paper-2:    #1C1826;
+  --rule:       #2E2840;
+  --ink:        #F2EFF7;
+  --ink-2:      #B8B0C9;
+  --ink-3:      #8B839E;
+  --accent:     #C4B5FD;
+  --accent-dim: #241C3A;
+  --fail:       #F2A9A2;
+  --pass:       #6FD3A6;
+  --shadow:     0 1px 3px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+  --shadow-lg:  0 20px 50px rgba(0,0,0,.5);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); }
+
+h1, h2, h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 800;
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -.02em;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: var(--fs-micro);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ---------------- masthead ---------------- */
+.masthead { padding: clamp(56px, 9vw, 104px) 0 clamp(30px, 4vw, 48px); }
+.masthead h1 { font-size: var(--fs-h1); line-height: 1.03; max-width: 17ch; margin: 16px 0 0; }
+.standfirst {
+  max-width: var(--measure);
+  color: var(--ink-2);
+  font-size: clamp(17px, 2vw, 19px);
+  margin: 22px 0 0;
+}
+.standfirst strong { color: var(--ink); font-weight: 700; }
+
+/* ---------------- decision band ---------------- */
+.band { padding: clamp(40px, 6vw, 72px) 0; border-top: 1px solid var(--rule); }
+
+.band-head { display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; margin-bottom: 8px; }
+.band-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 46px; font-weight: 800; line-height: 1;
+  color: var(--accent); opacity: .28;
+  font-variant-numeric: tabular-nums;
+}
+.band-head h2 { font-size: var(--fs-h2); flex: 1; min-width: 260px; }
+.band-sub { max-width: var(--measure); color: var(--ink-2); margin: 4px 0 34px; }
+
+/* ---------------- A/B comparison grid ---------------- */
+.ab { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.4vw, 28px); }
+@media (max-width: 860px) { .ab { grid-template-columns: 1fr; } }
+
+.opt { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.opt-label { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-micro); font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px;
+}
+.tag-yes { background: var(--accent); color: #fff; }
+.tag-no  { background: transparent; color: var(--ink-3); border: 1px solid var(--rule); }
+:root[data-theme="dark"] .tag-yes { color: #191526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag-yes { color: #191526; } }
+.opt-label h3 { font-size: var(--fs-h3); font-family: 'Public Sans', sans-serif; font-weight: 700; letter-spacing: -.01em; }
+
+/* ---------------- device frame ---------------- */
+.frame {
+  border-radius: 22px; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--rule);
+}
+.frame-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 9px 14px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; }
+
+/* ============================================================
+   SPECIMEN A — KID SURFACE, DARK  (real tokens.css values)
+   These are literals on purpose: they are the artifact under
+   review, and must render identically in either page theme.
+   ============================================================ */
+.kid {
+  background: #0F1A2E; color: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px 18px 24px;
+}
+.kid .bar { background: #1A2942; color: #B8C7DF; }
+.kid .dot-a { background: #FF6B6B; } .kid .dot-b { background: #FFD84A; } .kid .dot-c { background: #5EEA93; }
+
+.kid-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.kid-hello { font-size: 16px; font-weight: 700; color: #D6E2F5; }
+.kid-rank {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,216,74,.14); border: 1px solid rgba(255,216,74,.4);
+  color: #FFD84A; font-size: 12px; font-weight: 800;
+  padding: 5px 10px; border-radius: 999px;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.streak-hero {
+  background: #1E3050; border: 1px solid #3A5380; border-radius: 16px;
+  padding: 18px; text-align: center; margin-bottom: 16px;
+}
+.streak-num {
+  font-size: 52px; font-weight: 800; line-height: 1;
+  color: #FFD84A; font-variant-numeric: tabular-nums;
+}
+.streak-lbl { font-size: 16px; color: #D6E2F5; margin-top: 6px; font-weight: 600; }
+.streak-alive {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 12px; font-size: 14px; font-weight: 700;
+  color: #5EEA93; background: rgba(94,234,147,.12);
+  padding: 5px 12px; border-radius: 999px;
+}
+.acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.act {
+  background: #1E3050; border: 2px solid #3A5380; border-radius: 14px;
+  padding: 14px 12px; text-align: center; min-height: 76px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+}
+.act-ico { font-size: 22px; line-height: 1; }
+.act-txt { font-size: 16px; font-weight: 700; color: #FFFFFF; }
+.act.done { border-color: #5EEA93; background: rgba(94,234,147,.10); }
+.act.done .act-txt { color: #5EEA93; }
+.act-check { font-size: 13px; font-weight: 800; color: #5EEA93; }
+
+/* ============================================================
+   SPECIMEN B — SAME SCREEN, LIGHT (the rejected option)
+   ============================================================ */
+.kidlight {
+  background: #FFFFFF; color: #1A1F2E;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px 18px 24px;
+}
+.kidlight .bar { background: #F5F3FF; color: #5B6472; }
+.kidlight .dot-a, .kidlight .dot-b, .kidlight .dot-c { background: #EDE9FF; }
+.kidlight .kid-hello { color: #4A5568; }
+.kidlight .kid-rank { background: #FFF7ED; border-color: #F5D9A8; color: #B45309; }
+.kidlight .streak-hero { background: #FAFAFE; border-color: #EDE9FF; }
+.kidlight .streak-num { color: #B45309; }
+.kidlight .streak-lbl { color: #4A5568; }
+.kidlight .streak-alive { color: #047857; background: rgba(4,120,87,.09); }
+.kidlight .act { background: #FFFFFF; border-color: #EDE9FF; }
+.kidlight .act-txt { color: #1A1F2E; }
+.kidlight .act.done { border-color: #047857; background: rgba(4,120,87,.07); }
+.kidlight .act.done .act-txt { color: #047857; }
+.kidlight .act-check { color: #047857; }
+
+/* ============================================================
+   SPECIMEN — PARENT SURFACE, LIGHT
+   ============================================================ */
+.parent {
+  background: #FFFFFF; color: #1A1F2E;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px 18px 22px;
+}
+.parent .bar { background: #F5F3FF; color: #5B6472; }
+.parent .dot-a, .parent .dot-b, .parent .dot-c { background: #EDE9FF; }
+.p-eyebrow {
+  font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: #6C2BD9; margin-bottom: 8px;
+}
+.p-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; letter-spacing: -.01em; }
+.p-meta { font-size: 13px; color: #5B6472; margin-bottom: 16px; }
+.p-card {
+  border: 1px solid #EDE9FF; border-left: 3px solid #6C2BD9;
+  background: #FAFAFE; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+}
+.p-card p { margin: 0; font-size: 14.5px; line-height: 1.55; color: #1A1F2E; }
+.p-card .lede { font-weight: 700; }
+.p-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.p-stat { border: 1px solid #EDE9FF; border-radius: 10px; padding: 11px 12px; background: #FFFFFF; }
+.p-stat .n {
+  font-size: 21px; font-weight: 800; color: #1A1F2E;
+  font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.p-stat .l { font-size: 12px; color: #5B6472; margin-top: 3px; }
+.p-actions { display: flex; gap: 9px; flex-wrap: wrap; }
+.btn-p {
+  background: #6C2BD9; color: #FFFFFF; border: none;
+  font-size: 14px; font-weight: 700; padding: 11px 16px;
+  border-radius: 10px; cursor: pointer; font-family: inherit;
+}
+.btn-s {
+  background: transparent; color: #4A5568; border: 1px solid #EDE9FF;
+  font-size: 14px; font-weight: 700; padding: 11px 16px;
+  border-radius: 10px; cursor: pointer; font-family: inherit;
+}
+
+/* ---------------- annotation list ---------------- */
+.notes { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 11px; }
+.notes li { display: flex; gap: 11px; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+.notes .mk {
+  flex: 0 0 auto; width: 19px; height: 19px; border-radius: 50%;
+  display: grid; place-items: center; margin-top: 2px;
+  font-size: 11px; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+}
+.mk-y { background: var(--accent); color: #fff; }
+.mk-n { background: var(--rule); color: var(--ink-3); }
+:root[data-theme="dark"] .mk-y { color: #191526; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mk-y { color: #191526; } }
+.notes strong { color: var(--ink); font-weight: 700; }
+
+/* ---------------- contrast evidence table ---------------- */
+.evidence { margin-top: 34px; border: 1px solid var(--rule); border-radius: 14px; background: var(--paper-2); overflow: hidden; box-shadow: var(--shadow); }
+.evidence-h { padding: 15px 20px; border-bottom: 1px solid var(--rule); }
+.evidence-h .t { font-weight: 700; font-size: 15px; }
+.evidence-h .s { font-size: 13.5px; color: var(--ink-3); margin-top: 2px; }
+.tbl-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+th, td { text-align: left; padding: 11px 20px; border-bottom: 1px solid var(--rule); }
+th {
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 700;
+}
+tbody tr:last-child td { border-bottom: none; }
+td.mono, .ratio { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+.ratio { font-weight: 700; }
+.sw {
+  display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+  vertical-align: -1px; margin-right: 7px; border: 1px solid rgba(128,120,150,.35);
+}
+.v-pass { color: var(--pass); font-weight: 700; }
+.v-fail { color: var(--fail); font-weight: 700; }
+
+/* ---------------- verdict ---------------- */
+.verdict {
+  margin-top: 30px; border-radius: 14px; padding: 22px 24px;
+  background: var(--accent-dim); border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+}
+.verdict .k {
+  font-family: 'JetBrains Mono', monospace; font-size: var(--fs-micro);
+  letter-spacing: .13em; text-transform: uppercase; color: var(--accent); font-weight: 700;
+}
+.verdict p { margin: 9px 0 0; max-width: var(--measure); color: var(--ink); }
+.verdict p + p { margin-top: 11px; color: var(--ink-2); font-size: 15.5px; }
+
+/* ---------------- closing ---------------- */
+.close { padding: clamp(40px, 6vw, 68px) 0 clamp(56px, 9vw, 96px); border-top: 1px solid var(--rule); }
+.close h2 { font-size: 23px; margin-bottom: 8px; }
+.close p { max-width: var(--measure); color: var(--ink-2); margin: 0 0 22px; }
+.reverse { display: grid; gap: 12px; }
+.rev {
+  display: flex; gap: 14px; align-items: flex-start;
+  border: 1px solid var(--rule); border-radius: 12px;
+  padding: 15px 18px; background: var(--paper-2);
+}
+.rev .q {
+  font-family: 'Fraunces', Georgia, serif; font-size: 17px; font-weight: 800;
+  color: var(--accent); flex: 0 0 auto; line-height: 1.35;
+}
+.rev div { min-width: 0; }
+.rev .h { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+.rev .b { font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+
+footer {
+  border-top: 1px solid var(--rule); padding: 22px 0 40px;
+  font-size: 13px; color: var(--ink-3);
+  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+}
+footer code { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+<style>
+  /* founders chrome, layered on top of the page's own identity */
+  .topbar-f{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:12px;flex-wrap:wrap}
+  .brand-f{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-logo-f{height:44px;width:auto;display:block;border-radius:6px}
+  .badge-f{font-size:.7rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#F3922B;
+    background:rgba(243,146,43,.12);padding:6px 12px;border-radius:999px;border:1px solid rgba(243,146,43,.25)}
+  .masthead{padding:26px 0 clamp(30px,4vw,48px)!important}
+</style>
+<div class="wrap">
+
+  <div class="topbar-f">
+    <a class="brand-f" href="founders.html" aria-label="The Summer Slide"><img class="brand-logo-f" src="logo-full.jpg" alt="The Summer Slide"></a>
+    <span class="badge-f">Design Decisions</span>
+  </div>
+
+  <header class="masthead">
+    <div class="eyebrow">Streak v2 · design system · two open calls</div>
+    <h1>What these two decisions actually change</h1>
+    <p class="standfirst">
+      The design system leaves two calls open: <strong>purple instead of v1's gold</strong>, and
+      <strong>keeping the kid's screen dark</strong>. Both sound like taste. Neither is. Below,
+      each option is rendered live — real tokens, real contrast ratios, the same screen built both ways.
+      Look at them rather than the argument.
+    </p>
+  </header>
+
+  <!-- ============================ DECISION 1 ============================ -->
+  <section class="band">
+    <div class="band-head">
+      <div class="band-num">01</div>
+      <h2>Keeping the kid's screen dark</h2>
+    </div>
+    <p class="band-sub">
+      Same screen, same data, same eight-day streak. Only the surface changes.
+    </p>
+
+    <div class="ab">
+
+      <!-- KEPT -->
+      <div class="opt">
+        <div class="opt-label">
+          <span class="tag tag-yes">Recommended</span>
+          <h3>Dark — it reads as a game</h3>
+        </div>
+        <div class="frame">
+          <div class="frame-bar bar kid" style="padding:9px 14px;">
+            <span class="dot dot-a"></span><span class="dot dot-b"></span><span class="dot dot-c"></span>
+            <span style="margin-left:6px;">Declan's screen</span>
+          </div>
+          <div class="kid">
+            <div class="kid-top">
+              <div class="kid-hello">Hey Declan 👋</div>
+              <div class="kid-rank">♘ Knight</div>
+            </div>
+            <div class="streak-hero">
+              <div class="streak-num">8</div>
+              <div class="streak-lbl">day streak</div>
+              <div class="streak-alive">🔥 Still alive — 2 to go</div>
+            </div>
+            <div class="acts">
+              <div class="act done"><div class="act-ico">📖</div><div class="act-txt">Read</div><div class="act-check">✓ Done</div></div>
+              <div class="act"><div class="act-ico">✏️</div><div class="act-txt">Write</div></div>
+              <div class="act done"><div class="act-ico">🔢</div><div class="act-txt">Math</div><div class="act-check">✓ Done</div></div>
+              <div class="act"><div class="act-ico">🌙</div><div class="act-txt">Wrap-up</div></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li><span class="mk mk-y">✓</span><div>Feels like a <strong>console screen</strong>, not a worksheet. The kid opens it voluntarily — that's the whole product thesis.</div></li>
+          <li><span class="mk mk-y">✓</span><div>Gold reward colors <strong>glow</strong> against navy. On white they go muddy and need darkening to stay legible.</div></li>
+          <li><span class="mk mk-y">✓</span><div>Already shipped and <strong>proven with real kids</strong> in v1. Every ratio passes AA today — zero rework.</div></li>
+        </ul>
+      </div>
+
+      <!-- REJECTED -->
+      <div class="opt">
+        <div class="opt-label">
+          <span class="tag tag-no">Rejected</span>
+          <h3>Light — it reads as homework</h3>
+        </div>
+        <div class="frame">
+          <div class="frame-bar bar kidlight" style="padding:9px 14px;">
+            <span class="dot dot-a"></span><span class="dot dot-b"></span><span class="dot dot-c"></span>
+            <span style="margin-left:6px;">Declan's screen</span>
+          </div>
+          <div class="kidlight">
+            <div class="kid-top">
+              <div class="kid-hello">Hey Declan 👋</div>
+              <div class="kid-rank">♘ Knight</div>
+            </div>
+            <div class="streak-hero">
+              <div class="streak-num">8</div>
+              <div class="streak-lbl">day streak</div>
+              <div class="streak-alive">🔥 Still alive — 2 to go</div>
+            </div>
+            <div class="acts">
+              <div class="act done"><div class="act-ico">📖</div><div class="act-txt">Read</div><div class="act-check">✓ Done</div></div>
+              <div class="act"><div class="act-ico">✏️</div><div class="act-txt">Write</div></div>
+              <div class="act done"><div class="act-ico">🔢</div><div class="act-txt">Math</div><div class="act-check">✓ Done</div></div>
+              <div class="act"><div class="act-ico">🌙</div><div class="act-txt">Wrap-up</div></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li><span class="mk mk-n">·</span><div>Same information, but it now looks like <strong>every school portal</strong> the kid already ignores.</div></li>
+          <li><span class="mk mk-n">·</span><div>The gold "8" had to be darkened to <span class="mono">#B45309</span> to stay readable — the <strong>reward stops feeling like a reward</strong>.</div></li>
+          <li><span class="mk mk-n">·</span><div>Costs a full re-theme of a working app, and every ratio needs re-verifying.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <div class="k">The call</div>
+      <p><strong>Keep it dark.</strong> The kid surface has one job: get a ten-year-old to open it without being asked.</p>
+      <p>This also settles a smaller question — the PRD's P1 "add a light theme" applies to the <em>parent</em> screens, which are light already. It was never a request to re-theme the kid's game.</p>
+    </div>
+  </section>
+
+  <!-- ============================ DECISION 2 ============================ -->
+  <section class="band">
+    <div class="band-head">
+      <div class="band-num">02</div>
+      <h2>Purple as the brand, gold demoted to rewards</h2>
+    </div>
+    <p class="band-sub">
+      v1 was gold-on-navy. Three of your four surfaces have already drifted to purple. This decides
+      what the parent sees — and, more importantly, what a button is allowed to be.
+    </p>
+
+    <div class="ab">
+      <div class="opt">
+        <div class="opt-label">
+          <span class="tag tag-yes">Recommended</span>
+          <h3>Purple leads, gold rewards</h3>
+        </div>
+        <div class="frame">
+          <div class="frame-bar bar parent" style="padding:9px 14px;">
+            <span class="dot dot-a"></span><span class="dot dot-b"></span><span class="dot dot-c"></span>
+            <span style="margin-left:6px;">Kate's weekly digest</span>
+          </div>
+          <div class="parent">
+            <div class="p-eyebrow">Week 6 · Reading Slide</div>
+            <div class="p-title">On pace for volume, behind on writing</div>
+            <div class="p-meta">Declan · 6 of 7 days logged</div>
+            <div class="p-card">
+              <p><span class="lede">Writing is the lever.</span> Minutes are strong, but writing was skipped 5 of 6 days — and it's what moves the 17% → 32% written-expression target.</p>
+            </div>
+            <div class="p-stats">
+              <div class="p-stat"><div class="n">142</div><div class="l">minutes</div></div>
+              <div class="p-stat"><div class="n">8</div><div class="l">day streak</div></div>
+              <div class="p-stat"><div class="n">1</div><div class="l">of 6 writing</div></div>
+            </div>
+            <div class="p-actions">
+              <button class="btn-p">Set this week's focus</button>
+              <button class="btn-s">Not now</button>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li><span class="mk mk-y">✓</span><div>Purple at <span class="mono ratio">7.03:1</span> — the button is <strong>legible for every parent</strong>, including the ~8% of readers with color-vision deficiency.</div></li>
+          <li><span class="mk mk-y">✓</span><div>Gold now means <strong>one thing only</strong>: you earned something. A kid learns that in a day.</div></li>
+          <li><span class="mk mk-y">✓</span><div>Matches where the landing page and prototype already went. <strong>Nothing to repaint.</strong></div></li>
+        </ul>
+      </div>
+
+      <div class="opt">
+        <div class="opt-label">
+          <span class="tag tag-no">Rejected</span>
+          <h3>Gold stays the brand</h3>
+        </div>
+        <div class="frame">
+          <div class="frame-bar bar parent" style="padding:9px 14px;">
+            <span class="dot dot-a"></span><span class="dot dot-b"></span><span class="dot dot-c"></span>
+            <span style="margin-left:6px;">Kate's weekly digest</span>
+          </div>
+          <div class="parent">
+            <div class="p-eyebrow" style="color:#B45309;">Week 6 · Reading Slide</div>
+            <div class="p-title">On pace for volume, behind on writing</div>
+            <div class="p-meta">Declan · 6 of 7 days logged</div>
+            <div class="p-card" style="border-left-color:#D97706;background:#FFFBF5;border-color:#F5E3C8;">
+              <p><span class="lede">Writing is the lever.</span> Minutes are strong, but writing was skipped 5 of 6 days — and it's what moves the 17% → 32% written-expression target.</p>
+            </div>
+            <div class="p-stats">
+              <div class="p-stat"><div class="n">142</div><div class="l">minutes</div></div>
+              <div class="p-stat"><div class="n">8</div><div class="l">day streak</div></div>
+              <div class="p-stat"><div class="n">1</div><div class="l">of 6 writing</div></div>
+            </div>
+            <div class="p-actions">
+              <button class="btn-p" style="background:#D97706;">Set this week's focus</button>
+              <button class="btn-s">Not now</button>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li><span class="mk mk-n">·</span><div>That gold button is <span class="mono ratio v-fail">3.19:1</span> — it <strong>fails WCAG AA</strong>, which your own PRD lists as a requirement.</div></li>
+          <li><span class="mk mk-n">·</span><div>Gold is now a button <em>and</em> a trophy. When the reward color is also the "click here" color, <strong>the reward stops signalling anything</strong>.</div></li>
+          <li><span class="mk mk-n">·</span><div>Fixing the contrast means darkening it to brown — at which point it isn't gold.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="evidence">
+      <div class="evidence-h">
+        <div class="t">Measured, not eyeballed</div>
+        <div class="s">Every value computed against its own background. AA needs 4.5:1 for normal text, 3:1 for large.</div>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead>
+            <tr><th>Color</th><th>On</th><th>Ratio</th><th>Body text?</th><th>Role</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#6C2BD9;"></span>#6C2BD9</td>
+              <td class="mono">#FFFFFF</td><td class="ratio v-pass">7.03</td>
+              <td class="v-pass">Passes</td><td>Brand · buttons · links</td>
+            </tr>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#D97706;"></span>#D97706</td>
+              <td class="mono">#FFFFFF</td><td class="ratio v-fail">3.19</td>
+              <td class="v-fail">Fails</td><td>Large text &amp; icons only</td>
+            </tr>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#B45309;"></span>#B45309</td>
+              <td class="mono">#FFFFFF</td><td class="ratio v-pass">5.02</td>
+              <td class="v-pass">Passes</td><td>Gold text, when needed</td>
+            </tr>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#FFD84A;"></span>#FFD84A</td>
+              <td class="mono">#0F1A2E</td><td class="ratio v-pass">12.57</td>
+              <td class="v-pass">Passes</td><td>Rewards — on dark only</td>
+            </tr>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#8B95A7;"></span>#8B95A7</td>
+              <td class="mono">#FFFFFF</td><td class="ratio v-fail">3.02</td>
+              <td class="v-fail">Fails</td><td>Live on the hub today ⚠️</td>
+            </tr>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#9180C4;"></span>#9180C4</td>
+              <td class="mono">#FFFFFF</td><td class="ratio v-fail">3.45</td>
+              <td class="v-fail">Fails</td><td>Live on the landing page today ⚠️</td>
+            </tr>
+            <tr>
+              <td class="mono"><span class="sw" style="background:#5B6472;"></span>#5B6472</td>
+              <td class="mono">#FFFFFF</td><td class="ratio v-pass">5.98</td>
+              <td class="v-pass">Passes</td><td>Replacement for both</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <div class="k">The call</div>
+      <p><strong>Purple leads; gold is reserved for achievement.</strong> The last two rows aren't hypothetical — those two greys are shipping on beattheslide.com right now and fail the AA bar your PRD sets.</p>
+      <p>Note what row 4 shows: gold is <em>excellent</em> on dark at 12.57:1. It isn't a bad color — it's a bad <em>button</em>. Decision 01 is what lets it keep its job.</p>
+    </div>
+  </section>
+
+  <!-- ============================ CLOSING ============================ -->
+  <section class="close">
+    <h2>If you'd rather go the other way</h2>
+    <p>
+      Both calls are reversible, but not equally cheaply. Roughly what each costs if you decide the opposite:
+    </p>
+    <div class="reverse">
+      <div class="rev">
+        <div class="q">01</div>
+        <div>
+          <div class="h">Make the kid screen light</div>
+          <div class="b">Half a day of token work, plus re-verifying every ratio on the new ground — and you lose the game feel that gets a ten-year-old to open it. Cheap in effort, expensive in product.</div>
+        </div>
+      </div>
+      <div class="rev">
+        <div class="q">02</div>
+        <div>
+          <div class="h">Keep gold as the brand</div>
+          <div class="b">Cheap today, while there are four HTML files. Expensive once buttons, links and focus rings exist across a real codebase — and it needs an accessibility answer for the 3.19:1 button either way.</div>
+        </div>
+      </div>
+      <div class="rev">
+        <div class="q">→</div>
+        <div>
+          <div class="h">Either way, fix the two greys</div>
+          <div class="b">Independent of both decisions. Two token changes on the hub and landing page bring them to the AA bar the PRD already commits to.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Streak v2 · design system draft v1 · 2026-08-28</span>
+    <span><a href="design-system.html" style="color:var(--accent);text-decoration:none;font-weight:600">Open the design system →</a></span>
+  </footer>
+
+</div>
