@@ -23,12 +23,14 @@ npm run build
 cd ~/Documents/streak-app
 rm -rf app && mkdir app
 cp -R ~/Documents/streak-v2/dist/* app/
-rm -f app/assets/*.map          # don't ship source maps publicly
 git add -A && git commit -m "Update app build" && git push
 ```
 
-Source maps are stripped deliberately: they would expose the full TypeScript
-source. The Firebase web API key in the bundle is public by design — it
+Source maps are never built for production: `vite.config.ts` sets
+`sourcemap: command === 'serve'`, so dev keeps them and the public bundle has
+none. They would otherwise expose the full TypeScript source. (This used to be a
+manual `rm` after the build, which left a dangling `sourceMappingURL` pointing at
+a 404.) The Firebase web API key in the bundle is public by design — it
 identifies the project and authorises nothing. Security comes from the
 Realtime Database rules, which live in `streak-v2/firebase.rules.json`.
 
