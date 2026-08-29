@@ -1,48 +1,44 @@
 # Beat the Slide — public site
 
-**https://beattheslide.com** — currently a coming-soon page.
+**https://beattheslide.com**
 
-Everything here is **public**. Nothing founder-facing, internal, or strategic
-belongs in this repo.
-
-## Current state: pre-launch
-
-`index.html` is a minimal coming-soon page — name, one line, email capture.
-It deliberately reveals nothing about features, roadmap or timing.
-
-The real marketing pages are written and waiting in `.staged/`:
-
-| Staged file | Becomes |
+| Path | What it is |
 |---|---|
-| `.staged/landing.html` | `index.html` at launch |
-| `.staged/prototype.html` | `prototype.html` |
-| `.staged/story.html` | `story.html` |
+| `/` | Landing page — `index.html` |
+| `/app/` | **The live app** — a built copy of `streak-v2` |
+| `/prototype.html` | Interactive prototype (concept demo) |
+| `/story.html` | "How I vibe-coded a reading app for my 10-year-old" |
 
-### To launch
+Everything here is **public**. Nothing founder-facing or internal belongs in
+this repo — that lives in `beat-the-slide-hub` (private).
+
+## Updating the app
+
+`/app` is build output, not source. Never edit it by hand.
 
 ```bash
-git mv .staged/landing.html index.html   # replaces the coming-soon page
-git mv .staged/prototype.html .
-git mv .staged/story.html .
+cd ~/Documents/streak-v2
+npm run build
+
+cd ~/Documents/streak-app
+rm -rf app && mkdir app
+cp -R ~/Documents/streak-v2/dist/* app/
+rm -f app/assets/*.map          # don't ship source maps publicly
+git add -A && git commit -m "Update app build" && git push
 ```
 
-Then re-add the nav links that were stripped when the site went dark, and push.
-
-> Note: `.staged/` is still served by GitHub Pages — the files are only
-> unlinked, not access-controlled. That's fine for marketing copy, but don't
-> stage anything sensitive there.
+Source maps are stripped deliberately: they would expose the full TypeScript
+source. The Firebase web API key in the bundle is public by design — it
+identifies the project and authorises nothing. Security comes from the
+Realtime Database rules, which live in `streak-v2/firebase.rules.json`.
 
 ## Where everything else lives
 
 | What | Repo | URL |
 |---|---|---|
-| **Founders hub** — strategy, PRD, specs, prototypes, decks | `beat-the-slide-hub` (private) | https://brentomalley150.github.io/beat-the-slide-hub/ |
-| **v2 app** | `streak-v2` | in development |
+| **App source** | `streak-v2` | — |
+| **Founders hub** | `beat-the-slide-hub` (private) | https://brentomalley150.github.io/beat-the-slide-hub/ |
 | **v1 app** — the live original | `declansummerlearning` (private) | https://beatthesummerslide.com |
-
-> ⚠️ The founders hub repo is private, but **GitHub Pages serves it publicly**
-> on this plan — private-repo access control needs GitHub Enterprise Cloud.
-> The URL is unlisted (`robots.txt` + `noindex`), not protected.
 
 ## Before you add a page here
 
