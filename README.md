@@ -1,6 +1,6 @@
-# Streak — Founders Hub
+# Beat the Slide — Founders Hub
 
-The product, vision, and investor-facing home for **Streak** — the year-round
+The product, vision, and investor-facing home for **Beat the Slide** — the year-round
 evolution of the SummerStreak reading challenge.
 
 **Live:** https://beattheslide.com
@@ -31,7 +31,7 @@ evolution of the SummerStreak reading challenge.
 | `vision.md` | Product vision + marketing strategy |
 | `founders-84538ab568/` | Unlisted founders docs — pitch deck, gap analysis, feature breakdown |
 
-Investor decks: `Streak-Investor-Deck-v0.1-DRAFT.pptx`, `SummerStreak-Investor-Deck.pptx`
+Investor decks: `Beat the Slide-Investor-Deck-v0.1-DRAFT.pptx`, `SummerStreak-Investor-Deck.pptx`
 
 ## Team
 

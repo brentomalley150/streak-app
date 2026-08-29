@@ -19,9 +19,9 @@ Elementary-school kids fall behind on foundational skills not because they don't
 
 ### Proposed Solution
 
-**Streak is a year-round, multi-track kid habit platform.** It runs on the same gamified engine across content domains — daily activity check-ins, theme-aware idea prompts, points → ranks → leaderboards → real-world prizes, real-time cross-device sync, and parent-side outcome projection. Each *track* is a 12-week themed program (Reading Slide, Back to School, Math Facts, Music Practice, Mindful Kid, and more). A family enrolls in one track free; multi-track families pay $4.99/mo; schools and tutors pay $5/student/year for classroom dashboards.
+**Beat the Slide is a year-round, multi-track kid habit platform.** It runs on the same gamified engine across content domains — daily activity check-ins, theme-aware idea prompts, points → ranks → leaderboards → real-world prizes, real-time cross-device sync, and parent-side outcome projection. Each *track* is a 12-week themed program (Reading Slide, Back to School, Math Facts, Music Practice, Mindful Kid, and more). A family enrolls in one track free; multi-track families pay $4.99/mo; schools and tutors pay $5/student/year for classroom dashboards.
 
-The engine is already proven in a single-track pilot (SummerStreak). The Streak vision generalizes it.
+The engine is already proven in a single-track pilot (SummerStreak). The Beat the Slide vision generalizes it.
 
 ### Business Impact
 
@@ -37,7 +37,7 @@ The engine is already proven in a single-track pilot (SummerStreak). The Streak 
 |---|---|---|
 | SummerStreak v1 (Reading track) shipped | May 29, 2026 | DONE |
 | First fall test validation (n=1 founder kid + cohort) | Sep 2026 | In progress |
-| Brand transition: SummerStreak → Streak | Aug 2026 | Planned |
+| Brand transition: SummerStreak → Beat the Slide | Aug 2026 | Planned |
 | Phase 2: Back to School track shipped | Oct 2026 | Planned |
 | Phase 3: Track marketplace + paid Family tier | Mar 2027 | Planned |
 | Phase 4: School pilot (3 schools, classroom dashboards) | Aug 2027 | Planned |
@@ -68,7 +68,7 @@ The engine is already proven in a single-track pilot (SummerStreak). The Streak 
 
 **Where:** At home, without the structure or accountability that school provides — but ALSO during the school year when parents want supplementary practice without it feeling like homework #2.
 
-**Why current tools fail:** They're built around content. Streak is built around habit. A kid on Khan Kids gets math problems; a kid on Streak gets a streak, a rank, a leaderboard, and a real-world prize tied to their kid-chosen theme — and the math problems are just one of the activities that move the loop forward.
+**Why current tools fail:** They're built around content. Beat the Slide is built around habit. A kid on Khan Kids gets math problems; a kid on Beat the Slide gets a streak, a rank, a leaderboard, and a real-world prize tied to their kid-chosen theme — and the math problems are just one of the activities that move the loop forward.
 
 **Impact:** A kid who doesn't sustain a daily habit on any single skill goal compounds the loss across all of them. The same gamified engine, applied across goals, lets parents build multiple habits in parallel without buying multiple apps.
 
@@ -86,7 +86,7 @@ US K-5 supplemental learning + adjacent kid productivity SaaS is an $11B market 
 | Kumon | $150-300/mo | Generic worksheets; no kid-facing motivation; no real-time data |
 | Atom Learning / IXL | $20-30/mo | Curriculum-focused, not habit-focused; feels like school |
 | Marco Polo Learning, Lingokids | $10-15/mo | Single domain; gamification thin; not multi-track |
-| **Streak (proposed)** | **Free / $4.99/mo / $5/student/yr** | **Multi-track engine + habit-first + parent outcome projection + cross-family social** |
+| **Beat the Slide (proposed)** | **Free / $4.99/mo / $5/student/yr** | **Multi-track engine + habit-first + parent outcome projection + cross-family social** |
 
 **Why now:**
 - Post-COVID skill regression created a multi-year cohort effect; parental anxiety is at a structural high (NAEP 2024 4th grade reading at 32-year low)
@@ -106,7 +106,7 @@ US K-5 supplemental learning + adjacent kid productivity SaaS is an $11B market 
 - Premium tier adds ~$3K/mo at 5K paid users (Firebase paid tier + AI prompt costs)
 - No employee headcount until Year 2
 
-**Strategic Position:** Streak is positioned to own "kid habit tracking" as a category — the same way Duolingo owns "language streaks" and Headspace owns "adult meditation." First-mover advantage on the parent-built brand narrative; defensibility comes from the multi-track network (family stays for reading, discovers math, adds music — single-track competitors can't match).
+**Strategic Position:** Beat the Slide is positioned to own "kid habit tracking" as a category — the same way Duolingo owns "language streaks" and Headspace owns "adult meditation." First-mover advantage on the parent-built brand narrative; defensibility comes from the multi-track network (family stays for reading, discovers math, adds music — single-track competitors can't match).
 
 **Risk of inaction:** If a well-resourced kid-tech competitor (Khan, IXL, Duolingo Kids) ships a multi-track habit platform first, the category leader position is lost. The 4-week head start from the SummerStreak pilot is the wedge; turning that into a year-round product before competitors notice is the strategic priority.
 
@@ -116,7 +116,7 @@ US K-5 supplemental learning + adjacent kid productivity SaaS is an $11B market 
 
 ### 3.1 What We're Building
 
-A single-page web application (mobile + desktop responsive) hosted on GitHub Pages with a Firebase backend. The Streak app loads a **Track** the kid is currently enrolled in. Each track defines a daily activity grid + a 12-week themed challenge schedule + a curated idea pool. The kid sees their dashboard — Read/Write/Math (for Reading Slide), or Homework Started/20-min practice/Pack-the-bag-streak (for Back to School), or Practice/Listen/Learn-a-piece (for Music Practice). Same gamified loop, swappable content.
+A single-page web application (mobile + desktop responsive) hosted on GitHub Pages with a Firebase backend. The Beat the Slide app loads a **Track** the kid is currently enrolled in. Each track defines a daily activity grid + a 12-week themed challenge schedule + a curated idea pool. The kid sees their dashboard — Read/Write/Math (for Reading Slide), or Homework Started/20-min practice/Pack-the-bag-streak (for Back to School), or Practice/Listen/Learn-a-piece (for Music Practice). Same gamified loop, swappable content.
 
 Parents access a PIN-gated section with hypothesis tracking + outcome projection (where applicable per track), prize editor, multi-kid switcher, and Family Summary export. Families can enroll a child in multiple tracks; the parent dashboard rolls up across them.
 
@@ -148,7 +148,7 @@ Parents access a PIN-gated section with hypothesis tracking + outcome projection
 | AI-personalized weekly challenge | Replaces curated pool with per-kid generated challenges (Premium) |
 | Track recommender for parents | Based on kid age + stated goals, suggest 2-3 tracks |
 | Family digest email (weekly, auto-send) | Scheduled via cron — was a manual button in v1 |
-| Achievement export | PDF of "Streak Resume" at end of each completed track |
+| Achievement export | PDF of "Progress Report" at end of each completed track |
 | Friend invite by track | Invite Cooper to your Math track without exposing your Reading streak |
 | Light theme + dark theme | v1 was dark-only; add light theme for parent-facing surfaces |
 
@@ -169,7 +169,7 @@ Parents access a PIN-gated section with hypothesis tracking + outcome projection
 - Voice / video features (privacy + COPPA complexity)
 - Integration with school assessment portals (manual baseline entry continues)
 - Hardware accessories (no smart-watch companion, no physical kit)
-- Adult version (Streak Adult) — focus stays on K-5 in v2
+- Adult version (Beat the Slide Adult) — focus stays on K-5 in v2
 
 ### 3.4 v2 MVP Definition
 
@@ -224,8 +224,8 @@ Acceptance:
 - Friend's dashboard auto-enrolls them in the linked track
 - Cross-track visibility limited to family-only (kids can't browse strangers' other tracks)
 
-**US-5: Streak Resume (Parent + Kid)**
-> As Declan (and proudly his parents), I want a printable "Streak Resume" at the end of a completed track, so we can show grandparents / save in a school portfolio / start a new track with momentum.
+**US-5: Progress Report (Parent + Kid)**
+> As Declan (and proudly his parents), I want a printable "Progress Report" at the end of a completed track, so we can show grandparents / save in a school portfolio / start a new track with momentum.
 
 Acceptance:
 - Auto-generated PDF on track completion (12 weeks)
@@ -246,7 +246,7 @@ Acceptance:
 | FR8 | Auto-migration of existing v1 users into the new track-aware data model | P0 |
 | FR9 | AI-personalized weekly challenges (Premium) | P1 |
 | FR10 | Weekly auto-send Family Summary email | P1 |
-| FR11 | PDF "Streak Resume" export at track completion | P1 |
+| FR11 | PDF "Progress Report" export at track completion | P1 |
 | FR12 | Track recommender based on kid age + stated goals | P1 |
 
 ### 4.3 Non-Functional Requirements
@@ -272,7 +272,7 @@ Acceptance:
 
 **Phase 2 (August → November 2026): Add Back to School + brand transition**
 - Ship Back to School track in time for fall semester
-- Brand transition: SummerStreak → Streak. New marketing site at streak-something.com (TBD)
+- Brand transition: SummerStreak → Beat the Slide. New marketing site at streak-something.com (TBD)
 - Existing families get a "We evolved" splash; data migrates automatically
 - All summer users get free access to the new fall track
 - Goal: 60%+ of summer users come back for fall
@@ -307,7 +307,7 @@ Acceptance:
 | Tier | Price | Features |
 |---|---|---|
 | **Free** | $0 | 1 active track per kid, unlimited kids per Google account, all core features (dashboard, leaderboard, rank, prizes, weekly challenges, parent controls) |
-| **Family** | $4.99/mo or $39/yr | Unlimited active tracks, AI-personalized weekly challenges, multi-kid roll-up dashboard, weekly auto-email, Streak Resume PDF export |
+| **Family** | $4.99/mo or $39/yr | Unlimited active tracks, AI-personalized weekly challenges, multi-kid roll-up dashboard, weekly auto-email, Progress Report PDF export |
 | **Schools** | $5/student/yr | Teacher classroom dashboard, cohort reporting, parent-teacher messaging, custom track support |
 
 Free tier deliberately generous — it's the lead magnet. The Family tier sells on **multi-track + AI personalization + parent ergonomics**. The Schools tier is sold separately B2B and unlocks the teacher dashboard.
@@ -319,7 +319,7 @@ Free tier deliberately generous — it's the lead magnet. The Family tier sells 
 | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|
 | September MAP retest doesn't show improvement → outcome claim weakens | Medium | High | Lean into engagement-based marketing; honest post-mortem; iterate the Reading track for v2.1 |
-| Brand transition (SummerStreak → Streak) loses existing users | Medium | High | Splash-page bridge; preserve all data; offer one new track free to existing families |
+| Brand transition (SummerStreak → Beat the Slide) loses existing users | Medium | High | Splash-page bridge; preserve all data; offer one new track free to existing families |
 | Track abstraction breaks coupling assumptions in the engine | Medium | Medium | Pilot Phase 2 with internal family + 5-10 beta families before public release |
 | Free → Paid conversion stalls below 5% | Medium | High | Add lifecycle hooks (email digests, achievement unlocks) before paywall; iterate paywall placement |
 | COPPA scrutiny at paid scale | High | High | Add verifiable parental consent flow as part of Phase 3 ship; engage specialist counsel ($5K-10K) |
@@ -336,7 +336,7 @@ Free tier deliberately generous — it's the lead magnet. The Family tier sells 
 |---|---|---|---|
 | **Phase 1: Win SummerStreak** | Now → Aug 2026 | Iterate Reading track; build audience | ≥10 enrolled families, MAP retest scheduled |
 | September MAP retest | Sep 2026 | Real outcome data | Honest debrief regardless of result |
-| **Phase 2: Brand + BTS** | Aug → Nov 2026 | Streak rebrand, Back to School track, track-aware data model | 60%+ summer users re-engage |
+| **Phase 2: Brand + BTS** | Aug → Nov 2026 | Beat the Slide rebrand, Back to School track, track-aware data model | 60%+ summer users re-engage |
 | **Phase 3: Marketplace** | Nov 2026 → Mar 2027 | 3 more tracks live, paid Family tier, ProductHunt | 50 paying families, ≥2 tracks-per-family median |
 | **Phase 4: Schools** | Mar → Aug 2027 | Teacher dashboard, 3-5 school pilots | ≥1 school commits to renewal |
 | Year 1 outcome review | Aug 2027 | Annual retrospective, v3 PRD | $30K+ ARR, 500+ active families, 1+ school renewal |
@@ -347,7 +347,7 @@ Free tier deliberately generous — it's the lead magnet. The Family tier sells 
 
 | Role | Allocation | Notes |
 |---|---|---|
-| Founder / PM | **Kate O'Malley** (lead) | Drives the year-round Streak business, brand, partnerships, and roadmap |
+| Founder / PM | **Kate O'Malley** (lead) | Drives the year-round Beat the Slide business, brand, partnerships, and roadmap |
 | Strategy advisor / builder | Brent O'Malley | Built the v1 SummerStreak prototype; ongoing strategy + contributing engineer |
 | Part-time engineer | 1 contractor, ~10 hrs/wk from Phase 3 | $20-30K for 6 months |
 | Subject-matter experts (per track) | $500-1500/track | Reading specialist (track exists), math teacher, music teacher, SEL specialist |
@@ -363,7 +363,7 @@ Free tier deliberately generous — it's the lead magnet. The Family tier sells 
 
 ## 9. Open Questions
 
-1. **Brand:** Streak is the placeholder. Does it stick, or do we land on KidStreak, Quest, or something else? Decision needed before Phase 2 marketing.
+1. ~~**Brand:**~~ **RESOLVED (Aug 2026)** — the product is **Beat the Slide**, live on beattheslide.com. Decided by Kate; supersedes the "Streak" working name used throughout v2.0 of this document.
 2. **Domain:** Stay on beatthesummerslide.com indefinitely (with `/streak` paths)? Buy a new primary domain? Decision drives Phase 2 marketing site build.
 3. **First paid track:** Math Facts has biggest TAM; Music has highest willingness-to-pay (parents already pay for lessons). Which behind the paywall first?
 4. **Migration path for v1 users:** Do they wake up to a new dashboard one day, or get a "Hey, we evolved" splash screen? UX research needed.
@@ -387,7 +387,7 @@ Free tier deliberately generous — it's the lead magnet. The Family tier sells 
 
 ## Appendix A — What carries over from v1 unchanged
 
-The Streak v2 PRD assumes these v1 components ship-as-is, no refactor:
+The Beat the Slide v2 PRD assumes these v1 components ship-as-is, no refactor:
 
 - Single-page HTML architecture
 - Firebase Realtime Database backend

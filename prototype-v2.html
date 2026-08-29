@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Streak v2 Flow Prototype</title>
+<title>Beat the Slide v2 Flow Prototype</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -287,7 +287,7 @@ footer a{color:var(--accent);text-decoration:none;font-weight:600}
 <div class="wrap">
 
   <header class="masthead">
-    <div class="eyebrow">Streak v2 · flow prototype · P0 scope</div>
+    <div class="eyebrow">Beat the Slide v2 · flow prototype · P0 scope</div>
     <h1>The four flows the PRD commits to</h1>
     <p class="standfirst">
       The existing prototype explores personas and use cases. This one exercises the
@@ -332,7 +332,7 @@ footer a{color:var(--accent);text-decoration:none;font-weight:600}
   </div>
 
   <footer>
-    <span>Streak v2 · flow prototype · 2026-08-28</span>
+    <span>Beat the Slide v2 · flow prototype · 2026-08-28</span>
     <span><a href="founders-84538ab568/data-model.html">Data model →</a></span>
   </footer>
 </div>
@@ -546,7 +546,7 @@ function renderRollup(){
 function renderMigration(){
   return `<div class="g-wrap">
     <div class="g-ico">🎉</div>
-    <div class="g-h">SummerStreak is now Streak</div>
+    <div class="g-h">SummerStreak is now Beat the Slide</div>
     <div class="g-p">Your summer is safe. Everything Declan earned came with him.</div>
     <div class="g-card">
       <div class="g-li"><span class="c">✓</span><span>All 47 logged days</span></div>
@@ -597,7 +597,7 @@ function enroll(id){
     trackId:id, streak:0, points:0, rank:'Starting', rankPiece:'✦', completed:{}, stats:{} };
   showToast(TRACKS[id].name + ' added');
 }
-function finishMigration(){ screen = 0; toast = null; render(); showToast('Welcome to Streak'); }
+function finishMigration(){ screen = 0; toast = null; render(); showToast('Welcome to Beat the Slide'); }
 function showToast(msg, light){
   toast = {msg, light}; render();
   clearTimeout(showToast._t);

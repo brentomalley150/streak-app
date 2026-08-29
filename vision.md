@@ -119,17 +119,17 @@ The current frame is seasonal — June to August. Three months of relevance, nin
 
 To go year-round, the product needs a frame that's **goal-shape-agnostic**: any kid, any 12-week habit, any season.
 
-### The reframe: "Streak"
+### The reframe: "Beat the Slide"
 
 Drop "Summer." The core engine — points + ranks + leaderboards + prizes + weekly challenges + parent dashboards + Firebase sync — is content-agnostic. It works for reading. It works for math facts. It works for piano. It works for soccer drills. It works for mindfulness.
 
 Working brand candidates:
-- **Streak** (clean, owned, expandable)
+- **Beat the Slide** (clean, owned, expandable)
 - **Quest** (gamier, evokes "12-week quest")
 - **Kid Habits** (descriptive, less brandable)
-- **Streak School** (positions it adjacent to education)
+- **Beat the Slide School** (positions it adjacent to education)
 
-I lean toward **Streak** for the noun (the product) with **Streak Tracks** as the unit of curriculum (a "track" is a 12-week themed program: Reading Track, Math Track, Music Track, etc.).
+I lean toward **Beat the Slide** for the noun (the product) with **Beat the Slide Tracks** as the unit of curriculum (a "track" is a 12-week themed program: Reading Track, Math Track, Music Track, etc.).
 
 ### The track model
 
@@ -270,7 +270,7 @@ Your kid will actually open this.
 A free dashboard that turns the summer reading slide into a streak.
 Built in a weekend by a dad. Already used by [N] families.
 
-[🚀 Start Your Kid's Streak]   [📖 Read the story]
+[🚀 Start Your Kid's Beat the Slide]   [📖 Read the story]
 
 [3 small stats below: families enrolled · books finished · words written]
 ```
@@ -364,7 +364,7 @@ The whole launch site is ~5 new HTML files + a homepage redesign. Two to three w
 - Coordinated posts: LinkedIn, X, Substack, 2 Reddit subs
 - DM 15 people who said "this is cool" earlier in the year and ask them to share
 - Submit to ProductHunt for following week (PH launch needs its own prep — see below)
-- Monitor Plausible. The metric to watch: **homepage → "Start Your Kid's Streak" click-through rate**. Target: > 5%.
+- Monitor Plausible. The metric to watch: **homepage → "Start Your Kid's Beat the Slide" click-through rate**. Target: > 5%.
 
 ### A ProductHunt launch (optional, after the website is solid)
 

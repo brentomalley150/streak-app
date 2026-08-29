@@ -1,5 +1,5 @@
 <!-- Generated from DESIGN-SYSTEM.md — edit the markdown in streak-v2, not this file. -->
-<title>Streak Design System</title>
+<title>Beat the Slide Design System</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="spec.css">
@@ -18,13 +18,13 @@
 <blockquote><p>Every contrast ratio in this document was <strong>computed, not estimated</strong>. Values marked ✅ pass WCAG AA for normal text (≥4.5:1). Values marked ⚠️ pass only for large text (≥3:1, i.e. ≥24px or ≥19px bold) and <strong>must not</strong> be used for body copy.</p></blockquote>
 <hr>
 <h2>1. Why this document exists</h2>
-<p>Four Streak surfaces exist today and <strong>all four use different, conflicting palettes</strong>:</p>
+<p>Four Beat the Slide surfaces exist today and <strong>all four use different, conflicting palettes</strong>:</p>
 <div class="tbl-scroll"><table><thead><tr><th>Surface</th><th>Base</th><th>Primary</th><th>Tokens?</th></tr></thead><tbody><tr><td>v1 kid app (<code>dashboard.html</code>)</td><td><code>#0F1A2E</code> dark navy</td><td><code>--gold #FFD84A</code></td><td>✅ 16 tokens</td></tr><tr><td>Hub (<code>index.html</code>)</td><td><code>#FFFFFF</code> light</td><td><code>--gold #D97706</code></td><td>✅ 17 tokens</td></tr><tr><td>Landing (<code>landing.html</code>)</td><td><code>#FAFAFE</code> light</td><td><code>--purple #6C2BD9</code></td><td>✅ 11 tokens</td></tr><tr><td>Prototype (<code>prototype.html</code>)</td><td>light</td><td><code>#5B21B6</code></td><td>❌ <strong>none — all hardcoded</strong></td></tr></tbody></table></div>
 <p>The prototype — the thing that most looks like the v2 app — has <strong>zero tokens</strong> and uses ten ad-hoc font sizes (9, 10, 11, 12, 13, 15, 17, 18, 20, 22px) with no scale.</p>
 <p>Without this document, v2 re-derives these decisions inconsistently in code, and the AA requirement in the PRD silently goes unmet.</p>
 <hr>
 <h2>2. The two-surface principle</h2>
-<p>Streak has <strong>two audiences with opposite needs</strong>, and this is a design constraint, not a style preference. It mirrors the split already established in <code>agentic-ai.html</code> (rules for the kid, agent for the parent).</p>
+<p>Beat the Slide has <strong>two audiences with opposite needs</strong>, and this is a design constraint, not a style preference. It mirrors the split already established in <code>agentic-ai.html</code> (rules for the kid, agent for the parent).</p>
 <div class="tbl-scroll"><table><thead><tr><th></th><th><strong>Kid surface</strong></th><th><strong>Parent / marketing surface</strong></th></tr></thead><tbody><tr><td>Mood</td><td>Game. Energetic, rewarding</td><td>Calm, credible, informational</td></tr><tr><td>Base</td><td><strong>Dark</strong> (<code>--bg #0F1A2E</code>)</td><td><strong>Light</strong> (<code>--bg #FFFFFF</code>)</td></tr><tr><td>Type</td><td>Larger, chunkier, high contrast</td><td>Standard reading sizes</td></tr><tr><td>Motion</td><td>Celebratory (streak, rank-up)</td><td>Minimal</td></tr><tr><td>Density</td><td>Low — one decision per screen</td><td>Higher — tables, rollups</td></tr><tr><td>Reading level</td><td>~2nd grade Lexile</td><td>Adult professional</td></tr></tbody></table></div>
 <p>v1's dark kid dashboard is <strong>retained deliberately</strong> — it reads as a game, not homework, and it already passes AA comfortably (§3.2). The PRD's P1 "light theme" item applies to <strong>parent-facing surfaces</strong>, which are light by default here.</p>
 <hr>
@@ -132,7 +132,7 @@
 <div class="tbl-scroll"><table><thead><tr><th>#</th><th>Decision</th><th>Recommendation</th></tr></thead><tbody><tr><td>1</td><td>Purple over v1 gold as brand</td><td>Yes — 3 of 4 surfaces already moved; better contrast headroom</td></tr><tr><td>2</td><td>Per-track accent colors?</td><td>No. One palette; themes change content, not chrome (§3.4)</td></tr><tr><td>3</td><td>Keep kid surface dark?</td><td>Yes — reads as game not homework; already AA-clean</td></tr><tr><td>4</td><td>Webfont?</td><td>No. System stack protects the &lt;2s 4G load NFR</td></tr><tr><td>5</td><td>Does the brand name change affect this?</td><td>PRD Open Q #1 unresolved. Palette/scale are name-independent — safe to build now</td></tr></tbody></table></div>
   </div></main>
   <footer>
-    <span>© 2026 Streak · Founders workspace</span>
+    <span>© 2026 Beat the Slide · Founders workspace</span>
     <a href="founders.html">← Back to hub</a>
   </footer>
 </div>
