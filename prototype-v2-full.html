@@ -1,0 +1,542 @@
+<meta charset="utf-8">
+<title>Beat the Slide Full Flows</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+/* ═══ page chrome ═══ */
+:root{
+  --paper:#F7F6F9; --paper-2:#FFFFFF; --rule:#E2DEEA;
+  --ink:#191526; --ink-2:#4A445C; --ink-3:#6B6480;
+  --accent:#6C2BD9; --accent-dim:#F0ECFF;
+  --shadow:0 1px 3px rgba(25,21,38,.07),0 8px 24px rgba(25,21,38,.05);
+  --shadow-lg:0 24px 60px rgba(25,21,38,.18);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#131019; --paper-2:#1C1826; --rule:#2E2840;
+  --ink:#F2EFF7; --ink-2:#B8B0C9; --ink-3:#8B839E;
+  --accent:#C4B5FD; --accent-dim:#241C3A;
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.55);
+}}
+:root[data-theme="dark"]{
+  --paper:#131019; --paper-2:#1C1826; --rule:#2E2840;
+  --ink:#F2EFF7; --ink-2:#B8B0C9; --ink-3:#8B839E;
+  --accent:#C4B5FD; --accent-dim:#241C3A;
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,44px)}
+h1,h2{font-family:'Fraunces',Georgia,serif;font-weight:800;margin:0;letter-spacing:-.02em;text-wrap:balance}
+.eyebrow{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.masthead{padding:clamp(40px,7vw,76px) 0 24px}
+.masthead h1{font-size:clamp(30px,4.6vw,46px);line-height:1.05;margin:14px 0 0;max-width:20ch}
+.standfirst{max-width:64ch;color:var(--ink-2);margin:18px 0 0;font-size:17px}
+.standfirst strong{color:var(--ink);font-weight:700}
+
+.stage{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
+  gap:clamp(22px,3.4vw,46px);align-items:start;padding-bottom:clamp(40px,6vw,72px)}
+@media(max-width:880px){.stage{grid-template-columns:1fr}}
+.phone-col{position:sticky;top:24px}
+@media(max-width:880px){.phone-col{position:static}}
+.phone{background:#0F1A2E;border-radius:34px;padding:11px;box-shadow:var(--shadow-lg);
+  border:1px solid rgba(255,255,255,.08)}
+.phone-screen{background:#0F1A2E;border-radius:25px;overflow:hidden;height:700px;
+  display:flex;flex-direction:column;position:relative}
+.notch{height:22px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.notch i{display:block;width:88px;height:5px;border-radius:99px;background:rgba(255,255,255,.22)}
+.surface{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column}
+.surface.kid{background:#0F1A2E}
+.surface.parent{background:#FFFFFF}
+.caption{margin-top:14px;font-size:13px;color:var(--ink-3);text-align:center;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.03em}
+
+.grp{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  margin:20px 0 9px;display:flex;align-items:center;gap:9px}
+.grp::after{content:"";flex:1;height:1px;background:var(--rule)}
+.grp:first-of-type{margin-top:0}
+.steps{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.step{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;
+  border:1px solid var(--rule);background:var(--paper-2);color:inherit;
+  border-radius:12px;padding:12px 14px;cursor:pointer;font:inherit;
+  transition:border-color .16s,box-shadow .16s,transform .16s}
+.step:hover{border-color:var(--accent);transform:translateX(2px)}
+.step[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.step .n{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+  background:var(--rule);color:var(--ink-3);font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:700;margin-top:1px}
+.step[aria-current="true"] .n{background:var(--accent);color:#fff}
+:root[data-theme="dark"] .step[aria-current="true"] .n{color:#191526}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .step[aria-current="true"] .n{color:#191526}}
+.step .t{display:block;font-weight:700;font-size:14px;line-height:1.35}
+.step .d{display:block;font-size:13px;color:var(--ink-2);line-height:1.42;margin-top:2px}
+.note{margin-top:20px;border:1px solid var(--rule);border-left:3px solid var(--accent);
+  background:var(--accent-dim);border-radius:12px;padding:15px 18px}
+.note .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+.note p{margin:7px 0 0;font-size:14.5px;color:var(--ink);line-height:1.55}
+.note code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:var(--paper-2);
+  border:1px solid var(--rule);border-radius:4px;padding:1px 5px}
+
+/* ═══ APP — literal tokens.css values ═══ */
+.app{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:15px 14px 20px;flex:1}
+
+/* kid chrome */
+.k-top{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:11px}
+.k-hi{font-size:15px;font-weight:700;color:#D6E2F5}
+.k-rank{display:inline-flex;align-items:center;gap:5px;background:rgba(255,216,74,.14);
+  border:1px solid rgba(255,216,74,.4);color:#FFD84A;font-size:11px;font-weight:800;
+  padding:5px 9px;border-radius:999px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.k-switch{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:#1E3050;border:2px solid #3A5380;color:#FFF;border-radius:14px;padding:10px 12px;
+  cursor:pointer;font:inherit;font-size:16px;font-weight:700;margin-bottom:10px;min-height:48px}
+.k-switch:hover{border-color:#C4B5FD}
+.k-switch .l{display:flex;align-items:center;gap:9px;min-width:0}
+.k-switch .cv{color:#B8C7DF;font-size:12px;font-weight:700;flex:0 0 auto}
+.k-menu{background:#1A2942;border:1px solid #3A5380;border-radius:14px;padding:6px;margin-bottom:10px}
+.k-mi{width:100%;display:flex;align-items:center;gap:10px;background:none;border:none;color:#FFF;
+  font:inherit;font-size:15px;font-weight:600;text-align:left;padding:11px 10px;border-radius:10px;
+  cursor:pointer;min-height:48px}
+.k-mi:hover{background:#2A3F63}
+.k-mi.on{background:rgba(196,181,253,.16);color:#C4B5FD;font-weight:800}
+.k-mi .st{margin-left:auto;font-size:11.5px;color:#B8C7DF;font-weight:700}
+
+/* hero + rank progress (from v1) */
+.k-hero{background:#1E3050;border:1px solid #3A5380;border-radius:16px;padding:14px;margin-bottom:10px}
+.k-heroRow{display:flex;align-items:center;gap:14px}
+.k-num{font-size:42px;font-weight:800;line-height:1;color:#FFD84A;font-variant-numeric:tabular-nums}
+.k-lbl{font-size:13px;color:#D6E2F5;font-weight:600;margin-top:2px}
+.k-alive{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
+  color:#5EEA93;background:rgba(94,234,147,.12);padding:4px 9px;border-radius:999px;margin-top:7px}
+.k-prog{margin-top:12px}
+.k-progTop{display:flex;justify-content:space-between;font-size:11.5px;color:#B8C7DF;
+  font-weight:700;margin-bottom:5px}
+.k-progBar{height:7px;background:#0F1A2E;border-radius:99px;overflow:hidden}
+.k-progFill{height:100%;background:linear-gradient(90deg,#FFD84A,#5EEA93);border-radius:99px}
+
+/* activities */
+.k-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.k-act{background:#1E3050;border:2px solid #3A5380;border-radius:13px;padding:11px 8px;min-height:70px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;
+  font:inherit;color:#FFF;transition:border-color .15s,background .15s}
+.k-act:hover{border-color:#C4B5FD}
+.k-act .i{font-size:19px;line-height:1}
+.k-act .t{font-size:15px;font-weight:700}
+.k-act.done{border-color:#5EEA93;background:rgba(94,234,147,.10)}
+.k-act.done .t{color:#5EEA93}
+.k-act .c{font-size:11.5px;font-weight:800;color:#5EEA93}
+
+/* v1 modules now co-existing with track chrome */
+.k-mod{background:#1E3050;border:1px solid #3A5380;border-radius:14px;padding:12px 13px;margin-bottom:9px}
+.k-modH{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
+.k-modT{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#B8C7DF}
+.k-modLink{font-size:12px;font-weight:700;color:#C4B5FD;background:none;border:none;cursor:pointer;font-family:inherit}
+.k-ch{display:flex;gap:10px;align-items:flex-start}
+.k-chI{font-size:22px;flex:0 0 auto}
+.k-chN{font-size:14.5px;font-weight:800;color:#FFF}
+.k-chD{font-size:12.5px;color:#B8C7DF;line-height:1.4;margin-top:2px}
+.k-lb{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid #2A3F63}
+.k-lb:last-child{border-bottom:none}
+.k-lbP{font-size:12px;font-weight:800;color:#B8C7DF;width:16px;flex:0 0 auto}
+.k-lbA{font-size:16px;flex:0 0 auto}
+.k-lbN{font-size:13.5px;font-weight:600;color:#FFF;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.k-lbS{font-size:13px;font-weight:800;color:#FFD84A;font-variant-numeric:tabular-nums}
+.k-lb.me{background:rgba(196,181,253,.10);margin:0 -6px;padding:6px;border-radius:8px;border-bottom:none}
+.k-prz{display:flex;gap:9px;align-items:center}
+.k-przI{font-size:20px}
+.k-przN{font-size:13.5px;font-weight:700;color:#FFF}
+.k-przM{font-size:12px;color:#B8C7DF;margin-top:1px}
+.k-przB{margin-left:auto;background:#C4B5FD;color:#0F1A2E;border:none;border-radius:9px;
+  font:inherit;font-size:12.5px;font-weight:800;padding:8px 11px;cursor:pointer;min-height:44px}
+
+/* bottom tab bar (v1 has 6 tabs) */
+.k-tabs{display:flex;gap:2px;background:#1A2942;border-top:1px solid #3A5380;padding:6px 4px 8px;flex:0 0 auto}
+.k-tab{flex:1;background:none;border:none;color:#B8C7DF;font:inherit;font-size:9.5px;font-weight:700;
+  padding:5px 2px;border-radius:9px;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;gap:2px;min-height:44px;justify-content:center}
+.k-tab .ti{font-size:15px;line-height:1}
+.k-tab.on{color:#C4B5FD;background:rgba(196,181,253,.12)}
+
+/* ═══ ONBOARDING ═══ */
+.o-wrap{padding:22px 18px;display:flex;flex-direction:column;min-height:100%}
+.o-prog{display:flex;gap:5px;margin-bottom:20px}
+.o-dot{flex:1;height:4px;border-radius:99px;background:#2A3F63}
+.o-dot.on{background:#C4B5FD}
+.o-step{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#B8C7DF;margin-bottom:8px}
+.o-h{font-size:23px;font-weight:800;color:#FFF;line-height:1.22;margin-bottom:8px;letter-spacing:-.3px}
+.o-p{font-size:14.5px;color:#D6E2F5;line-height:1.55;margin-bottom:18px}
+.o-btn{background:#C4B5FD;color:#0F1A2E;border:none;border-radius:12px;font:inherit;font-size:15.5px;
+  font-weight:800;padding:14px;cursor:pointer;width:100%;min-height:48px;margin-top:auto}
+.o-btn.g{background:#FFF;color:#1A1F2E;display:flex;align-items:center;justify-content:center;gap:9px}
+.o-btn.ghost{background:none;border:1.5px solid #3A5380;color:#B8C7DF;margin-top:8px;font-size:14px}
+.o-in{width:100%;background:#1E3050;border:2px solid #3A5380;color:#FFF;border-radius:12px;
+  padding:13px;font:inherit;font-size:16px;margin-bottom:10px;min-height:48px}
+.o-in:focus{border-color:#C4B5FD;outline:none}
+.o-in::placeholder{color:#7D8FA8}
+.o-lab{font-size:12.5px;font-weight:700;color:#B8C7DF;margin-bottom:6px;display:block}
+.o-pick{display:grid;gap:8px;margin-bottom:12px}
+.o-opt{display:flex;gap:11px;align-items:flex-start;background:#1E3050;border:2px solid #3A5380;
+  border-radius:13px;padding:12px;cursor:pointer;font:inherit;color:#FFF;text-align:left;min-height:48px}
+.o-opt:hover{border-color:#C4B5FD}
+.o-opt.on{border-color:#5EEA93;background:rgba(94,234,147,.09)}
+.o-optI{font-size:21px;flex:0 0 auto}
+.o-optT{font-size:15px;font-weight:800}
+.o-optD{font-size:12.5px;color:#B8C7DF;line-height:1.4;margin-top:2px}
+.o-themes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.o-th{background:#1E3050;border:2px solid #3A5380;border-radius:13px;padding:13px 8px;cursor:pointer;
+  font:inherit;color:#FFF;display:flex;flex-direction:column;align-items:center;gap:5px;min-height:74px;justify-content:center}
+.o-th.on{border-color:#5EEA93;background:rgba(94,234,147,.09)}
+.o-thI{font-size:22px}
+.o-thT{font-size:14px;font-weight:700}
+.o-consent{background:#1E3050;border:1px solid #3A5380;border-radius:13px;padding:14px;margin-bottom:12px}
+.o-cRow{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px}
+.o-cRow:last-child{margin-bottom:0}
+.o-cBox{width:22px;height:22px;border-radius:6px;border:2px solid #3A5380;background:#0F1A2E;
+  flex:0 0 auto;cursor:pointer;display:grid;place-items:center;font-size:13px;color:#0F1A2E;margin-top:1px}
+.o-cBox.on{background:#5EEA93;border-color:#5EEA93;color:#0F1A2E;font-weight:800}
+.o-cT{font-size:13px;color:#D6E2F5;line-height:1.45}
+.o-cT b{color:#FFF}
+.o-skip{background:none;border:none;color:#B8C7DF;font:inherit;font-size:13.5px;
+  text-decoration:underline;cursor:pointer;padding:12px;width:100%;min-height:44px}
+.o-done{text-align:center;padding:16px 0}
+.o-doneI{font-size:44px;margin-bottom:12px}
+
+.toast{position:absolute;left:14px;right:14px;bottom:70px;background:#1A2942;border:1px solid #5EEA93;
+  border-radius:12px;padding:11px 13px;color:#5EEA93;font-size:13.5px;font-weight:700;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);display:flex;gap:8px;align-items:flex-start}
+
+footer{border-top:1px solid var(--rule);padding:22px 0 44px;font-size:13px;color:var(--ink-3);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer a{color:var(--accent);text-decoration:none;font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">Beat the Slide · onboarding + merged daily screen</div>
+    <h1>The two flows nothing else covers</h1>
+    <p class="standfirst">
+      The v2 prototype showed what's <em>new</em>; v1 already runs the game. Neither shows
+      <strong>a family's first five minutes</strong>, or what the daily screen looks like once the
+      track chrome sits on top of the game that's already there. Both are below, clickable.
+    </p>
+  </header>
+
+  <div class="stage">
+    <div class="phone-col">
+      <div class="phone"><div class="phone-screen">
+        <div class="notch"><i></i></div>
+        <div class="surface kid" id="surface"><div class="app" id="app"></div></div>
+        <div id="tabbar"></div>
+        <div id="toast-slot"></div>
+      </div></div>
+      <div class="caption" id="caption"></div>
+    </div>
+
+    <div>
+      <div class="grp">Onboarding — a new family</div>
+      <ul class="steps" id="steps-onb"></ul>
+      <div class="grp">The merged daily screen</div>
+      <ul class="steps" id="steps-day"></ul>
+      <div class="note">
+        <div class="k">What this is testing</div>
+        <p id="note-body"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Beat the Slide · onboarding + merged daily · 2026-08-29</span>
+    <span><a href="prototype-v2.html">v2 track flows →</a></span>
+  </footer>
+</div>
+
+<script>
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* track defs — same shape as DATA-MODEL.md §3.2 */
+const TRACKS = {
+  'reading-slide':{name:'Reading Slide',icon:'📚',desc:'Read, write, wrap up — beat the summer slide.',
+    age:'5–11',min:20,ladder:'chess',
+    acts:[{id:'read',label:'Read',icon:'📖',pts:3},{id:'write',label:'Write',icon:'✏️',pts:3},
+          {id:'math',label:'Math',icon:'🔢',pts:2},{id:'closeout',label:'Wrap-up',icon:'🌙',pts:1}],
+    outcome:true},
+  'math-facts':{name:'Math Facts',icon:'🔢',desc:'Times-table fluency, five minutes a day.',
+    age:'7–11',min:10,ladder:'gaming',
+    acts:[{id:'drill',label:'Drill',icon:'⚡',pts:3},{id:'review',label:'Review',icon:'🔁',pts:2},
+          {id:'challenge',label:'Challenge',icon:'🏁',pts:3}],
+    outcome:true},
+  'music-practice':{name:'Music Practice',icon:'🎵',desc:'Practice, listen, learn a piece.',
+    age:'6–14',min:25,ladder:'music',
+    acts:[{id:'practice',label:'Practice',icon:'🎹',pts:3},{id:'listen',label:'Listen',icon:'🎧',pts:1},
+          {id:'learn',label:'Learn',icon:'🎼',pts:3}],
+    outcome:false}
+};
+/* real v1 rank ladder */
+const LADDERS={
+  chess:[{n:'Pawn',p:'♙',min:0},{n:'Knight',p:'♘',min:20},{n:'Bishop',p:'♗',min:50},
+         {n:'Rook',p:'♖',min:90},{n:'Queen',p:'♕',min:140},{n:'King',p:'♔',min:200},
+         {n:'Grandmaster',p:'👑',min:270}],
+  gaming:[{n:'Level 1',p:'⚡',min:0},{n:'Level 2',p:'⚡',min:20},{n:'Level 3',p:'⚡',min:50},
+          {n:'Level 4',p:'⚡',min:90},{n:'Boss',p:'👾',min:140}],
+  music:[{n:'Beginner',p:'🎵',min:0},{n:'Player',p:'🎶',min:20},{n:'Soloist',p:'🎼',min:50},
+         {n:'Virtuoso',p:'🏆',min:90}]
+};
+// Ladder comes from the track definition (DATA-MODEL §3.2), never hardcoded.
+function rankFor(pts,ladder){const L=LADDERS[ladder]||LADDERS.chess;
+  let r=L[0],nx=L[1];
+  for(let i=0;i<L.length;i++){if(pts>=L[i].min){r=L[i];nx=L[i+1]||null;}}
+  return {r,nx};}
+
+/* onboarding draft + app state */
+const onb={kid:'',track:null,theme:null,consent:{coppa:false,data:false}};
+const state={activeTrackId:'reading-slide',menuOpen:false,tab:'day',
+  completed:{read:true,math:true},points:112,streak:8};
+let screen='o1', toast=null;
+
+/* ── onboarding screens ── */
+const O={
+o1:()=>`<div class="o-wrap">
+  <div class="o-prog">${[1,2,3,4,5,6].map(i=>`<span class="o-dot${i<=1?' on':''}"></span>`).join('')}</div>
+  <div style="text-align:center;padding:26px 0 10px">
+    <div style="font-size:44px;margin-bottom:14px">📚</div>
+    <div class="o-h" style="font-size:26px">Beat the Slide</div>
+    <div class="o-p">Build a daily habit your kid actually wants to keep — reading, math, music, whatever matters this season.</div>
+  </div>
+  <button class="o-btn g" onclick="go('o2')"><span style="font-size:17px">🔵</span> Sign in with Google</button>
+  <div style="font-size:12px;color:#B8C7DF;text-align:center;margin-top:11px;line-height:1.5">
+    A parent signs in. Your kid never needs an account.</div>
+</div>`,
+
+o2:()=>`<div class="o-wrap">
+  <div class="o-prog">${[1,2,3,4,5,6].map(i=>`<span class="o-dot${i<=2?' on':''}"></span>`).join('')}</div>
+  <div class="o-step">Step 2 of 6</div>
+  <div class="o-h">Who's this for?</div>
+  <div class="o-p">Just a first name — it's what they'll see on their screen and the leaderboard.</div>
+  <label class="o-lab" for="kidname">Kid's first name</label>
+  <input class="o-in" id="kidname" placeholder="e.g. Declan" value="${esc(onb.kid)}"
+         oninput="onb.kid=this.value;document.getElementById('nx2').disabled=!this.value.trim()">
+  <button class="o-btn" id="nx2" onclick="go('o3')" ${onb.kid.trim()?'':'disabled'}
+    style="${onb.kid.trim()?'':'opacity:.45;cursor:not-allowed'}">Continue</button>
+</div>`,
+
+o3:()=>`<div class="o-wrap">
+  <div class="o-prog">${[1,2,3,4,5,6].map(i=>`<span class="o-dot${i<=3?' on':''}"></span>`).join('')}</div>
+  <div class="o-step">Step 3 of 6</div>
+  <div class="o-h">Pick a track</div>
+  <div class="o-p">A 12-week program. ${esc(onb.kid||'Your kid')} can add more later — one is plenty to start.</div>
+  <div class="o-pick">
+  ${Object.entries(TRACKS).map(([id,t])=>`
+    <button class="o-opt${onb.track===id?' on':''}" onclick="onb.track='${id}';render()">
+      <span class="o-optI">${t.icon}</span>
+      <span><span class="o-optT">${esc(t.name)}</span>
+        <span class="o-optD">${esc(t.desc)}<br>Ages ${t.age} · ~${t.min} min/day</span></span>
+    </button>`).join('')}
+  </div>
+  <button class="o-btn" onclick="go('o4')" ${onb.track?'':'disabled'}
+    style="${onb.track?'':'opacity:.45;cursor:not-allowed'}">Continue</button>
+</div>`,
+
+o4:()=>`<div class="o-wrap">
+  <div class="o-prog">${[1,2,3,4,5,6].map(i=>`<span class="o-dot${i<=4?' on':''}"></span>`).join('')}</div>
+  <div class="o-step">Step 4 of 6</div>
+  <div class="o-h">Let ${esc(onb.kid||'them')} pick a theme</div>
+  <div class="o-p">This sets the rank names and the daily ideas. Hand them the phone for this one.</div>
+  <div class="o-themes">
+    ${[['chess','♟️','Chess'],['sports','⚽','Sports'],['music','🎸','Music'],['gaming','🎮','Gaming']]
+      .map(([id,i,n])=>`<button class="o-th${onb.theme===id?' on':''}" onclick="onb.theme='${id}';render()">
+        <span class="o-thI">${i}</span><span class="o-thT">${n}</span></button>`).join('')}
+  </div>
+  <div style="font-size:12.5px;color:#B8C7DF;text-align:center;line-height:1.5;margin-bottom:10px">
+    ${onb.theme==='chess'?'Ranks go Pawn → Knight → … → Grandmaster.':
+      onb.theme?'Ranks and daily ideas match the theme.':'&nbsp;'}</div>
+  <button class="o-btn" onclick="go('o5')" ${onb.theme?'':'disabled'}
+    style="${onb.theme?'':'opacity:.45;cursor:not-allowed'}">Continue</button>
+</div>`,
+
+o5:()=>`<div class="o-wrap">
+  <div class="o-prog">${[1,2,3,4,5,6].map(i=>`<span class="o-dot${i<=5?' on':''}"></span>`).join('')}</div>
+  <div class="o-step">Step 5 of 6 · Required</div>
+  <div class="o-h">Your permission</div>
+  <div class="o-p">${esc(onb.kid||'Your kid')} is under 13, so we need a parent to agree before anything is saved.</div>
+  <div class="o-consent">
+    <div class="o-cRow">
+      <button class="o-cBox${onb.consent.coppa?' on':''}" onclick="onb.consent.coppa=!onb.consent.coppa;render()"
+        aria-label="Consent to account">${onb.consent.coppa?'✓':''}</button>
+      <span class="o-cT">I'm ${esc(onb.kid||'this child')}'s <b>parent or guardian</b>, and I'm creating this account for them.</span>
+    </div>
+    <div class="o-cRow">
+      <button class="o-cBox${onb.consent.data?' on':''}" onclick="onb.consent.data=!onb.consent.data;render()"
+        aria-label="Consent to data">${onb.consent.data?'✓':''}</button>
+      <span class="o-cT">I agree we store their <b>first name and daily activity</b> only. No ads, never sold.
+        <b>Delete anytime</b> in settings.</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#B8C7DF;line-height:1.5;margin-bottom:10px">
+    Friends see only a first name and a score. Never a last name, photo, or location.</div>
+  <button class="o-btn" onclick="go('o6')" ${onb.consent.coppa&&onb.consent.data?'':'disabled'}
+    style="${onb.consent.coppa&&onb.consent.data?'':'opacity:.45;cursor:not-allowed'}">Agree &amp; continue</button>
+</div>`,
+
+o6:()=>`<div class="o-wrap">
+  <div class="o-prog">${[1,2,3,4,5,6].map(i=>`<span class="o-dot on"></span>`).join('')}</div>
+  <div class="o-step">Step 6 of 6 · Optional</div>
+  <div class="o-h">Spring test scores?</div>
+  <div class="o-p">If you have them, we'll project where ${esc(onb.kid||'they')} could land in the fall. Skip it — everything else works the same.</div>
+  <label class="o-lab">MAP Reading RIT</label>
+  <input class="o-in" placeholder="e.g. 185" inputmode="numeric">
+  <label class="o-lab">Lexile level</label>
+  <input class="o-in" placeholder="e.g. 375" inputmode="numeric">
+  <button class="o-btn" onclick="finish()">Save &amp; start</button>
+  <button class="o-skip" onclick="finish()">Skip — I don't have these</button>
+</div>`,
+
+o7:()=>`<div class="o-wrap"><div class="o-done" style="margin:auto 0">
+  <div class="o-doneI">🎉</div>
+  <div class="o-h">${esc(onb.kid||'All')} set!</div>
+  <div class="o-p">Day 1 of ${esc(TRACKS[onb.track||'reading-slide'].name)}. Tap an activity tonight and the streak begins.</div>
+  <button class="o-btn" onclick="go('d1')" style="margin-top:14px">Open the daily screen →</button>
+</div></div>`
+};
+
+/* ── merged daily screen ── */
+function daily(){
+  const id=state.activeTrackId, T=TRACKS[id];
+  const {r,nx}=rankFor(state.points, T.ladder);
+  const pct=nx?Math.round(((state.points-r.min)/(nx.min-r.min))*100):100;
+  const acts=T.acts.map(a=>{const d=!!state.completed[a.id];
+    return `<button class="k-act${d?' done':''}" onclick="toggle('${a.id}')">
+      <span class="i">${a.icon}</span><span class="t">${esc(a.label)}</span>
+      ${d?'<span class="c">✓ Done</span>':''}</button>`}).join('');
+  const menu=state.menuOpen?`<div class="k-menu">
+    ${Object.entries(TRACKS).slice(0,2).map(([tid,t])=>`
+      <button class="k-mi${tid===id?' on':''}" onclick="pick('${tid}')">
+        <span>${t.icon}</span><span>${esc(t.name)}</span>
+        <span class="st">${tid===id?state.streak+'d streak':'3d streak'}</span></button>`).join('')}
+    </div>`:'';
+
+  return `<div class="k-top">
+      <div class="k-hi">Hey ${esc(onb.kid||'Declan')} 👋</div>
+      <div class="k-rank">${r.p} ${esc(r.n)}</div></div>
+    <button class="k-switch" onclick="state.menuOpen=!state.menuOpen;render()" aria-expanded="${state.menuOpen}">
+      <span class="l"><span style="font-size:19px">${T.icon}</span><span>${esc(T.name)}</span></span>
+      <span class="cv">${state.menuOpen?'▲':'▼'} Switch</span></button>
+    ${menu}
+
+    <div class="k-hero">
+      <div class="k-heroRow">
+        <div><div class="k-num">${state.streak}</div><div class="k-lbl">day streak</div></div>
+        <div style="flex:1;text-align:right">
+          <div class="k-alive">🔥 Still alive</div></div>
+      </div>
+      <div class="k-prog">
+        <div class="k-progTop"><span>${state.points} pts</span>
+          <span>${nx?`${nx.min-state.points} to ${nx.n}`:'Max rank'}</span></div>
+        <div class="k-progBar"><div class="k-progFill" style="width:${pct}%"></div></div>
+      </div>
+    </div>
+
+    <div class="k-acts">${acts}</div>
+
+    <div class="k-mod">
+      <div class="k-modH"><span class="k-modT">This week's challenge</span></div>
+      <div class="k-ch"><span class="k-chI">🏰</span>
+        <div><div class="k-chN">Reading Fort</div>
+          <div class="k-chD">Build a reading fort and read inside for 15+ minutes.</div></div></div>
+    </div>
+
+    <div class="k-mod">
+      <div class="k-modH"><span class="k-modT">${esc(T.name)} leaderboard</span>
+        <button class="k-modLink" onclick="showToast('Per-track — Math friends are separate')">This week ›</button></div>
+      <div class="k-lb me"><span class="k-lbP">1</span><span class="k-lbA">👑</span>
+        <span class="k-lbN">${esc(onb.kid||'Declan')} (you)</span><span class="k-lbS">${state.points}</span></div>
+      <div class="k-lb"><span class="k-lbP">2</span><span class="k-lbA">🦊</span>
+        <span class="k-lbN">Sebastian</span><span class="k-lbS">104</span></div>
+      <div class="k-lb"><span class="k-lbP">3</span><span class="k-lbA">🐢</span>
+        <span class="k-lbN">Cooper</span><span class="k-lbS">87</span></div>
+    </div>
+
+    <div class="k-mod">
+      <div class="k-modH"><span class="k-modT">Next prize</span></div>
+      <div class="k-prz"><span class="k-przI">🎢</span>
+        <div><div class="k-przN">Elitch Gardens trip</div>
+          <div class="k-przM">28 more points</div></div>
+        <button class="k-przB" onclick="showToast('Locked — 28 points to go')">Locked</button></div>
+    </div>`;
+}
+
+const TABS=[['summer','📅','Summer'],['day','☀️','Day'],['friends','🏆','Friends'],
+            ['rank','♟️','Rank'],['trophies','🏅','Trophies'],['prizes','🎁','Prizes']];
+function tabbar(){
+  return `<div class="k-tabs">${TABS.map(([id,i,n])=>
+    `<button class="k-tab${state.tab===id?' on':''}" onclick="state.tab='${id}';${''}showToast('${n} tab — built in v1');render()">
+      <span class="ti">${i}</span><span>${n}</span></button>`).join('')}</div>`;
+}
+
+/* ── flows ── */
+const FLOWS={
+ o1:{t:'Welcome + sign in',d:'Parent signs in with Google.',
+   n:'v1 already has Google sign-in, but no <strong>onboarding around it</strong>. The copy does real work here: <em>"A parent signs in. Your kid never needs an account"</em> — that single line is the COPPA posture, stated before anything is collected.'},
+ o2:{t:'Name the kid',d:'First name only.',
+   n:'First name only, and the screen says why — it is what appears on the leaderboard. Data minimisation for minors, made visible rather than buried in a policy.'},
+ o3:{t:'Pick a track',d:'One track to start.',
+   n:'Rendered from the same track definitions as everything else. Free tier is one track, so the copy frames it as <em>"one is plenty to start"</em> rather than as a limit you hit later.'},
+ o4:{t:'Kid picks a theme',d:'Chess, sports, music, gaming.',
+   n:'The one screen the <strong>kid</strong> drives — <em>"hand them the phone."</em> Theme is per-track (DATA-MODEL §3.4) and sets rank names, which is why picking Chess previews the Pawn → Grandmaster ladder.'},
+ o5:{t:'Parental consent',d:'COPPA. Required, blocking.',
+   n:'The PRD makes verifiable parental consent a launch requirement, and <strong>nothing prototyped it until now</strong>. Both boxes are required — the button stays disabled — because consent that can be skipped is not consent.'},
+ o6:{t:'Baseline scores',d:'Optional. Skippable.',
+   n:'The only genuinely optional step, and it is skippable in one tap. Feeds <code>outcomeModel</code>; tracks without one (Music) never show this. Deliberately last so a family can finish setup without hunting for a test report.'},
+ o7:{t:'Done → first day',d:'Straight into the game.',
+   n:'Setup ends inside the product, not on a dead-end confirmation. Six steps, one of them optional, one of them the kid\'s.'},
+ d1:{t:'Track chrome + the v1 game',d:'Everything on one screen.',
+   n:'The real test: v1\'s game (rank progress, weekly challenge, leaderboard, prizes, six tabs) with the v2 switcher on top. Measured in this build: the switcher costs <strong>64px</strong>, and greeting + switcher + streak + activities total <strong>420px</strong> in a 619px viewport — so <strong>the whole core loop still lands above the fold</strong>. The v1 modules below it scroll, as they did in v1. Tap the switcher; it works here.'},
+ d2:{t:'Switch track, same screen',d:'Reading → Math.',
+   n:'Switching swaps activities, rank ladder and <strong>leaderboard</strong> together — Math friends are a different list (FR5). The weekly challenge and prize modules stay put, so the screen keeps its shape while its content changes.'}
+};
+
+function render(){
+  const isOnb=screen.startsWith('o');
+  document.getElementById('app').innerHTML = isOnb ? O[screen]() : daily();
+  document.getElementById('surface').className='surface kid';
+  document.getElementById('tabbar').innerHTML = isOnb ? '' : tabbar();
+  document.getElementById('caption').textContent = isOnb
+    ? `Onboarding · step ${screen.slice(1)} of 6`
+    : `${onb.kid||'Declan'} · ${TRACKS[state.activeTrackId].name}`;
+  document.getElementById('note-body').innerHTML = FLOWS[screen]?.n || '';
+  document.querySelectorAll('.step').forEach(el=>
+    el.setAttribute('aria-current', el.dataset.s===screen ? 'true':'false'));
+  document.getElementById('toast-slot').innerHTML = toast
+    ? `<div class="toast"><span>✓</span><span>${esc(toast)}</span></div>`:'';
+}
+function go(s){screen=s;toast=null;if(s==='d2'){state.activeTrackId='math-facts';state.menuOpen=false;
+  state.completed={};state.points=41;state.streak=3;}
+  if(s==='d1'){state.activeTrackId='reading-slide';state.completed={read:true,math:true};
+  state.points=112;state.streak=8;} render();}
+function finish(){go('o7');}
+function pick(id){state.activeTrackId=id;state.menuOpen=false;
+  if(id==='math-facts'){state.points=41;state.streak=3;state.completed={};}
+  else{state.points=112;state.streak=8;state.completed={read:true,math:true};}
+  showToast('Switched to '+TRACKS[id].name);}
+function toggle(a){state.completed[a]=!state.completed[a];render();}
+function showToast(m){toast=m;render();clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>{toast=null;render();},2400);}
+
+const ONB=['o1','o2','o3','o4','o5','o6','o7'], DAY=['d1','d2'];
+const mk=(k,i)=>`<li><button class="step" data-s="${k}" onclick="go('${k}')">
+  <span class="n">${i}</span><span><span class="t">${esc(FLOWS[k].t)}</span>
+  <span class="d">${esc(FLOWS[k].d)}</span></span></button></li>`;
+document.getElementById('steps-onb').innerHTML=ONB.map((k,i)=>mk(k,i+1)).join('');
+document.getElementById('steps-day').innerHTML=DAY.map((k,i)=>mk(k,i+1)).join('');
+render();
+</script>
