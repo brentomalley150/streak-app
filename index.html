@@ -3,1227 +3,1480 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beat the Slide — Vision Hub</title>
+<title>Beat the Slide — The streak your kid won't want to break</title>
 <style>
-  :root {
-    --bg: #ffffff;
-    --bg-light: #F7F8FB;
-    --panel: #ffffff;
-    --panel-light: #F3F4F8;
-    --ink: #1A1F2E;
-    --soft: #4A5568;
-    --muted: #8B95A7;
-    --gold: #D97706;          /* darker amber — readable on white */
-    --gold-dark: #92400E;
-    --green: #059669;
-    --red: #DC2626;
-    --orange: #EA580C;
-    --purple: #6D28D9;
-    --blue: #2563EB;
-    --border: #E5E7EB;
-    --text-on-accent: #ffffff;  /* white text on bold colored fills (badges/buttons) */
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'SF Pro Rounded', 'Nunito', -apple-system, 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    background-image:
-      radial-gradient(circle at 10% 10%, rgba(217, 119, 6, 0.04) 0%, transparent 45%),
-      radial-gradient(circle at 90% 90%, rgba(37, 99, 235, 0.03) 0%, transparent 45%);
-    color: var(--ink);
-    line-height: 1.55;
-    min-height: 100vh;
-    font-size: 16px;
-  }
-  .container { max-width: 1180px; margin: 0 auto; padding: 24px; }
-  header.hub-header {
-    background: linear-gradient(135deg, var(--panel) 0%, var(--bg-light) 100%);
-    border: 2px solid var(--gold);
-    border-radius: 18px;
-    padding: 24px 28px;
-    margin-bottom: 20px;
-  }
-  .hub-tag {
-    background: var(--gold);
-    color: var(--text-on-accent);
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
-  header .lede { color: var(--soft); font-size: 17px; max-width: 800px; }
-  header .live-link {
-    display: inline-block;
-    margin-top: 16px;
-    background: var(--panel-light);
-    border: 2px solid var(--border);
-    color: var(--gold);
-    padding: 8px 16px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  header .live-link:hover { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .toolbar {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-    margin-bottom: 20px;
-    align-items: center;
-  }
-  .search-box {
-    background: var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 16px;
-    width: 100%;
-  }
-  .search-box:focus { outline: none; border-color: var(--gold); }
-  .filter-chips {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .chip {
-    background: var(--panel);
-    border: 2px solid var(--border);
-    color: var(--soft);
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .chip.active { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
-  .chip:hover:not(.active) { background: var(--panel-light); color: var(--ink); }
+:root {
+  --purple: #6C2BD9;
+  --purple-dark: #4A1A9E;
+  --purple-light: #F0ECFF;
+  --orange: #F97316;
+  --gold: #F59E0B;
+  --ink: #0D0A1A;
+  --soft: #4A4565;
+  --muted: #9180C4;
+  --bg: #FAFAFE;
+  --white: #FFFFFF;
+  --line: #EDE9FF;
+}
 
-  .results-info {
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
+html { scroll-behavior: smooth; }
 
-  .page-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 14px;
-  }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .page-card {
-    background: var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.15s;
-  }
-  .page-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .page-card.cat-kid { border-left: 6px solid var(--blue); }
-  .page-card.cat-parent { border-left: 6px solid var(--purple); }
-  .page-card.cat-modal { border-left: 6px solid var(--orange); }
-  .page-card.cat-flow { border-left: 6px solid var(--green); }
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .card-cat {
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
-  .cat-kid .card-cat { background: rgba(126, 182, 255, 0.15); color: var(--blue); }
-  .cat-parent .card-cat { background: rgba(184, 157, 255, 0.15); color: var(--purple); }
-  .cat-modal .card-cat { background: rgba(255, 165, 82, 0.15); color: var(--orange); }
-  .cat-flow .card-cat { background: rgba(94, 234, 147, 0.15); color: var(--green); }
+.nav-brand {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--purple);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .card-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-  .card-desc { color: var(--soft); font-size: 14px; margin-bottom: 12px; line-height: 1.5; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .card-issues {
-    background: var(--bg-light);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-  }
-  .card-issues-title {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-  }
-  .card-issues ul {
-    list-style: none;
-    padding: 0;
-  }
-  .card-issues li {
-    font-size: 13px;
-    color: var(--soft);
-    padding: 3px 0;
-    padding-left: 16px;
-    position: relative;
-  }
-  .card-issues li::before {
-    content: "•";
-    position: absolute;
-    left: 4px;
-    color: var(--gold);
-    font-weight: bold;
-  }
+.nav-link {
+  color: var(--soft);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
 
-  .card-actions { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn {
-    background: var(--gold);
-    color: var(--text-on-accent);
-    border: none;
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-weight: 800;
-    cursor: pointer;
-    font-size: 13px;
-    text-decoration: none;
-    display: inline-block;
-    flex: 1;
-    text-align: center;
-  }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,216,74,0.3); }
-  .btn.secondary {
-    background: var(--panel-light);
-    color: var(--ink);
-    border: 2px solid var(--border);
-  }
-  .btn.secondary:hover { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
+.nav-link:hover { background: var(--purple-light); color: var(--purple); }
 
-  .card-url {
-    font-family: 'SF Mono', Menlo, monospace;
-    font-size: 11px;
-    color: var(--muted);
-    padding: 4px 0;
-    word-break: break-all;
-  }
+.nav-cta {
+  background: var(--purple);
+  color: white !important;
+  padding: 8px 16px !important;
+  border-radius: 10px;
+  font-weight: 800 !important;
+}
 
-  .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-    background: var(--panel);
-    border-radius: 14px;
-    border: 2px dashed var(--border);
-  }
+.nav-cta:hover { background: var(--purple-dark) !important; }
 
-  /* Founder TODO panel */
-  .todo-section {
-    background: linear-gradient(135deg, rgba(184, 157, 255, 0.08), rgba(126, 182, 255, 0.05));
-    border: 2px solid var(--purple);
-    border-radius: 16px;
-    padding: 22px 24px;
-    margin-bottom: 22px;
-  }
-  .todo-section h2 {
-    font-size: 22px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .todo-section .todo-sub {
-    color: var(--soft);
-    font-size: 14px;
-    margin-bottom: 14px;
-  }
-  .todo-meta {
-    color: var(--muted);
-    font-size: 12px;
-    margin-bottom: 12px;
-  }
-  .todo-meta strong { color: var(--purple); font-weight: 800; }
+.concept-badge {
+  background: linear-gradient(90deg, #F97316, #F59E0B);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
 
-  .todo-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-  .todo-item {
-    display: grid;
-    grid-template-columns: 24px 1fr auto;
-    gap: 12px;
-    align-items: start;
-    background: var(--bg-light);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    transition: all 0.15s;
-  }
-  .todo-item.done { opacity: 0.55; border-color: var(--green); }
-  .todo-item .todo-check {
-    width: 20px; height: 20px;
-    margin-top: 2px;
-    cursor: pointer;
-    accent-color: var(--purple);
-  }
-  .todo-item .todo-text {
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--ink);
-  }
-  .todo-item.done .todo-text { text-decoration: line-through; color: var(--soft); }
-  .todo-item .todo-text strong { color: var(--purple); }
-  .todo-item.done .todo-text strong { color: var(--green); }
-  .todo-item .todo-priority {
-    font-size: 10px;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-left: 8px;
-  }
-  .todo-item .todo-priority.high { background: rgba(255, 107, 107, 0.15); color: var(--red); }
-  .todo-item .todo-priority.medium { background: rgba(255, 165, 82, 0.15); color: var(--orange); }
-  .todo-item .todo-priority.low { background: rgba(184, 157, 255, 0.15); color: var(--purple); }
-  .todo-item .todo-meta-line {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .todo-item .todo-meta-line code {
-    background: var(--bg-light);
-    border: 1px solid var(--border);
-    padding: 1px 6px;
-    border-radius: 3px;
-    color: var(--gold);
-    font-size: 10px;
-    font-family: 'SF Mono', Menlo, monospace;
-  }
-  .todo-item .todo-actions {
-    display: flex;
-    gap: 4px;
-  }
-  .todo-item button.todo-remove {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 4px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 11px;
-  }
-  .todo-item button.todo-remove:hover { background: var(--red); color: white; border-color: var(--red); }
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #0D0A1A 0%, #1a0f3c 50%, #0a1a3c 100%);
+  padding: 80px 24px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-  .todo-add-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 6px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-  }
-  .todo-add-row input, .todo-add-row select {
-    background: var(--bg);
-    border: 2px solid var(--border);
-    color: var(--ink);
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 13px;
-  }
-  .todo-add-row input:focus { outline: none; border-color: var(--purple); }
-  .todo-add-row button {
-    background: var(--purple);
-    color: var(--text-on-accent);
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 13px;
-  }
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(108,43,217,0.4) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-  /* Users section */
-  .users-section {
-    background: var(--panel);
-    border: 2px solid var(--gold);
-    border-radius: 16px;
-    padding: 22px 24px;
-    margin-bottom: 22px;
-  }
-  .users-section h2 {
-    font-size: 22px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .users-section .users-sub {
-    color: var(--soft);
-    font-size: 14px;
-    margin-bottom: 14px;
-    line-height: 1.6;
-  }
-  .users-counts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 18px;
-  }
-  .users-count {
-    background: var(--bg-light);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-  }
-  .users-count .uc-num { font-size: 28px; font-weight: 800; color: var(--gold); line-height: 1; }
-  .users-count .uc-lbl { font-size: 11px; color: var(--soft); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(249,115,22,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-  .users-list { display: flex; flex-direction: column; gap: 8px; }
-  .user-row {
-    display: grid;
-    grid-template-columns: 48px 1fr auto auto;
-    gap: 12px;
-    align-items: center;
-    background: var(--bg-light);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 14px;
-  }
-  .user-row.player { border-color: var(--blue); }
-  .user-row.admin  { border-color: var(--gold); }
-  .user-row.parent { border-color: var(--purple); }
-  .user-row.friend { border-color: var(--green); }
-  .user-row .u-avatar { font-size: 30px; text-align: center; line-height: 1; }
-  .user-row .u-name { font-weight: 800; font-size: 16px; }
-  .user-row .u-meta { font-size: 12px; color: var(--soft); margin-top: 2px; }
-  .user-row .u-stat {
-    background: var(--bg);
-    padding: 6px 12px;
-    border-radius: 8px;
-    text-align: center;
-    min-width: 70px;
-  }
-  .user-row .u-stat .v { color: var(--gold); font-weight: 800; font-size: 14px; }
-  .user-row .u-stat .l { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-  .user-row .u-actions { display: flex; gap: 6px; }
-  .user-row .u-actions button {
-    background: var(--panel-light);
-    border: 1px solid var(--border);
-    color: var(--ink);
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 12px;
-  }
-  .user-row .u-actions button:hover { background: var(--gold); color: var(--text-on-accent); border-color: var(--gold); }
-  .user-row .u-actions button.danger { color: var(--red); }
-  .user-row .u-actions button.danger:hover { background: var(--red); color: white; border-color: var(--red); }
+.hero-inner { position: relative; max-width: 800px; margin: 0 auto; }
 
-  .users-empty {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--muted);
-    background: var(--bg-light);
-    border-radius: 10px;
-    border: 2px dashed var(--border);
-  }
-  .users-caveat {
-    background: rgba(184, 157, 255, 0.1);
-    border-left: 3px solid var(--purple);
-    color: var(--soft);
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    margin-top: 14px;
-    line-height: 1.5;
-  }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  letter-spacing: 0.03em;
+}
 
-  /* Edit modal */
-  .edit-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(26, 31, 46, 0.55);  /* tinted ink, softer than pure black on a white page */
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 20px;
-  }
-  .edit-backdrop.show { display: flex; }
-  .edit-modal {
-    background: var(--panel);
-    border: 2px solid var(--gold);
-    border-radius: 16px;
-    padding: 24px;
-    max-width: 480px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .edit-modal h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-  .edit-modal .em-sub { color: var(--soft); font-size: 14px; margin-bottom: 18px; }
-  .edit-modal label { display: block; font-size: 12px; color: var(--soft); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-  .edit-modal input, .edit-modal select {
-    width: 100%;
-    background: var(--bg);
-    border: 2px solid var(--border);
-    color: var(--ink);
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    margin-bottom: 12px;
-  }
-  .edit-modal .em-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-  }
-  .edit-modal .em-actions button {
-    flex: 1;
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: none;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  .edit-modal .em-save { background: var(--gold); color: var(--text-on-accent); }
-  .edit-modal .em-cancel { background: var(--panel-light); color: var(--ink); border: 1px solid var(--border) !important; }
+.hero h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 900;
+  color: white;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
 
-  .footer-card {
-    background: rgba(184, 157, 255, 0.08);
-    border: 2px solid var(--purple);
-    border-radius: 14px;
-    padding: 20px 24px;
-    margin-top: 24px;
-    font-size: 14px;
-    line-height: 1.7;
-  }
-  .footer-card h3 { font-size: 16px; margin-bottom: 8px; }
-  .footer-card code {
-    background: var(--bg);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-family: 'SF Mono', Menlo, monospace;
-    font-size: 13px;
-    color: var(--gold);
-  }
-  .footer-card .debug-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-    align-items: center;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-  }
-  .footer-card .debug-row button {
-    background: var(--purple);
-    color: var(--text-on-accent);
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-weight: 800;
-    cursor: pointer;
-    font-size: 13px;
-  }
+.hero h1 .flame { color: #F97316; }
+.hero h1 .glow {
+  background: linear-gradient(135deg, #A78BFA, #60A5FA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  pre.debug-output {
-    background: #1A1F2E;             /* deliberate dark — code blocks read best as inverse */
-    color: #5EEA93;                  /* mint, high-contrast on dark */
-    padding: 14px;
-    border-radius: 8px;
-    font-family: 'SF Mono', Menlo, monospace;
-    font-size: 11px;
-    overflow-x: auto;
-    margin-top: 10px;
-    max-height: 300px;
-    overflow-y: auto;
-    display: none;
-  }
-  pre.debug-output.show { display: block; }
+.hero-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.7);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
 
-  @media (max-width: 720px) {
-    .toolbar { grid-template-columns: 1fr; }
-    .page-grid { grid-template-columns: 1fr; }
-    header h1 { font-size: 24px; }
-  }
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.btn-primary {
+  background: white;
+  color: var(--purple);
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+
+.btn-ghost {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover { background: rgba(255,255,255,0.18); }
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+}
+
+.hero-stat-val {
+  display: block;
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+}
+
+.hero-stat-lbl {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+/* Phone mockup in hero */
+.hero-phones {
+  margin-top: 56px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.phone-mock {
+  background: #1c1c2e;
+  border-radius: 36px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1.5px #2e2e48,
+    0 40px 80px rgba(0,0,0,0.6);
+}
+
+.phone-mock.main {
+  width: 240px;
+  transform: translateY(0);
+}
+
+.phone-mock.side {
+  width: 200px;
+  opacity: 0.7;
+  transform: translateY(24px) scale(0.95);
+}
+
+.phone-screen-inner {
+  background: #F5F3FF;
+  border-radius: 26px;
+  overflow: hidden;
+  padding: 14px;
+}
+
+.ps-header {
+  background: white;
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.ps-logo {
+  font-size: 13px;
+  font-weight: 900;
+  color: #5B21B6;
+  margin-bottom: 8px;
+}
+
+.ps-tabs {
+  display: flex;
+  gap: 3px;
+  background: #F0ECFF;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.ps-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 4px 2px;
+  border-radius: 6px;
+  color: #9180C4;
+}
+
+.ps-tab.active {
+  background: white;
+  color: #5B21B6;
+}
+
+.ps-streak {
+  background: linear-gradient(135deg, #F97316, #FBBF24);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.ps-streak-num {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.ps-streak-sub {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.ps-dots {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.ps-dot {
+  width: 26px;
+  height: 28px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  font-weight: 700;
+}
+
+.ps-dot.done { background: rgba(255,255,255,0.9); color: #F97316; }
+.ps-dot.today { background: white; color: #F97316; }
+
+.ps-ai {
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.ps-ai-badge {
+  font-size: 8px;
+  font-weight: 800;
+  background: rgba(255,255,255,0.2);
+  padding: 2px 6px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-bottom: 5px;
+  letter-spacing: 0.05em;
+}
+
+.ps-ai-text { font-size: 10px; line-height: 1.4; opacity: 0.95; }
+
+.ps-btn {
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Side phone shows parent view */
+.ps-parent-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.ps-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #EDE9FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.ps-name { font-size: 12px; font-weight: 700; color: #2d2d4e; }
+.ps-chip {
+  background: #ECFDF5;
+  color: #059669;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.ps-report {
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  border-radius: 12px;
+  padding: 10px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.ps-report-badge { font-size: 8px; font-weight: 800; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 10px; margin-bottom: 5px; display: inline-block; }
+.ps-report-text { font-size: 10px; line-height: 1.45; opacity: 0.95; }
+
+.ps-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.ps-stat-item { text-align: center; }
+.ps-stat-val { font-size: 16px; font-weight: 900; color: #5B21B6; }
+.ps-stat-lbl { font-size: 8px; color: #C4B5FD; font-weight: 700; text-transform: uppercase; }
+
+/* ── SECTION WRAPPER ── */
+.section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+.section-sm { padding: 60px 24px; max-width: 1100px; margin: 0 auto; }
+
+.eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--purple);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 17px;
+  color: var(--soft);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+/* ── PROBLEM BAR ── */
+.problem-bar {
+  background: var(--ink);
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.problem-bar blockquote {
+  font-size: clamp(20px, 3.5vw, 32px);
+  font-weight: 700;
+  color: white;
+  line-height: 1.4;
+  max-width: 700px;
+  margin: 0 auto 12px;
+  letter-spacing: -0.3px;
+}
+
+.problem-bar blockquote em { color: #A78BFA; font-style: normal; }
+
+.problem-bar cite {
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ── HOW IT WORKS ── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 52px;
+}
+
+.step {
+  background: white;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 24px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(91,33,182,0.1); }
+
+.step-num {
+  width: 40px;
+  height: 40px;
+  background: var(--purple);
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+
+.step h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.step p {
+  font-size: 15px;
+  color: var(--soft);
+  line-height: 1.6;
+}
+
+.step-ai-note {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: var(--purple-light);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--purple);
+  font-weight: 600;
+  line-height: 1.45;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* ── USE CASES ── */
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.use-case {
+  background: white;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.use-case:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(91,33,182,0.1); }
+
+.uc-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.uc-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+.uc-tag {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.uc-title { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -0.3px; }
+.uc-sub { font-size: 14px; color: var(--soft); margin-top: 4px; }
+
+.uc-personas {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.uc-persona {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.uc-persona-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.uc-persona-text { flex: 1; }
+.uc-persona-role { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.uc-persona-desc { font-size: 13px; color: var(--soft); margin-top: 2px; line-height: 1.45; }
+
+/* ── AI FEATURES ── */
+.ai-section {
+  background: linear-gradient(160deg, #0D0A1A, #1a0f3c);
+  padding: 80px 24px;
+}
+
+.ai-inner { max-width: 1100px; margin: 0 auto; }
+
+.ai-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #A78BFA;
+  margin-bottom: 12px;
+}
+
+.ai-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.ai-sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.6);
+  max-width: 520px;
+  line-height: 1.6;
+  margin-bottom: 52px;
+}
+
+.ai-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.ai-feature {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 22px 20px;
+  transition: background 0.2s;
+}
+
+.ai-feature:hover { background: rgba(255,255,255,0.1); }
+
+.ai-feature-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.ai-feature h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+
+.ai-feature p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.55;
+}
+
+.ai-feature .ai-chip {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 10px;
+  background: rgba(108,43,217,0.4);
+  border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #A78BFA;
+  letter-spacing: 0.04em;
+}
+
+/* AI quote card */
+.ai-quote-bar {
+  margin-top: 48px;
+  background: linear-gradient(135deg, rgba(108,43,217,0.3), rgba(37,99,235,0.2));
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 20px;
+  padding: 28px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.ai-quote-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.ai-quote-text {
+  font-size: 17px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.ai-quote-attr {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 8px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ── PROOF SECTION ── */
+.proof-section { background: white; }
+.proof-section .section { padding: 80px 24px; }
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.proof-card {
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.proof-num {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--purple);
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.proof-label {
+  font-size: 13px;
+  color: var(--soft);
+  font-weight: 600;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.proof-story {
+  margin-top: 48px;
+  background: linear-gradient(135deg, rgba(108,43,217,0.05), rgba(249,115,22,0.04));
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 32px 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .proof-story { grid-template-columns: 1fr; gap: 24px; }
+}
+
+.proof-story-text h3 {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.proof-story-text p {
+  font-size: 15px;
+  color: var(--soft);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.proof-story-text a {
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.proof-claims {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.proof-claim {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: white;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.claim-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.claim-text h4 { font-size: 14px; font-weight: 800; color: var(--ink); margin-bottom: 3px; }
+.claim-text p { font-size: 13px; color: var(--soft); line-height: 1.45; }
+
+.proof-pending {
+  margin-top: 12px;
+  background: rgba(245,158,11,0.08);
+  border: 1.5px solid rgba(245,158,11,0.25);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.proof-pending h4 { font-size: 14px; font-weight: 800; color: var(--gold); margin-bottom: 3px; }
+.proof-pending p { font-size: 13px; color: var(--soft); line-height: 1.45; }
+
+/* ── WHO IT'S FOR ── */
+.for-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.for-card {
+  background: white;
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.for-emoji { font-size: 40px; margin-bottom: 12px; display: block; }
+.for-title { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+.for-desc { font-size: 14px; color: var(--soft); line-height: 1.55; }
+
+/* ── CTA SECTION ── */
+.cta-section {
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+
+.cta-section p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.75);
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
+
+.waitlist-form {
+  display: flex;
+  gap: 10px;
+  max-width: 440px;
+  margin: 0 auto 20px;
+  flex-wrap: wrap;
+}
+
+.waitlist-input {
+  flex: 1;
+  min-width: 220px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  color: var(--ink);
+}
+
+.waitlist-btn {
+  padding: 14px 22px;
+  background: white;
+  color: var(--purple);
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.waitlist-btn:hover { background: #F0ECFF; transform: translateY(-1px); }
+
+.cta-note {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+}
+
+.cta-prototype-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.cta-prototype-link:hover { color: white; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  padding: 32px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.footer-link:hover { color: white; }
+
+.footer-note {
+  width: 100%;
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  font-weight: 600;
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 8px;
+}
+
+/* ── CONCEPT BANNER ── */
+.concept-banner {
+  background: linear-gradient(90deg, #F97316, #F59E0B);
+  padding: 10px 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Responsiveness */
+@media (max-width: 680px) {
+  .nav-links .nav-link:not(.nav-cta) { display: none; }
+  .ai-quote-bar { flex-direction: column; }
+}
+
+/* divider wave */
+.wave-divider {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider svg { display: block; }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--bg-light);border:1px solid var(--border);border-radius:14px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-    <span style="font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px;">BEAT THE SLIDE</span>
-    <div>
-      <a href="index.html" style="background:var(--gold);color:var(--text-on-accent);text-decoration:none;margin-left:16px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Home</a>
-      <a href="proof.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Proof</a>
-      <a href="PRD.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">PRD</a>
-      <a href="prototype.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Prototype</a>
-      <a href="prototype-v2.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">v2 Flows</a>
-      <a href="prototype-v2-full.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Onboarding</a>
-      <a href="landing.html" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Landing</a>
-      <a href="vision.md" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">Vision Doc</a>
-      <a href="https://github.com/brentomalley150/streak-app" target="_blank" style="color:var(--soft);text-decoration:none;margin-left:8px;font-weight:700;font-size:13px;padding:6px 12px;border-radius:6px;">GitHub ↗</a>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <header class="hub-header">
-    <div class="hub-tag">🚀 REIMAGINING · YEAR-ROUND · NEXT CHAPTER</div>
-    <h1>Beat the Slide</h1>
-    <div class="lede">A working sketch of what a parent-built, AI-assisted kid habit platform looks like when it stops being just a summer thing. <strong>Founded by Kate O'Malley</strong>, with strategy + the original v1 prototype by Brent O'Malley. This page is the strategy hub — vision, roadmap, and go-to-market in one place.</div>
-  </header>
-
-  <!-- KATE'S TO-DO LIST -->
-  <section style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(109, 40, 217, 0.04));border:2px solid var(--gold);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
-      <h2 style="font-size:22px;font-weight:800;">✅ Kate's To-Do</h2>
-      <span style="background:var(--gold);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:1px;">FOUNDER ACTION ITEMS</span>
-    </div>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:14px;">Pre-launch checklist before Phase 2 kicks off. Top item first. Checkboxes are interactive — your progress saves locally in this browser.</div>
-
-    <div id="kate-todo-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div id="kate-todo-progress" style="font-size:13px;color:var(--soft);font-weight:600;">0 of 12 done</div>
-      <button onclick="resetKateTodos()" style="background:transparent;border:1px solid var(--border);color:var(--soft);padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;">↺ Reset checklist</button>
-    </div>
-  </section>
-
-  <script>
-    // Kate's founder TODO list — persists locally per browser
-    const KATE_TODOS = [
-      { id: 'llc', priority: 'high', title: 'Form a new LLC for Beat the Slide', notes: 'Talk to a CPA or use ZenBusiness / LegalZoom. Colorado LLC ~$50 filing + $25/yr periodic report. Need separate from any personal entity. Required before Stripe + business banking.' },
-      { id: 'ein', priority: 'high', title: 'Get an EIN from the IRS', notes: 'Free, ~5 min online (irs.gov/ein). Needed for banking and Stripe. Do after LLC is filed.' },
-      { id: 'bank', priority: 'high', title: 'Open business bank account', notes: 'Mercury or Chase Business — both free for early stage. Need LLC docs + EIN. Separates personal vs. business spending cleanly from day one.' },
-      { id: 'brand', priority: 'done', title: 'Decide on final brand name \u2014 DONE', notes: 'Resolved Aug 2026: the product is Beat the Slide, live on beattheslide.com. Remaining: logo and social handles.' },
-      { id: 'domain', priority: 'high', title: 'Buy the brand-name domain', notes: '$10-15/yr at Cloudflare Registrar. Snap up the .com + a couple variants. Stay on beatthesummerslide.com for the summer, transition with Phase 2.' },
-      { id: 'socials', priority: 'medium', title: 'Reserve social handles', priorityNote: 'Same brand name on LinkedIn, X/Twitter, Instagram, TikTok. Even if not active yet — get them before someone squats.', notes: 'Same brand name on LinkedIn, X/Twitter, Instagram, TikTok. Even if not active yet — get them before someone squats.' },
-      { id: 'september', priority: 'high', title: 'Run Declan\'s September MAP retest & write up the result', notes: 'The keystone for the entire vision. Schedule the assessment with the school (or paid alternative). Have the post-result Substack ready to publish within 48 hrs of getting the score.' },
-      { id: 'coppa', priority: 'high', title: 'Engage COPPA-compliance counsel', notes: 'One-time $5K-10K consultation before any paid tier launches. Specialist counsel — not a generalist lawyer. Required before Phase 3 (Mar 2027). Ask Brent for referrals.' },
-      { id: 'stripe', priority: 'medium', title: 'Set up Stripe account for future payments', notes: 'Free to create. Needs LLC + EIN. Get approved early so it\'s ready when paid tier launches. Stripe Atlas is overkill if LLC is already filed.' },
-      { id: 'sme-back-to-school', priority: 'medium', title: 'Identify SME for Back to School track', notes: 'Elementary school teacher or learning specialist. $500-1500 for curriculum input. Reach out to local Jeffco teachers, friends-of-friends, school counselors.' },
-      { id: 'sme-math', priority: 'medium', title: 'Identify SME for Math Facts track', notes: 'Elementary math teacher or tutor. Validate that the times-tables curriculum is age-correct and pedagogically sound. ~$500.' },
-      { id: 'launchsite', priority: 'low', title: 'Decide on launch website timing', notes: 'Either keep using beatthesummerslide.com or stand up a brand-new marketing site. See vision.md Section 3 (Launch Website Plan) for the 5-page architecture.' }
-    ];
-
-    const KATE_TODO_KEY = 'streak-kate-todos-done';
-
-    function loadKateDone() {
-      try { return JSON.parse(localStorage.getItem(KATE_TODO_KEY) || '{}'); }
-      catch (e) { return {}; }
-    }
-    function saveKateDone(map) {
-      try { localStorage.setItem(KATE_TODO_KEY, JSON.stringify(map)); } catch (e) {}
-    }
-    function toggleKateTodo(id) {
-      const done = loadKateDone();
-      done[id] = !done[id];
-      saveKateDone(done);
-      renderKateTodos();
-    }
-    function resetKateTodos() {
-      if (!confirm('Reset all checkmarks?')) return;
-      localStorage.removeItem(KATE_TODO_KEY);
-      renderKateTodos();
-    }
-    function renderKateTodos() {
-      const list = document.getElementById('kate-todo-list');
-      const progressEl = document.getElementById('kate-todo-progress');
-      if (!list) return;
-      const done = loadKateDone();
-      const doneCount = KATE_TODOS.filter(t => done[t.id]).length;
-      progressEl.textContent = `${doneCount} of ${KATE_TODOS.length} done`;
-      const priColor = { high: 'var(--red)', medium: 'var(--gold)', low: 'var(--purple)' };
-      const priLabel = { high: 'HIGH', medium: 'MED', low: 'LOW' };
-      list.innerHTML = KATE_TODOS.map(t => {
-        const isDone = !!done[t.id];
-        return `<div style="background:${isDone ? 'var(--bg-light)' : 'var(--panel)'};border:1px solid var(--border);border-left:4px solid ${priColor[t.priority] || 'var(--muted)'};border-radius:10px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start;${isDone ? 'opacity:0.6;' : ''}">
-          <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleKateTodo('${t.id}')" style="width:18px;height:18px;margin-top:3px;flex-shrink:0;cursor:pointer;accent-color:var(--gold);">
-          <div style="flex:1;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;">
-              <span style="background:${priColor[t.priority]};color:white;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:0.5px;">${priLabel[t.priority]}</span>
-              <span style="font-weight:800;font-size:15px;color:var(--ink);${isDone ? 'text-decoration:line-through;' : ''}">${t.title}</span>
-            </div>
-            <div style="font-size:13px;color:var(--soft);line-height:1.55;">${t.notes}</div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-    renderKateTodos();
-  </script>
-
-  <!-- THE REFRAME -->
-  <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">The Reframe</h2>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">Why the existing app needs to evolve, and what stays vs. changes.</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:14px;">
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--blue);margin-bottom:6px;">WHERE WE ARE</div>
-        <div style="font-weight:800;font-size:17px;margin-bottom:6px;">Summer-only, single-track</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">The current app fights the summer slide. 12 weeks of reading + writing + math, gamified for elementary kids. Works — but its relevance window is 3 months a year.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-left:5px solid var(--purple);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--purple);margin-bottom:6px;">WHERE WE'RE GOING</div>
-        <div style="font-weight:800;font-size:17px;margin-bottom:6px;">Year-round, multi-track</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">Beat the Slide becomes the engine. Tracks are 12-week themed programs for any kid habit — reading, math facts, music, mindfulness, homework. Same gamified loop, swap the content.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-left:5px solid var(--green);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--green);margin-bottom:6px;">WHAT STAYS</div>
-        <div style="font-weight:800;font-size:17px;margin-bottom:6px;">~80% of the engine</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">Firebase data model, multi-profile, Google sign-in, theme picker, points → rank → leaderboard → prize loop, weekly challenges, parent dashboard. All reusable.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHAT WE'VE PROVEN -->
-  <section style="background:linear-gradient(135deg, rgba(5, 150, 105, 0.04), rgba(217, 119, 6, 0.04));border:1px solid var(--green);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
-      <h2 style="font-size:22px;font-weight:800;">What We've Already Proven</h2>
-      <span style="background:var(--green);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:1px;">EVIDENCE</span>
-    </div>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">4 weeks into the original 12-week experiment. The behavior loop, build economics, and acquisition story are all working. Only the outcome claim is still open (September MAP retest).</div>
-
-    <!-- The data row -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:10px;margin-bottom:18px;">
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Build time</div>
-        <div style="font-size:22px;font-weight:800;color:var(--gold);margin-top:2px;">~3 days</div>
-        <div style="font-size:11px;color:var(--soft);margin-top:2px;">Long weekend, vibe-coded</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Total cost</div>
-        <div style="font-size:22px;font-weight:800;color:var(--gold);margin-top:2px;">$0</div>
-        <div style="font-size:11px;color:var(--soft);margin-top:2px;">Free tiers all the way</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Commits to date</div>
-        <div style="font-size:22px;font-weight:800;color:var(--gold);margin-top:2px;">80+</div>
-        <div style="font-size:11px;color:var(--soft);margin-top:2px;">Iterating live</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Enrolled families</div>
-        <div style="font-size:22px;font-weight:800;color:var(--gold);margin-top:2px;">6</div>
-        <div style="font-size:11px;color:var(--soft);margin-top:2px;">Organic word-of-mouth</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Weekly winners</div>
-        <div style="font-size:22px;font-weight:800;color:var(--gold);margin-top:2px;">3 of 3</div>
-        <div style="font-size:11px;color:var(--soft);margin-top:2px;">Different kid each week</div>
-      </div>
-    </div>
-
-    <!-- 3-card claim breakdown -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:12px;margin-bottom:18px;">
-      <div style="background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--green);border-radius:10px;padding:14px 16px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="font-size:18px;">✅</span><span style="font-weight:800;font-size:14px;">Behavior loop works</span></div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">A kid who wasn't reading on his own is now voluntarily opening the dashboard, picking up books, logging activity. Knight rank · 2 books finished · 3-day streak. The gamified loop pulls him in without nagging.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--green);border-radius:10px;padding:14px 16px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="font-size:18px;">✅</span><span style="font-weight:800;font-size:14px;">Build economics work</span></div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">A non-engineer parent + AI shipped a complete multi-family, real-time, cross-device kid app for $0 in 3 days. Pre-AI this was a 6-week sprint with a 3-person team.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--green);border-radius:10px;padding:14px 16px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="font-size:18px;">✅</span><span style="font-weight:800;font-size:14px;">Acquisition story works</span></div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">"Parent vibe-coded this for his kid" is the strongest organic narrative in our hand. Drives sharing among PM-curious parents, credibility with parents of struggling readers, novel-enough for press interest.</div>
-      </div>
-    </div>
-
-    <!-- What's still open -->
-    <div style="background:var(--panel);border:1px solid var(--gold);border-left:4px solid var(--gold);border-radius:10px;padding:14px 16px;">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="font-size:18px;">⏳</span><span style="font-weight:800;font-size:14px;color:var(--gold);">Still open: outcome claim</span></div>
-      <div style="font-size:13px;color:var(--soft);line-height:1.55;">Declan's baseline: MAP Reading RIT 185 · Lexile 300-450L · CMAS Written Expression 17th percentile (well below grade level). Target: 193+ RIT by September. Either it moves or we publish what we learned and pivot — both are content. <strong style="color:var(--ink);">Decision date: September 2026.</strong></div>
-    </div>
-
-    <div style="margin-top:16px;text-align:center;">
-      <a href="proof.html" style="display:inline-block;background:var(--green);color:var(--text-on-accent);text-decoration:none;font-weight:800;font-size:14px;padding:10px 18px;border-radius:10px;">📄 Read the full proof page →</a>
-    </div>
-  </section>
-
-  <!-- THE TRACK MODEL -->
-  <section style="background:linear-gradient(135deg, rgba(109, 40, 217, 0.04), rgba(217, 119, 6, 0.03));border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">The Track Model</h2>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">Each track is a 12-week themed program with daily activities + weekly challenges. A kid (or family) can run one or many in parallel. Same engine, swappable content.</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;">
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-size:28px;margin-bottom:6px;">📖</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">Reading Slide</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">SHIPPING NOW · SUMMER</div>
-        <div style="font-size:13px;color:var(--soft);">Read · Write · Math. Combat the summer slide with daily activity + weekly themed challenges.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-size:28px;margin-bottom:6px;">🎒</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">Back to School</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">FALL · NEXT TRACK</div>
-        <div style="font-size:13px;color:var(--soft);">Homework Started · 20-min practice · Pack-the-bag streak. Reset the school-year habit loop.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-size:28px;margin-bottom:6px;">🧮</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">Math Facts Master</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">YEAR-ROUND</div>
-        <div style="font-size:13px;color:var(--soft);">Times tables fluency. Speed rounds, themed prompts, friendly leaderboard.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-size:28px;margin-bottom:6px;">🎵</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">Music Practice</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">YEAR-ROUND</div>
-        <div style="font-size:13px;color:var(--soft);">Practice · Listen · Learn-a-piece. The dashboard your kid's piano teacher wishes existed.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-size:28px;margin-bottom:6px;">🧘</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">Mindful Kid</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">YEAR-ROUND</div>
-        <div style="font-size:13px;color:var(--soft);">5-min breathing · Gratitude · Check-in. SEL habits without the cringey wrapper.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;border-style:dashed;opacity:0.85;">
-        <div style="font-size:28px;margin-bottom:6px;">➕</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">Your track idea</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">OPEN SLOT</div>
-        <div style="font-size:13px;color:var(--soft);">Movement, second language, chore streak, screen-time budget. The model fits any 12-week kid habit.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4-PHASE ROADMAP -->
-  <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">Roadmap to the Vision</h2>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">Four phases. Each one builds on a real proof point from the last.</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;">
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-top:4px solid var(--green);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--green);margin-bottom:6px;">PHASE 1 · NOW → AUG</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:6px;">Prove the Reading track</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">Hold the line on the current product. Win September with real MAP retest data. Build the audience around the build story.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--blue);margin-bottom:6px;">PHASE 2 · AUG → NOV</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:6px;">Add Back to School</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">Second track ships in time for fall semester. First proof that the engine generalizes. Existing families re-engage instead of churning.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-top:4px solid var(--purple);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--purple);margin-bottom:6px;">PHASE 3 · NOV → MAR</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:6px;">Track marketplace</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">3-4 more tracks. Parent-facing picker. Pilot a paid family tier ($4.99/mo unlimited tracks, first one free).</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-top:4px solid var(--orange);border-radius:12px;padding:16px 18px;">
-        <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--orange);margin-bottom:6px;">PHASE 4 · MAR 2027+</div>
-        <div style="font-weight:800;font-size:15px;margin-bottom:6px;">Schools & teachers</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;">Teacher classroom dashboards. 3-5 elementary pilots @ $5/student/year. Co-create tracks with educators for curriculum validity.</div>
-      </div>
-    </div>
-    <div style="margin-top:18px;padding:14px 18px;background:rgba(217, 119, 6, 0.06);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;font-size:14px;color:var(--soft);">
-      <strong style="color:var(--gold);">The keystone:</strong> the September MAP retest is what every subsequent phase depends on. Don't ship Track #2 until Reading has its proof point.
-    </div>
-  </section>
-
-  <!-- GO TO MARKET -->
-  <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">Go-To-Market Strategy</h2>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">Story-first, organic, evidence-led. The PM-parent audience is the share engine; struggling-reader families are the conversion target.</div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-bottom:18px;">
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">💼 LinkedIn (#1)</div>
-        <div style="font-size:13px;color:var(--soft);">Monthly story-driven posts. Warmest PM audience. Engine for the share flywheel.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">📨 Substack</div>
-        <div style="font-size:13px;color:var(--soft);">Long-form home for the case study. Monthly cadence builds to the September reveal.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">🐦 X / Twitter</div>
-        <div style="font-size:13px;color:var(--soft);">Build-in-public micro-updates. Short, frequent, visual. #VibeCoding #BuildInPublic.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">🧵 Reddit</div>
-        <div style="font-size:13px;color:var(--soft);">Where your real users actually live. r/Parenting, r/Education. Story-first, not pitchy.</div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:10px;margin-top:12px;">
-      <div style="padding:14px;background:rgba(5, 150, 105, 0.06);border:1px solid var(--green);border-radius:10px;">
-        <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:4px;">DAYS 1–30 · FOUNDATION</div>
-        <div style="font-size:13px;color:var(--soft);">Post story to LinkedIn · X thread · Reddit · 20 DMs to PM friends · Substack live · First "Declan's Week" update.</div>
-      </div>
-      <div style="padding:14px;background:rgba(37, 99, 235, 0.06);border:1px solid var(--blue);border-radius:10px;">
-        <div style="font-size:11px;font-weight:800;color:var(--blue);margin-bottom:4px;">DAYS 31–60 · VALIDATE</div>
-        <div style="font-size:13px;color:var(--soft);">Weekly cadence. Ship visible features. Substack guest-post pitch. Track referrer mix to see what's working.</div>
-      </div>
-      <div style="padding:14px;background:rgba(109, 40, 217, 0.06);border:1px solid var(--purple);border-radius:10px;">
-        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:4px;">DAYS 61–90 · BUILD TO REVEAL</div>
-        <div style="font-size:13px;color:var(--soft);">Pre-tease MAP retest. "What I'd do differently" piece. Local school pitch. September: the big reveal post.</div>
-      </div>
-    </div>
-
-    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
-      <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px;">NORTH STAR METRIC</div>
-      <div style="font-size:15px;color:var(--ink);font-weight:600;">Families whose kid logged at least one activity in the last 7 days. Everything else is vanity.</div>
-    </div>
-  </section>
-
-  <!-- LAUNCH WEBSITE PLAN -->
-  <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">Launch Website Plan</h2>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">Keep the single-file HTML pattern. No framework. Five public pages, each ~1-2 weekends to build.</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-        <div style="font-family:'SF Mono',Menlo,monospace;font-size:12px;color:var(--gold);margin-bottom:4px;">/</div>
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">Marketing landing</div>
-        <div style="font-size:12px;color:var(--soft);">Story-first. Hero · problem · how-it-works · proof · story · CTA.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-        <div style="font-family:'SF Mono',Menlo,monospace;font-size:12px;color:var(--gold);margin-bottom:4px;">/how-it-works</div>
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">90-sec explainer</div>
-        <div style="font-size:12px;color:var(--soft);">Walk through one full week as a kid. Visual.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-        <div style="font-family:'SF Mono',Menlo,monospace;font-size:12px;color:var(--gold);margin-bottom:4px;">/for-parents</div>
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">Deep sell</div>
-        <div style="font-size:12px;color:var(--soft);">What you control. Privacy. FAQ. Pricing transparency.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-        <div style="font-family:'SF Mono',Menlo,monospace;font-size:12px;color:var(--gold);margin-bottom:4px;">/research</div>
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">Credibility page</div>
-        <div style="font-size:12px;color:var(--soft);">Cited science. Hypothesis stated up front. Accountability log.</div>
-      </div>
-      <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-        <div style="font-family:'SF Mono',Menlo,monospace;font-size:12px;color:var(--gold);margin-bottom:4px;">/story</div>
-        <div style="font-weight:800;font-size:14px;margin-bottom:4px;">The case study</div>
-        <div style="font-size:12px;color:var(--soft);">Origin story. Vibe-coded by a dad. Already exists — needs refresh in September.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- OPEN DECISIONS -->
-  <section style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.04), rgba(220, 38, 38, 0.03));border:1px solid var(--gold);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">Open Decisions</h2>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:14px;">Things still TBD. Loud and visible so future-you can find them.</div>
-    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
-      <li style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--soft);font-size:14px;line-height:1.55;"><strong style="color:var(--ink);">Brand name — resolved.</strong> The product is <strong>Beat the Slide</strong>, live on beattheslide.com. Decided Aug 2026.</li>
-      <li style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--soft);font-size:14px;line-height:1.55;"><strong style="color:var(--ink);">Domain.</strong> Stay on beatthesummerslide.com, or move to streak-something? If the brand changes, the domain decision drives the rest.</li>
-      <li style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--soft);font-size:14px;line-height:1.55;"><strong style="color:var(--ink);">Migration path.</strong> Do existing SummerStreak users land on a "Hey, we evolved" splash, or do they wake up to a new dashboard one day with no warning?</li>
-      <li style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--soft);font-size:14px;line-height:1.55;"><strong style="color:var(--ink);">First paid track.</strong> Which track lands behind the $4.99 tier first? Math Facts has biggest TAM but Music has highest LTV (parents already pay for lessons).</li>
-      <li style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--soft);font-size:14px;line-height:1.55;"><strong style="color:var(--ink);">COPPA.</strong> Year-round + paid + multi-family puts you in clear COPPA territory. Lawyer review before Phase 3.</li>
-    </ul>
-  </section>
-
-  <!-- BRAINSTORM -->
-  <section style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
-      <h2 style="font-size:22px;font-weight:800;">💡 Brainstorm</h2>
-      <span style="background:var(--purple);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:1px;">FEATURE IDEAS</span>
-    </div>
-    <div style="color:var(--soft);font-size:14px;margin-bottom:18px;">A working canvas of feature ideas across the Beat the Slide surface. Click ❤️ to vote up your favorites. Add your own. Filter by category. Persists locally.</div>
-
-    <!-- Filter chips -->
-    <div id="brain-filters" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>
-
-    <!-- Add new idea form -->
-    <div style="background:var(--bg-light);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
-      <div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">+ ADD AN IDEA</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="brain-new-title" placeholder="Title (e.g. Beat the Slide Buddy System)" style="flex:2;min-width:200px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:var(--panel);color:var(--ink);">
-        <select id="brain-new-cat" style="padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:var(--panel);color:var(--ink);">
-          <option value="kid">🎮 Kid-facing</option>
-          <option value="parent">👨‍👩‍👧 Parent / family</option>
-          <option value="ai">🤖 AI / automation</option>
-          <option value="schools">🏫 Schools / classrooms</option>
-          <option value="platform">📱 Platform expansion</option>
-          <option value="money">💰 Monetization</option>
-          <option value="social">🤝 Social / community</option>
-          <option value="data">📊 Data / insights</option>
-          <option value="content">🎨 Content / curriculum</option>
-        </select>
-        <button onclick="addBrainIdea()" style="background:var(--purple);color:var(--text-on-accent);border:none;padding:8px 14px;border-radius:8px;font-weight:800;font-size:13px;cursor:pointer;">+ Add</button>
-      </div>
-      <input type="text" id="brain-new-desc" placeholder="One-line description (optional)" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:var(--panel);color:var(--ink);margin-top:8px;">
-    </div>
-
-    <div id="brain-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:12px;"></div>
-
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div id="brain-counts" style="font-size:13px;color:var(--soft);font-weight:600;">0 ideas</div>
-      <button onclick="resetBrainstorm()" style="background:transparent;border:1px solid var(--border);color:var(--soft);padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;">↺ Reset to seed list</button>
-    </div>
-  </section>
-
-  <script>
-    const BRAIN_CATS = {
-      kid:      { label: '🎮 Kid-facing',        color: 'var(--blue)' },
-      parent:   { label: '👨‍👩‍👧 Parent / family',color: 'var(--purple)' },
-      ai:       { label: '🤖 AI / automation',   color: 'var(--green)' },
-      schools:  { label: '🏫 Schools',            color: 'var(--orange)' },
-      platform: { label: '📱 Platform',           color: 'var(--gold)' },
-      money:    { label: '💰 Monetization',       color: 'var(--gold-dark, #92400E)' },
-      social:   { label: '🤝 Social',             color: 'var(--purple)' },
-      data:     { label: '📊 Data / insights',    color: 'var(--blue)' },
-      content:  { label: '🎨 Content',            color: 'var(--green)' }
-    };
-
-    const BRAIN_SEED = [
-      // Kid-facing
-      { id:'b01', cat:'kid', title:'Streak Buddy System', desc:'Pair with a friend; you each keep the other\'s streak alive when life happens. One free pass per week.', votes:0 },
-      { id:'b02', cat:'kid', title:'Pet Companion (Tamagotchi-style)', desc:'A virtual pet that thrives on your streak. Skip days = pet gets sad. Visual reward beyond points.', votes:0 },
-      { id:'b03', cat:'kid', title:'Daily Wildcard Mission', desc:'Surprise bonus activity each day. Random + themed. Adds variety to the daily grid.', votes:0 },
-      { id:'b04', cat:'kid', title:'Voice Journal', desc:'60-sec voice memo replaces a writing day occasionally. Lowers the writing-task friction.', votes:0 },
-      { id:'b05', cat:'kid', title:'Custom Theme Builder', desc:'Kid uploads emojis + picks colors. Personalization = ownership.', votes:0 },
-      { id:'b06', cat:'kid', title:'Emoji Reactions on Friends\' Progress', desc:'Tap a friend\'s streak to drop a 🔥 or 👏. Lightweight social warmth.', votes:0 },
-
-      // Parent / family
-      { id:'b07', cat:'parent', title:'Co-Parent Handoff Notes', desc:'Each parent can leave a one-line note for the other ("Declan finished Charlotte\'s Web today").', votes:0 },
-      { id:'b08', cat:'parent', title:'Grandparent Guest Mode', desc:'View-only link grandparents can bookmark. Beat the Slide as a relationship-keeper.', votes:0 },
-      { id:'b09', cat:'parent', title:'Family Beat the Slide (Together-Mode)', desc:'Whole family logs ONE shared activity per day (read aloud together). Different leaderboard.', votes:0 },
-      { id:'b10', cat:'parent', title:'Sibling Rivalry Leaderboard', desc:'Private leaderboard JUST for kids in the same family. Often the most motivating one.', votes:0 },
-      { id:'b11', cat:'parent', title:'Printable Track Completion Certificate', desc:'12-week wrap = real PDF certificate. Fridge magnet bait.', votes:0 },
-      { id:'b12', cat:'parent', title:'Parent Prep — Morning Brief', desc:'5-min email at 7am: yesterday\'s wins, today\'s prompt, this week\'s challenge.', votes:0 },
-
-      // AI / automation
-      { id:'b13', cat:'ai', title:'AI Prompt Personalization', desc:'Replace static prompt library with per-kid generated prompts (interests, reading level). Premium feature.', votes:0 },
-      { id:'b14', cat:'ai', title:'Habit Drift Detection', desc:'Predict churn before it happens. Alert parent when a kid\'s pattern shifts (skip 2 of 3 days).', votes:0 },
-      { id:'b15', cat:'ai', title:'AI Parent Coach', desc:'Chat sidebar for parents: "Why isn\'t my kid engaging this week?" Returns concrete suggestions.', votes:0 },
-      { id:'b16', cat:'ai', title:'Suggested Next Book', desc:'Based on what kid finished + their MAP level. Optional Amazon/library link.', votes:0 },
-      { id:'b17', cat:'ai', title:'Voice-to-Text Logging', desc:'Just talk to the dashboard. Especially useful for younger kids who can\'t type fast.', votes:0 },
-
-      // Schools / classrooms
-      { id:'b18', cat:'schools', title:'Classroom Cohort Dashboard', desc:'Teacher sees anonymized class progress, aggregate streaks, identifies struggling students.', votes:0 },
-      { id:'b19', cat:'schools', title:'Print Packet for Device-Free Kids', desc:'PDF version of the week\'s activities for kids without internet at home.', votes:0 },
-      { id:'b20', cat:'schools', title:'Substitute-Teacher Day Plan', desc:'Pre-built activity packet for sub days — kids do Beat the Slide instead of busywork.', votes:0 },
-
-      // Platform expansion
-      { id:'b21', cat:'platform', title:'Apple Watch / Wearable', desc:'Kid wears their streak. Daily activity reminders on the wrist.', votes:0 },
-      { id:'b22', cat:'platform', title:'Alexa Skill', desc:'"Alexa, log Declan\'s reading." Lowers friction for non-tech parents.', votes:0 },
-      { id:'b23', cat:'platform', title:'Chromebook Browser Extension', desc:'Most kid Chromebooks are school-issued. Browser extension surfaces Beat the Slide in the new tab.', votes:0 },
-
-      // Monetization
-      { id:'b24', cat:'money', title:'Gift Subscriptions', desc:'Grandparents gift Beat the Slide as a birthday present. Holiday revenue spike.', votes:0 },
-      { id:'b25', cat:'money', title:'Beat the Slide Boxes — Physical Reward Kits', desc:'Quarterly physical kit with bookmarks, stickers, themed prizes. Subscription add-on.', votes:0 },
-      { id:'b26', cat:'money', title:'Tutoring Marketplace Integration', desc:'When a kid plateaus, surface a tutor recommendation (revenue share with partner).', votes:0 },
-
-      // Social
-      { id:'b27', cat:'social', title:'Family-vs-Family Seasonal Tournaments', desc:'Two families compete on a track. Bragging rights + small prize pool.', votes:0 },
-      { id:'b28', cat:'social', title:'Public "Top Kids" Showcase (opt-in)', desc:'Anonymized leaderboard of top performers per track. Inspires others, validates effort.', votes:0 },
-      { id:'b29', cat:'social', title:'Parent Discord / Slack Per Track', desc:'Parents on the same track can share what\'s working. Community-driven retention.', votes:0 },
-
-      // Data / insights
-      { id:'b30', cat:'data', title:'Time-of-Day Optimizer', desc:'"Declan\'s best reading day is Tuesday after dinner." Surface patterns parents don\'t see.', votes:0 },
-      { id:'b31', cat:'data', title:'Reading Speed/Comprehension Projection', desc:'Beyond MAP RIT — project Lexile growth, comprehension growth based on activity mix.', votes:0 },
-      { id:'b32', cat:'data', title:'Burnout Warning System', desc:'Detect overuse — kid logging 4+ activities/day for a week. Suggest a rest day.', votes:0 },
-
-      // Content / curriculum
-      { id:'b33', cat:'content', title:'Holiday Micro-Tracks', desc:'Halloween reading challenge (2 weeks). Thanksgiving gratitude streak. Low commitment, viral.', votes:0 },
-      { id:'b34', cat:'content', title:'Branded Track Partnerships', desc:'National Geographic Kids reading track. Sesame Street SEL track. Co-branded content packs.', votes:0 },
-      { id:'b35', cat:'content', title:'Public Library Integration', desc:'Recommend books based on local library availability. Holds + checkout links.', votes:0 },
-      { id:'b36', cat:'content', title:'Author/Athlete of the Week', desc:'Themed weekly feature: "This week\'s author is Kwame Alexander." Boosts content variety.', votes:0 }
-    ];
-
-    const BRAIN_KEY = 'streak-brainstorm-v1';
-    let brainFilter = 'all';
-
-    function loadBrain() {
-      try {
-        const raw = localStorage.getItem(BRAIN_KEY);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
-      return BRAIN_SEED.slice();
-    }
-    function saveBrain(arr) {
-      try { localStorage.setItem(BRAIN_KEY, JSON.stringify(arr)); } catch (e) {}
-    }
-    function voteBrain(id) {
-      const list = loadBrain();
-      const idea = list.find(i => i.id === id);
-      if (idea) { idea.votes = (idea.votes || 0) + 1; saveBrain(list); renderBrain(); }
-    }
-    function removeBrain(id) {
-      if (!confirm('Remove this idea?')) return;
-      saveBrain(loadBrain().filter(i => i.id !== id));
-      renderBrain();
-    }
-    function addBrainIdea() {
-      const title = (document.getElementById('brain-new-title').value || '').trim();
-      const cat = document.getElementById('brain-new-cat').value;
-      const desc = (document.getElementById('brain-new-desc').value || '').trim();
-      if (!title) { alert('Need a title.'); return; }
-      const list = loadBrain();
-      list.unshift({ id: 'b' + Date.now(), cat, title, desc, votes: 0 });
-      saveBrain(list);
-      document.getElementById('brain-new-title').value = '';
-      document.getElementById('brain-new-desc').value = '';
-      renderBrain();
-    }
-    function resetBrainstorm() {
-      if (!confirm('Reset to original seed list? Your votes and added ideas will be lost.')) return;
-      localStorage.removeItem(BRAIN_KEY);
-      brainFilter = 'all';
-      renderBrain();
-    }
-    function setBrainFilter(c) { brainFilter = c; renderBrain(); }
-
-    function renderBrain() {
-      const list = loadBrain();
-      const grid = document.getElementById('brain-grid');
-      const counts = document.getElementById('brain-counts');
-      const filtersEl = document.getElementById('brain-filters');
-      if (!grid) return;
-
-      // Filter chips
-      const counts_by_cat = {};
-      list.forEach(i => { counts_by_cat[i.cat] = (counts_by_cat[i.cat] || 0) + 1; });
-      const chipStyle = (active) => `background:${active ? 'var(--purple)' : 'var(--bg-light)'};color:${active ? 'var(--text-on-accent)' : 'var(--soft)'};border:1px solid ${active ? 'var(--purple)' : 'var(--border)'};padding:5px 12px;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;`;
-      let chips = `<button onclick="setBrainFilter('all')" style="${chipStyle(brainFilter === 'all')}">All (${list.length})</button>`;
-      Object.entries(BRAIN_CATS).forEach(([key, meta]) => {
-        const n = counts_by_cat[key] || 0;
-        if (n === 0) return;
-        chips += ` <button onclick="setBrainFilter('${key}')" style="${chipStyle(brainFilter === key)}">${meta.label} (${n})</button>`;
-      });
-      filtersEl.innerHTML = chips;
-
-      const visible = brainFilter === 'all' ? list : list.filter(i => i.cat === brainFilter);
-      // Sort by votes desc, then by id desc (newest first if tied)
-      visible.sort((a, b) => (b.votes || 0) - (a.votes || 0));
-
-      counts.textContent = `${list.length} ideas${brainFilter !== 'all' ? ' · ' + visible.length + ' in ' + BRAIN_CATS[brainFilter].label : ''}`;
-
-      if (!visible.length) {
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-style:italic;">No ideas in this category yet. Add one above.</div>';
-        return;
-      }
-
-      grid.innerHTML = visible.map(i => {
-        const cat = BRAIN_CATS[i.cat] || { label: i.cat, color: 'var(--muted)' };
-        return `<div style="background:var(--bg-light);border:1px solid var(--border);border-left:4px solid ${cat.color};border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <span style="background:${cat.color};color:var(--text-on-accent);padding:2px 8px;border-radius:5px;font-size:9px;font-weight:800;letter-spacing:0.5px;">${cat.label.toUpperCase()}</span>
-            <button onclick="removeBrain('${i.id}')" title="Remove" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;">×</button>
-          </div>
-          <div style="font-weight:800;font-size:14px;color:var(--ink);">${escapeHtmlBrain(i.title)}</div>
-          ${i.desc ? `<div style="font-size:12px;color:var(--soft);line-height:1.5;">${escapeHtmlBrain(i.desc)}</div>` : ''}
-          <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid var(--border);">
-            <button onclick="voteBrain('${i.id}')" style="background:transparent;border:1px solid var(--border);color:${(i.votes||0) > 0 ? 'var(--red)' : 'var(--muted)'};cursor:pointer;font-size:12px;padding:3px 10px;border-radius:14px;font-weight:700;">❤️ ${i.votes || 0}</button>
-          </div>
-        </div>`;
-      }).join('');
-    }
-    function escapeHtmlBrain(s) {
-      return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
-    renderBrain();
-  </script>
-
-  <!-- WORKING DOCS -->
-  <section style="margin-bottom:22px;">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:14px;">Working Docs</h2>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:12px;">
-
-      <a href="PRD.html" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--gold);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">📄</span>
-          <span style="background:var(--gold);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">PRD · v2.0</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Product Requirements Doc</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">Full 10-section v2 PRD: scope, user stories, FRs, GTM, risks, timeline, budget. Adapted from the SummerStreak v1 PRD.</div>
-        <div style="margin-top:auto;color:var(--gold);font-weight:800;font-size:13px;">Read PRD →</div>
-      </a>
-
-      <a href="proof.html" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--green);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">✅</span>
-          <span style="background:var(--green);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">EVIDENCE</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Proof of Concept</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">What the SummerStreak experiment has demonstrated 4 weeks in. Behavior loop, build economics, acquisition story — all working.</div>
-        <div style="margin-top:auto;color:var(--green);font-weight:800;font-size:13px;">Read Proof →</div>
-      </a>
-
-      <a href="vision.md" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--purple);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">🧭</span>
-          <span style="background:var(--purple);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">STRATEGY</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Vision + Marketing Strategy</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">Full marketing plan, audience analysis, content templates, ProductHunt playbook, asset checklist.</div>
-        <div style="margin-top:auto;color:var(--purple);font-weight:800;font-size:13px;">Read vision.md →</div>
-      </a>
-
-      <a href="prototype-v2-full.html" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--green);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">🚪</span>
-          <span style="background:var(--green);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">ONBOARDING &middot; MERGED DAILY</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">First Five Minutes</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">A new family&rsquo;s full sign-up &mdash; including the COPPA consent gate &mdash; plus the daily screen with the track switcher sitting on top of v1&rsquo;s game. The two flows nothing else covered.</div>
-        <div style="margin-top:auto;color:var(--green);font-weight:800;font-size:13px;">Walk the flows &rarr;</div>
-      </a>
-
-      <a href="prototype-v2.html" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--purple);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">🔀</span>
-          <span style="background:var(--purple);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">V2 FLOWS &middot; P0 SCOPE</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">v2 Flow Prototype</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">The track model, working. Track switcher, marketplace, free-tier limit, and the parent rollup &mdash; every track defined as data, so switching re-renders the whole screen from the definition.</div>
-        <div style="margin-top:auto;color:var(--purple);font-weight:800;font-size:13px;">Walk the flows &rarr;</div>
-      </a>
-
-      <a href="prototype.html" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--purple);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">📱</span>
-          <span style="background:var(--purple);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">PROTOTYPE · 9 SCREENS</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Interactive Prototype</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">3 use cases × 3 personas — Mom Group, Teacher, Drum Instructor. See AI-assisted setup, participant streaks, and parent insights in a clickable phone mockup.</div>
-        <div style="margin-top:auto;color:var(--purple);font-weight:800;font-size:13px;">Open prototype →</div>
-      </a>
-
-      <a href="landing.html" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid #6C2BD9;border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">🚀</span>
-          <span style="background:#6C2BD9;color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">LANDING PAGE · CONCEPT</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Future Landing Page</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">Marketing landing page concept — hero, use cases, AI features, proof, and waitlist CTA. The public face when we're ready to launch.</div>
-        <div style="margin-top:auto;color:#6C2BD9;font-weight:800;font-size:13px;">View concept →</div>
-      </a>
-
-      <a href="Beat the Slide-Investor-Deck-v0.1-DRAFT.pptx" style="display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--blue);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:transform 0.15s;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <span style="font-size:28px;">🎤</span>
-          <span style="background:var(--blue);color:var(--text-on-accent);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;">PITCH DECK · v0.1</span>
-        </div>
-        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Beat the Slide Investor Deck (Draft)</div>
-        <div style="font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:10px;">13-slide draft pitch deck for Kate to iterate on. Problem, proof, solution, market, business model, roadmap, team, the ask. PPTX download.</div>
-        <div style="margin-top:auto;color:var(--blue);font-weight:800;font-size:13px;">Download .pptx →</div>
-      </a>
-
-    </div>
-  </section>
-
-  <footer style="text-align:center;color:var(--muted);font-size:12px;padding:20px 0 30px 0;">
-    Beat the Slide — Vision Hub · Working scratchpad for what comes next · <a href="https://github.com/brentomalley150/streak-app" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:700;">github.com/brentomalley150/streak-app</a>
-  </footer>
-
+<!-- Concept banner -->
+<div class="concept-banner">
+  🎨 Design Concept — Future Landing Page &nbsp;·&nbsp;
+  <a href="prototype.html" style="color:white;text-decoration:underline;font-weight:800;">View the interactive prototype →</a>
 </div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a class="nav-brand" href="/">🔥 Beat the Slide</a>
+  <div class="nav-links">
+    <a class="nav-link" href="prototype.html">Prototype</a>
+    <a class="nav-link" href="prototype.html">Prototype</a>
+    <a class="nav-link nav-cta" href="#waitlist">Get early access</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">🔥 AI-powered kid habit tracking</div>
+    <h1>The streak your kid<br>won't want to <span class="flame">break.</span></h1>
+    <p class="hero-sub">Set a challenge, build a streak, get insights that actually help. Works for summer reading, math practice, music lessons — anything worth doing daily.</p>
+    <div class="hero-ctas">
+      <a href="#waitlist" class="btn-primary">🚀 Get early access</a>
+      <a href="prototype.html" class="btn-ghost">See the prototype →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-val">6</span>
+        <span class="hero-stat-lbl">Families enrolled</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-val">$0</span>
+        <span class="hero-stat-lbl">Cost to build</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-val">3</span>
+        <span class="hero-stat-lbl">Days to ship v1</span>
+      </div>
+    </div>
+
+    <!-- Phone mockups -->
+    <div class="hero-phones">
+      <!-- Side phone: parent view -->
+      <div class="phone-mock side">
+        <div class="phone-screen-inner">
+          <div class="ps-parent-header">
+            <div class="ps-avatar">🧒</div>
+            <div>
+              <div class="ps-name">Sofia</div>
+              <span class="ps-chip">🔥 9-day streak</span>
+            </div>
+          </div>
+          <div class="ps-report">
+            <div class="ps-report-badge">✦ AI WEEKLY SUMMARY</div>
+            <div class="ps-report-text">"Sofia is active every day this week. She tends to log <strong>Tuesday–Thursday mornings.</strong> She'll hit the 4-week milestone on July 13th 🎯"</div>
+          </div>
+          <div class="ps-stats">
+            <div class="ps-stat-item"><div class="ps-stat-val">9</div><div class="ps-stat-lbl">Beat the Slide</div></div>
+            <div class="ps-stat-item"><div class="ps-stat-val">22</div><div class="ps-stat-lbl">Total</div></div>
+            <div class="ps-stat-item"><div class="ps-stat-val">88%</div><div class="ps-stat-lbl">Rate</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main phone: participant view -->
+      <div class="phone-mock main">
+        <div class="phone-screen-inner">
+          <div class="ps-header">
+            <div class="ps-logo">🔥 Beat the Slide</div>
+            <div class="ps-tabs">
+              <div class="ps-tab">🛠 Admin</div>
+              <div class="ps-tab active">⭐ Participant</div>
+              <div class="ps-tab">👪 Parent</div>
+            </div>
+          </div>
+          <div class="ps-streak">
+            <div style="font-size:11px;font-weight:700;opacity:0.85;margin-bottom:2px;">Current Streak</div>
+            <div class="ps-streak-num">🔥9</div>
+            <div class="ps-streak-sub">days in a row — you're on fire!</div>
+            <div class="ps-dots">
+              <div class="ps-dot done">✓</div>
+              <div class="ps-dot done">✓</div>
+              <div class="ps-dot done">✓</div>
+              <div class="ps-dot today">●</div>
+              <div class="ps-dot">·</div>
+              <div class="ps-dot">·</div>
+              <div class="ps-dot">·</div>
+            </div>
+          </div>
+          <div class="ps-ai">
+            <div class="ps-ai-badge">✦ AI CHEER</div>
+            <div class="ps-ai-text">You're <strong>#3 of 12 kids!</strong> 🏆 One more session today makes it 10 days — a new personal best!</div>
+          </div>
+          <div class="ps-btn">🌊 Log Today's Activity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave down -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:40px;width:100%;">
+    <path d="M0 60 L0 30 Q360 0 720 30 Q1080 60 1440 30 L1440 60 Z" fill="#FAFAFE"/>
+  </svg>
+</div>
+
+<!-- ── PROBLEM ── -->
+<div class="problem-bar">
+  <blockquote>"Getting kids to practice consistently is the <em>hardest part</em> — whether it's reading every night, practicing piano, or keeping up with math over the summer."</blockquote>
+  <cite>— Every parent, teacher, and coach we've talked to</cite>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<div class="section">
+  <span class="eyebrow">How it works</span>
+  <h2 class="section-title">Simple for everyone<br>involved.</h2>
+  <p class="section-sub">Three people, three completely different experiences — all powered by the same streak engine.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Set up the challenge</h3>
+      <p>Describe what you're working on in plain English. The AI builds the challenge — name, goal, duration, milestones — tailored to your group's size and skill level.</p>
+      <div class="step-ai-note">✦ AI pre-fills everything. You edit, not build from scratch.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Kids build their streak</h3>
+      <p>One tap to log each day. A growing streak counter, earned badges, and a leaderboard that drives just the right amount of friendly competition.</p>
+      <div class="step-ai-note">✦ AI cheers are personalized to each kid's rank and next milestone.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Parents get real insights</h3>
+      <p>Not just "4 out of 5 days." The AI synthesizes patterns: which days they're strongest, what their trajectory looks like, when they'll hit the next milestone.</p>
+      <div class="step-ai-note">✦ AI alerts admins when someone's at risk — before the streak breaks.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── USE CASES ── -->
+<div style="background: white; padding: 0;">
+  <div class="section">
+    <span class="eyebrow">Built for</span>
+    <h2 class="section-title">Works for any habit,<br>any group size.</h2>
+    <p class="section-sub">One platform, three completely different contexts — same powerful streak engine underneath.</p>
+
+    <div class="use-cases-grid">
+
+      <div class="use-case">
+        <div class="uc-header">
+          <span class="uc-emoji">👩</span>
+          <div class="uc-tag">Mom Group · Family</div>
+          <div class="uc-title">Summer Splash Challenge</div>
+          <div class="uc-sub">12 families · 8 weeks · swim or outdoor play 4×/week</div>
+        </div>
+        <div class="uc-personas">
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Organizer</div>
+              <div class="uc-persona-desc">AI drafts the challenge from a description. One-click invite to all 12 families. Weekly digest auto-sends.</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#FFF3EA;">⭐</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Kids</div>
+              <div class="uc-persona-desc">Streak counter, group leaderboard, AI cheer when they're closing in on a badge.</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Parents</div>
+              <div class="uc-persona-desc">AI weekly summary: "Sofia's trending better each week. She'll hit the 4-week milestone July 13th."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="use-case">
+        <div class="uc-header">
+          <span class="uc-emoji">📚</span>
+          <div class="uc-tag">Classroom · Teacher</div>
+          <div class="uc-title">Daily Math Minutes</div>
+          <div class="uc-sub">28 students · all school year · 10 min practice every school day</div>
+        </div>
+        <div class="uc-personas">
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Teacher</div>
+              <div class="uc-persona-desc">Class-wide heatmap. AI flags at-risk students and drafts parent nudges — before you have to think about it.</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#EFF6FF;">⭐</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Students</div>
+              <div class="uc-persona-desc">Class leaderboard. AI motivation tied to class record: "6 more days and you break the class record of 20!"</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Parents</div>
+              <div class="uc-persona-desc">AI weekly report: "Marcus completed 5/5 days this week — top 10% of the class. Best week yet."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="use-case">
+        <div class="uc-header">
+          <span class="uc-emoji">🥁</span>
+          <div class="uc-tag">Studio · Instructor</div>
+          <div class="uc-title">30-Day Practice Beat the Slide</div>
+          <div class="uc-sub">6 students · 30 days · custom goals per skill level</div>
+        </div>
+        <div class="uc-personas">
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Instructor</div>
+              <div class="uc-persona-desc">AI assigns tiered goals per student level. Auto-alerts when someone goes quiet: "Sam hasn't practiced in 3 days — draft a message?"</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#FFF3EA;">⭐</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Students</div>
+              <div class="uc-persona-desc">Log what they practiced. AI prompt captures notes — "hi-hat patterns and basic beat" — and builds a session history.</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Parents</div>
+              <div class="uc-persona-desc">AI combines self-reports + instructor notes: "Jake has been focused on hi-hat patterns — Mr. Rivera noted improved tempo this week."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:32px;">
+      <a href="prototype.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:white;text-decoration:none;padding:14px 24px;border-radius:12px;font-weight:800;font-size:15px;transition:all 0.2s;" onmouseover="this.style.background='var(--purple-dark)'" onmouseout="this.style.background='var(--purple)'">
+        🔍 Try all 9 screens in the prototype →
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ── AI FEATURES ── -->
+<div class="ai-section">
+  <div class="ai-inner">
+    <span class="ai-eyebrow">✦ Powered by AI</span>
+    <h2 class="ai-title">AI that shows up<br>at exactly the right moment.</h2>
+    <p class="ai-sub">Not AI for the sake of it. Four specific moments where AI removes friction and adds insight that would otherwise take hours.</p>
+
+    <div class="ai-features-grid">
+      <div class="ai-feature">
+        <span class="ai-feature-icon">🪄</span>
+        <h3>Setup in seconds</h3>
+        <p>Describe your challenge in one sentence. AI fills in the name, goal, duration, milestone rewards, and parent digest schedule. Edit what you want, launch the rest.</p>
+        <span class="ai-chip">Admin · Setup</span>
+      </div>
+      <div class="ai-feature">
+        <span class="ai-feature-icon">🔥</span>
+        <h3>Personalized cheer</h3>
+        <p>Every kid gets a different message. Not "Great work!" — "You're #3 of 12 kids! One more session today makes it 10 days — a new personal best."</p>
+        <span class="ai-chip">Participant · Motivation</span>
+      </div>
+      <div class="ai-feature">
+        <span class="ai-feature-icon">📊</span>
+        <h3>Parent insight reports</h3>
+        <p>AI reads the pattern your child created over the week and writes a summary that tells you something you didn't already know — best days, trajectory, milestone ETA.</p>
+        <span class="ai-chip">Parent · Weekly</span>
+      </div>
+      <div class="ai-feature">
+        <span class="ai-feature-icon">⚠️</span>
+        <h3>At-risk early warning</h3>
+        <p>Before a streak breaks, AI notices the pattern shift — 2 missed days, a sudden drop in session length — and alerts the admin with a suggested action, not just a flag.</p>
+        <span class="ai-chip">Admin · Monitoring</span>
+      </div>
+    </div>
+
+    <div class="ai-quote-bar">
+      <div class="ai-quote-icon">🤖</div>
+      <div>
+        <div class="ai-quote-text">"Sam Torres hasn't practiced in 3 days. Based on last lesson notes, he was struggling with timing. Want me to draft a check-in message for his parents?"</div>
+        <div class="ai-quote-attr">— Beat the Slide AI · Drum Instructor dashboard</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROOF ── -->
+<div class="proof-section">
+  <div class="section">
+    <span class="eyebrow">The proof</span>
+    <h2 class="section-title">Built by a parent.<br>Tested on a real kid.</h2>
+    <p class="section-sub">Not a concept. A working app, 6 enrolled families, and a real outcome bet on the line this September.</p>
+
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-num">3 days</div>
+        <div class="proof-label">To build v1 — solo, with Claude as co-pilot</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-num">$0</div>
+        <div class="proof-label">Total cost — free tiers all the way down</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-num">6</div>
+        <div class="proof-label">Families enrolled via organic word-of-mouth</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-num">80+</div>
+        <div class="proof-label">GitHub commits — iterating live while families use it</div>
+      </div>
+    </div>
+
+    <div class="proof-story">
+      <div class="proof-story-text">
+        <h3>Declan's story</h3>
+        <p>A product manager built this app over a long weekend for his 4th-grade son who wasn't reading voluntarily. Four weeks later, Declan is opening the app on his own, logging books, and sitting at Knight rank on the leaderboard.</p>
+        <p>The real test: a September MAP retest will tell us if the streak loop drove actual reading progress. We're publishing the result either way.</p>
+        <a href="#proof">See what we’ve proven →</a>
+      </div>
+      <div class="proof-claims">
+        <div class="proof-claim">
+          <div class="claim-icon">✅</div>
+          <div class="claim-text">
+            <h4>Behavior loop works</h4>
+            <p>A kid who wasn't reading voluntarily now opens the app on his own and picks up books.</p>
+          </div>
+        </div>
+        <div class="proof-claim">
+          <div class="claim-icon">✅</div>
+          <div class="claim-text">
+            <h4>Build economics work</h4>
+            <p>A non-engineer parent + AI shipped a multi-family real-time app in 3 days for $0.</p>
+          </div>
+        </div>
+        <div class="proof-claim">
+          <div class="claim-icon">✅</div>
+          <div class="claim-text">
+            <h4>Acquisition story works</h4>
+            <p>"Parent vibe-coded this for his kid" drives organic sharing among PM-adjacent parents.</p>
+          </div>
+        </div>
+        <div class="proof-pending">
+          <div class="claim-icon">⏳</div>
+          <div class="claim-text">
+            <h4>Outcome claim — September 2026</h4>
+            <p>Declan's MAP retest. Either it moves or we publish what we learned. Both are useful.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHO IT'S FOR ── -->
+<div style="background:var(--bg);">
+  <div class="section">
+    <span class="eyebrow">Who it's for</span>
+    <h2 class="section-title">If you're trying to build<br>a habit in a kid, this is for you.</h2>
+
+    <div class="for-grid">
+      <div class="for-card">
+        <span class="for-emoji">👩‍👧</span>
+        <div class="for-title">Parents</div>
+        <div class="for-desc">Solo-family or group challenges. Track your kid's daily habits and get AI summaries that save you from asking "did you do it today?"</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">👩‍🏫</span>
+        <div class="for-title">Teachers</div>
+        <div class="for-desc">Run class-wide challenges. Monitor 30 kids at once with an AI that flags who needs attention before they fall behind.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">🎵</span>
+        <div class="for-title">Instructors & Coaches</div>
+        <div class="for-desc">Piano teachers, drum instructors, tutors, sports coaches. Assign personalized goals and stay connected between sessions.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">👨‍👩‍👧‍👦</span>
+        <div class="for-title">Community Groups</div>
+        <div class="for-desc">Mom groups, summer programs, scouting troops. Set a shared challenge, watch the friendly competition keep everyone moving.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CTA ── -->
+<div class="cta-section" id="waitlist">
+  <h2>Ready to build the streak<br>your kid won't break?</h2>
+  <p>Join the waitlist and be the first to know when we open to more families and educators.</p>
+  <div class="waitlist-form">
+    <input class="waitlist-input" type="email" placeholder="your@email.com" />
+    <button class="waitlist-btn" onclick="handleWaitlist()">Join waitlist</button>
+  </div>
+  <div class="cta-note">No spam. Just one email when we're ready for you.</div>
+  <br>
+  <a href="prototype.html" class="cta-prototype-link">Or explore the interactive prototype first →</a>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">🔥 Beat the Slide</div>
+  <div class="footer-links">
+    <a class="footer-link" href="prototype.html">Prototype</a>
+    <a class="footer-link" href="https://github.com/brentomalley150/streak-app" target="_blank">GitHub ↗</a>
+  </div>
+  <div class="footer-note">This is a design concept for a future landing page. Built by Brent O'Malley. Strategy &amp; product by Kate O'Malley. Powered by Claude.</div>
+</footer>
+
+<script>
+function handleWaitlist() {
+  const input = document.querySelector('.waitlist-input');
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.border = '2px solid #F97316';
+    input.focus();
+    return;
+  }
+  input.style.border = 'none';
+  const btn = document.querySelector('.waitlist-btn');
+  btn.textContent = '✓ You\'re on the list!';
+  btn.style.background = '#ECFDF5';
+  btn.style.color = '#059669';
+  input.value = '';
+  input.placeholder = 'Thanks! We\'ll be in touch.';
+  input.disabled = true;
+}
+</script>
+
 </body>
 </html>
