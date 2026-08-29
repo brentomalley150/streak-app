@@ -1,5 +1,9 @@
 # Summer Slide PRD — Gap Analysis
 
+> **Historical document (May 30, 2026).** This reviews the original *Summer Slide* PRD.
+> The product is now **Beat the Slide**, and most gaps below were closed by PRD v2.0
+> (June 24, 2026). Kept for the record — not a live to-do list.
+
 **Reviewed:** `prd.html` (Founders Hub PRD)
 **Benchmarked against:** `PRD-v2-NewVersion.md` — CrewCares / BuildtheCrew v2 (the latest PRD)
 **Owner:** Kate O'Malley · **Date:** 2026-05-30
