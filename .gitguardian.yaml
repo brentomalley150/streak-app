@@ -1,0 +1,26 @@
+# GitGuardian configuration for the Beat the Slide public site.
+#
+# `app/` is build output copied from the streak-v2 repo — never hand-edited
+# (see README). Every bundle embeds the Firebase **Web** API key, because a
+# browser app cannot connect to Firebase without one. That key identifies the
+# project and authorises nothing: it is public by design, and Google documents
+# it as not being a secret.
+#
+# Actual security comes from the Realtime Database rules in
+# streak-v2/firebase.rules.json — a caller holding this key still cannot read
+# another family's data, because v2/families/$uid requires auth.uid === $uid.
+#
+# Without this exclusion, every deploy re-reports the same false positive, and
+# real findings get lost in the noise. The bundle filenames are content-hashed,
+# so they change on each build — hence a path pattern rather than filenames.
+#
+# NOTE: this silences `app/` ONLY. Source in streak-v2 is still scanned, and a
+# genuine secret must never be committed there: .env / .env.local are
+# gitignored and the config is read from them at build time.
+
+version: 2
+
+secret:
+  ignored-paths:
+    - "app/assets/**"
+    - "app/index.html"
