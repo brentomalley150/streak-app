@@ -6,7 +6,6 @@
 |---|---|
 | `/` | Landing page — `index.html` |
 | `/app/` | **The live app** — a built copy of `streak-v2` |
-| `/prototype.html` | Interactive prototype (concept demo) |
 | `/story.html` | "How I vibe-coded a reading app for my 10-year-old" |
 
 Everything here is **public**. Nothing founder-facing or internal belongs in

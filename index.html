@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Beat the Slide — The streak your kid won't want to break</title>
+<meta name="description" content="A daily habit app for kids ages 5–11. Reading, math, music, chores and more — a short routine, ideas that match what your kid loves, and prizes you choose.">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -84,17 +85,6 @@ body {
 }
 
 .nav-cta:hover { background: var(--purple-dark) !important; }
-
-.concept-badge {
-  background: linear-gradient(90deg, #F97316, #F59E0B);
-  color: white;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 20px;
-}
 
 /* ── HERO ── */
 .hero {
@@ -294,29 +284,6 @@ body {
   margin-bottom: 8px;
 }
 
-.ps-tabs {
-  display: flex;
-  gap: 3px;
-  background: #F0ECFF;
-  border-radius: 8px;
-  padding: 2px;
-}
-
-.ps-tab {
-  flex: 1;
-  text-align: center;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 4px 2px;
-  border-radius: 6px;
-  color: #9180C4;
-}
-
-.ps-tab.active {
-  background: white;
-  color: #5B21B6;
-}
-
 .ps-streak {
   background: linear-gradient(135deg, #F97316, #FBBF24);
   border-radius: 14px;
@@ -338,60 +305,6 @@ body {
   font-weight: 600;
   opacity: 0.85;
   margin-top: 2px;
-}
-
-.ps-dots {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.ps-dot {
-  width: 26px;
-  height: 28px;
-  border-radius: 7px;
-  background: rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  color: rgba(255,255,255,0.7);
-  font-weight: 700;
-}
-
-.ps-dot.done { background: rgba(255,255,255,0.9); color: #F97316; }
-.ps-dot.today { background: white; color: #F97316; }
-
-.ps-ai {
-  background: linear-gradient(135deg, #5B21B6, #2563EB);
-  border-radius: 12px;
-  padding: 10px 12px;
-  color: white;
-  margin-bottom: 8px;
-}
-
-.ps-ai-badge {
-  font-size: 8px;
-  font-weight: 800;
-  background: rgba(255,255,255,0.2);
-  padding: 2px 6px;
-  border-radius: 10px;
-  display: inline-block;
-  margin-bottom: 5px;
-  letter-spacing: 0.05em;
-}
-
-.ps-ai-text { font-size: 10px; line-height: 1.4; opacity: 0.95; }
-
-.ps-btn {
-  background: linear-gradient(135deg, #5B21B6, #2563EB);
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 800;
 }
 
 /* Side phone shows parent view */
@@ -425,30 +338,6 @@ body {
   padding: 2px 6px;
   border-radius: 10px;
 }
-
-.ps-report {
-  background: linear-gradient(135deg, #5B21B6, #2563EB);
-  border-radius: 12px;
-  padding: 10px;
-  color: white;
-  margin-bottom: 8px;
-}
-
-.ps-report-badge { font-size: 8px; font-weight: 800; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 10px; margin-bottom: 5px; display: inline-block; }
-.ps-report-text { font-size: 10px; line-height: 1.45; opacity: 0.95; }
-
-.ps-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
-}
-
-.ps-stat-item { text-align: center; }
-.ps-stat-val { font-size: 16px; font-weight: 900; color: #5B21B6; }
-.ps-stat-lbl { font-size: 8px; color: #C4B5FD; font-weight: 700; text-transform: uppercase; }
 
 /* ── SECTION WRAPPER ── */
 .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
@@ -553,7 +442,7 @@ body {
   line-height: 1.6;
 }
 
-.step-ai-note {
+.step-note {
   margin-top: 16px;
   padding: 10px 12px;
   background: var(--purple-light);
@@ -631,15 +520,15 @@ body {
 .uc-persona-role { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
 .uc-persona-desc { font-size: 13px; color: var(--soft); margin-top: 2px; line-height: 1.45; }
 
-/* ── AI FEATURES ── */
-.ai-section {
+/* ── SAFE BY DESIGN ── */
+.safe-section {
   background: linear-gradient(160deg, #0D0A1A, #1a0f3c);
   padding: 80px 24px;
 }
 
-.ai-inner { max-width: 1100px; margin: 0 auto; }
+.safe-inner { max-width: 1100px; margin: 0 auto; }
 
-.ai-eyebrow {
+.safe-eyebrow {
   display: inline-block;
   font-size: 12px;
   font-weight: 800;
@@ -649,7 +538,7 @@ body {
   margin-bottom: 12px;
 }
 
-.ai-title {
+.safe-title {
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 900;
   color: white;
@@ -658,7 +547,7 @@ body {
   margin-bottom: 14px;
 }
 
-.ai-sub {
+.safe-sub {
   font-size: 17px;
   color: rgba(255,255,255,0.6);
   max-width: 520px;
@@ -666,13 +555,13 @@ body {
   margin-bottom: 52px;
 }
 
-.ai-features-grid {
+.safe-features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
 }
 
-.ai-feature {
+.safe-feature {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 18px;
@@ -680,15 +569,15 @@ body {
   transition: background 0.2s;
 }
 
-.ai-feature:hover { background: rgba(255,255,255,0.1); }
+.safe-feature:hover { background: rgba(255,255,255,0.1); }
 
-.ai-feature-icon {
+.safe-feature-icon {
   font-size: 28px;
   margin-bottom: 12px;
   display: block;
 }
 
-.ai-feature h3 {
+.safe-feature h3 {
   font-size: 17px;
   font-weight: 800;
   color: white;
@@ -696,13 +585,13 @@ body {
   letter-spacing: -0.2px;
 }
 
-.ai-feature p {
+.safe-feature p {
   font-size: 14px;
   color: rgba(255,255,255,0.6);
   line-height: 1.55;
 }
 
-.ai-feature .ai-chip {
+.safe-feature .safe-chip {
   display: inline-block;
   margin-top: 12px;
   padding: 4px 10px;
@@ -715,8 +604,8 @@ body {
   letter-spacing: 0.04em;
 }
 
-/* AI quote card */
-.ai-quote-bar {
+/* Fall-estimate note */
+.safe-quote-bar {
   margin-top: 48px;
   background: linear-gradient(135deg, rgba(108,43,217,0.3), rgba(37,99,235,0.2));
   border: 1px solid rgba(167,139,250,0.25);
@@ -727,19 +616,19 @@ body {
   align-items: flex-start;
 }
 
-.ai-quote-icon {
+.safe-quote-icon {
   font-size: 36px;
   flex-shrink: 0;
 }
 
-.ai-quote-text {
+.safe-quote-text {
   font-size: 17px;
   color: rgba(255,255,255,0.9);
   line-height: 1.6;
   font-style: italic;
 }
 
-.ai-quote-attr {
+.safe-quote-attr {
   font-size: 13px;
   color: rgba(255,255,255,0.4);
   margin-top: 8px;
@@ -902,62 +791,6 @@ body {
   line-height: 1.6;
 }
 
-.waitlist-form {
-  display: flex;
-  gap: 10px;
-  max-width: 440px;
-  margin: 0 auto 20px;
-  flex-wrap: wrap;
-}
-
-.waitlist-input {
-  flex: 1;
-  min-width: 220px;
-  padding: 14px 18px;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-family: inherit;
-  outline: none;
-  color: var(--ink);
-}
-
-.waitlist-btn {
-  padding: 14px 22px;
-  background: white;
-  color: var(--purple);
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.waitlist-btn:hover { background: #F0ECFF; transform: translateY(-1px); }
-
-.cta-note {
-  font-size: 13px;
-  color: rgba(255,255,255,0.5);
-  font-weight: 600;
-}
-
-.cta-prototype-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 24px;
-  color: rgba(255,255,255,0.6);
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.cta-prototype-link:hover { color: white; }
-
 /* ── FOOTER ── */
 footer {
   background: var(--ink);
@@ -1020,7 +853,7 @@ footer {
 /* Responsiveness */
 @media (max-width: 680px) {
   .nav-links .nav-link:not(.nav-cta) { display: none; }
-  .ai-quote-bar { flex-direction: column; }
+  .safe-quote-bar { flex-direction: column; }
 }
 
 /* divider wave */
@@ -1032,13 +865,39 @@ footer {
 }
 
 .wave-divider svg { display: block; }
+
+/* Mockup pieces drawn from the real app */
+.ps-track { font-size: 10px; font-weight: 700; color: #6B5FA5; }
+.ps-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 8px; }
+.ps-tile { background: white; border: 1.5px solid #E9E3FF; border-radius: 10px; padding: 7px 3px; text-align: center; }
+.ps-tile.done { border-color: #10B981; }
+.ps-tile-ico { font-size: 14px; }
+.ps-tile-lbl { font-size: 9px; font-weight: 800; color: #2d2d4e; }
+.ps-tile-pts { font-size: 8px; font-weight: 800; color: #B45309; }
+.ps-perfect { display: flex; justify-content: space-between; background: #FFFBEB; border: 1.5px solid #F59E0B;
+  border-radius: 10px; padding: 7px 9px; font-size: 9.5px; font-weight: 800; color: #92400E; margin-bottom: 8px; }
+.ps-idea { background: white; border-radius: 10px; padding: 8px 10px; font-size: 9.5px; color: #4A4565; line-height: 1.4; text-align: left; }
+.ps-idea b { display: block; font-size: 8px; letter-spacing: .06em; text-transform: uppercase; color: #9180C4; margin-bottom: 3px; }
+.ps-label { font-size: 8px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #9180C4; margin: 4px 2px 5px; text-align: left; }
+.ps-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; background: white; border-radius: 10px;
+  padding: 7px 9px; margin-bottom: 6px; font-size: 10px; font-weight: 700; color: #2d2d4e; text-align: left; line-height: 1.3; }
+.ps-row small { font-size: 8.5px; color: #9180C4; font-weight: 700; }
+.ps-ok { font-size: 8.5px; font-weight: 800; color: #059669; background: #ECFDF5; padding: 2px 6px; border-radius: 10px; }
+.ps-muted { font-size: 8.5px; font-weight: 700; color: #9180C4; }
+.ps-confirm { font-size: 8.5px; font-weight: 800; color: white; background: #5B21B6; padding: 3px 7px; border-radius: 8px; }
+.cta-section .btn-primary { font-size: 16px; }
+.tracks-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.safe-features-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); }
+@media (max-width: 520px) {
+  .phone-mock.side { display: none; }
+}
 </style>
 </head>
 <body>
 
-<!-- Concept banner -->
+<!-- Early-access banner -->
 <div class="concept-banner">
-  🚧 Early access — we're building in the open &nbsp;·&nbsp;
+  🚧 Early access — the app works, and we're still building &nbsp;·&nbsp;
   <a href="app/" style="color:white;text-decoration:underline;font-weight:800;">Try the app →</a>
 </div>
 
@@ -1046,91 +905,76 @@ footer {
 <nav class="nav">
   <a class="nav-brand" href="/">🔥 Beat the Slide</a>
   <div class="nav-links">
-    <a class="nav-link" href="app/">Open the app</a>
-    <a class="nav-link" href="prototype.html">Prototype</a>
-    <a class="nav-link nav-cta" href="#waitlist">Get early access</a>
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#tracks">Tracks</a>
+    <a class="nav-link nav-cta" href="app/">Try it free</a>
   </div>
 </nav>
 
 <!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">🔥 AI-powered kid habit tracking</div>
+    <div class="hero-eyebrow">📚 Started as a summer reading app. Now it's year-round.</div>
     <h1>The streak your kid<br>won't want to <span class="flame">break.</span></h1>
-    <p class="hero-sub">Set a challenge, build a streak, get insights that actually help. Works for summer reading, math practice, music lessons — anything worth doing daily.</p>
+    <p class="hero-sub">Pick a track — reading, math, music, chores, calm. Your kid gets a short daily routine, ideas that match what they love, and points toward prizes you choose.</p>
     <div class="hero-ctas">
-      <a href="#waitlist" class="btn-primary">🚀 Get early access</a>
-      <a href="app/" class="btn-ghost">Try it now →</a>
+      <a href="app/" class="btn-primary">🚀 Try it free</a>
+      <a href="#how" class="btn-ghost">See how it works</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
         <span class="hero-stat-val">6</span>
-        <span class="hero-stat-lbl">Families enrolled</span>
+        <span class="hero-stat-lbl">Tracks</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-val">$0</span>
-        <span class="hero-stat-lbl">Cost to build</span>
+        <span class="hero-stat-val">6</span>
+        <span class="hero-stat-lbl">Kid-picked themes</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-val">3</span>
-        <span class="hero-stat-lbl">Days to ship v1</span>
+        <span class="hero-stat-val">K–5</span>
+        <span class="hero-stat-lbl">Ages 5–11</span>
       </div>
     </div>
 
-    <!-- Phone mockups -->
+    <!-- Phone mockups: drawn from the real app's screens -->
     <div class="hero-phones">
-      <!-- Side phone: parent view -->
+      <!-- Side phone: the parent section -->
       <div class="phone-mock side">
         <div class="phone-screen-inner">
           <div class="ps-parent-header">
-            <div class="ps-avatar">🧒</div>
+            <div class="ps-avatar">🔒</div>
             <div>
-              <div class="ps-name">Sofia</div>
-              <span class="ps-chip">🔥 9-day streak</span>
+              <div class="ps-name">Parent section</div>
+              <span class="ps-chip">PIN protected</span>
             </div>
           </div>
-          <div class="ps-report">
-            <div class="ps-report-badge">✦ AI WEEKLY SUMMARY</div>
-            <div class="ps-report-text">"Sofia is active every day this week. She tends to log <strong>Tuesday–Thursday mornings.</strong> She'll hit the 4-week milestone on July 13th 🎯"</div>
-          </div>
-          <div class="ps-stats">
-            <div class="ps-stat-item"><div class="ps-stat-val">9</div><div class="ps-stat-lbl">Beat the Slide</div></div>
-            <div class="ps-stat-item"><div class="ps-stat-val">22</div><div class="ps-stat-lbl">Total</div></div>
-            <div class="ps-stat-item"><div class="ps-stat-val">88%</div><div class="ps-stat-lbl">Rate</div></div>
-          </div>
+          <div class="ps-label">Family prizes</div>
+          <div class="ps-row"><span>🎬 Pick the movie<br><small>20 pts</small></span><span class="ps-ok">Unlocked</span></div>
+          <div class="ps-row"><span>🍦 Ice cream trip<br><small>60 pts</small></span><span class="ps-muted">14 to go</span></div>
+          <div class="ps-label">Chores to check</div>
+          <div class="ps-row"><span>🧸 Tidy up<br><small>Today · +2</small></span><span class="ps-confirm">Confirm</span></div>
         </div>
       </div>
 
-      <!-- Main phone: participant view -->
+      <!-- Main phone: the kid's daily screen -->
       <div class="phone-mock main">
         <div class="phone-screen-inner">
           <div class="ps-header">
-            <div class="ps-logo">🔥 Beat the Slide</div>
-            <div class="ps-tabs">
-              <div class="ps-tab">🛠 Admin</div>
-              <div class="ps-tab active">⭐ Participant</div>
-              <div class="ps-tab">👪 Parent</div>
-            </div>
+            <div class="ps-logo">Hey Declan 👋</div>
+            <div class="ps-track">🎵 Music Practice · 🥁 Drums</div>
           </div>
           <div class="ps-streak">
-            <div style="font-size:11px;font-weight:700;opacity:0.85;margin-bottom:2px;">Current Streak</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.85;margin-bottom:2px;">Day streak</div>
             <div class="ps-streak-num">🔥9</div>
-            <div class="ps-streak-sub">days in a row — you're on fire!</div>
-            <div class="ps-dots">
-              <div class="ps-dot done">✓</div>
-              <div class="ps-dot done">✓</div>
-              <div class="ps-dot done">✓</div>
-              <div class="ps-dot today">●</div>
-              <div class="ps-dot">·</div>
-              <div class="ps-dot">·</div>
-              <div class="ps-dot">·</div>
-            </div>
+            <div class="ps-streak-sub">46 pts · 4 to Soloist</div>
           </div>
-          <div class="ps-ai">
-            <div class="ps-ai-badge">✦ AI CHEER</div>
-            <div class="ps-ai-text">You're <strong>#3 of 12 kids!</strong> 🏆 One more session today makes it 10 days — a new personal best!</div>
+          <div class="ps-tiles">
+            <div class="ps-tile done"><div class="ps-tile-ico">🥁</div><div class="ps-tile-lbl">Practice</div><div class="ps-tile-pts">+3 pts</div></div>
+            <div class="ps-tile done"><div class="ps-tile-ico">🎧</div><div class="ps-tile-lbl">Listen</div><div class="ps-tile-pts">+1 pt</div></div>
+            <div class="ps-tile done"><div class="ps-tile-ico">🎼</div><div class="ps-tile-lbl">Learn</div><div class="ps-tile-pts">+3 pts</div></div>
           </div>
-          <div class="ps-btn">🌊 Log Today's Activity</div>
+          <div class="ps-perfect"><span>🌟 Perfect day! +2 bonus</span><span>3/3</span></div>
+          <div class="ps-idea"><b>Today's idea · Music</b>Play a rock beat: kick on 1 and 3, snare on 2 and 4.</div>
         </div>
       </div>
     </div>
@@ -1146,106 +990,116 @@ footer {
 
 <!-- ── PROBLEM ── -->
 <div class="problem-bar">
-  <blockquote>"Getting kids to practice consistently is the <em>hardest part</em> — whether it's reading every night, practicing piano, or keeping up with math over the summer."</blockquote>
-  <cite>— Every parent, teacher, and coach we've talked to</cite>
+  <blockquote>Every spring, test scores show <em>exactly where your kid is behind.</em> Then nothing connects those numbers to what they do next.</blockquote>
+  <cite>The average K–5 student loses 1–2 months of reading skill over the summer (Cooper et al.)</cite>
 </div>
 
 <!-- ── HOW IT WORKS ── -->
-<div class="section">
+<div class="section" id="how">
   <span class="eyebrow">How it works</span>
   <h2 class="section-title">Simple for everyone<br>involved.</h2>
-  <p class="section-sub">Three people, three completely different experiences — all powered by the same streak engine.</p>
+  <p class="section-sub">One daily loop for kids, the controls for grown-ups — the same on every track.</p>
 
   <div class="steps">
     <div class="step">
       <div class="step-num">1</div>
-      <h3>Set up the challenge</h3>
-      <p>Describe what you're working on in plain English. The AI builds the challenge — name, goal, duration, milestones — tailored to your group's size and skill level.</p>
-      <div class="step-ai-note">✦ AI pre-fills everything. You edit, not build from scratch.</div>
+      <h3>Start a challenge</h3>
+      <p>Pick a track and how long it runs — 12 weeks unless you choose otherwise. Keep it to your own kids, or share a link with friends or a whole class.</p>
+      <div class="step-note">Every joining parent sees exactly what's shared, and confirms for their own child.</div>
     </div>
     <div class="step">
       <div class="step-num">2</div>
       <h3>Kids build their streak</h3>
-      <p>One tap to log each day. A growing streak counter, earned badges, and a leaderboard that drives just the right amount of friendly competition.</p>
-      <div class="step-ai-note">✦ AI cheers are personalized to each kid's rank and next milestone.</div>
+      <p>One tap per activity. Each tile shows its points, ideas match the theme they picked, and doing everything in a day earns a perfect-day bonus. Points climb through ranks, plus a weekly bonus activity.</p>
+      <div class="step-note">Forgot to log? Kids can fill in any day from the past week.</div>
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <h3>Parents get real insights</h3>
-      <p>Not just "4 out of 5 days." The AI synthesizes patterns: which days they're strongest, what their trajectory looks like, when they'll hit the next milestone.</p>
-      <div class="step-ai-note">✦ AI alerts admins when someone's at risk — before the streak breaks.</div>
+      <h3>Parents stay in charge</h3>
+      <p>A PIN-protected parent section. Set your own prizes, confirm chores, and add spring test scores so the reading routine starts where your child actually is.</p>
+      <div class="step-note">Cashing in a prize never costs a single point.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TRACKS ── -->
+<div style="background:white;">
+  <div class="section" id="tracks">
+    <span class="eyebrow">Tracks</span>
+    <h2 class="section-title">Six habits.<br>One game.</h2>
+    <p class="section-sub">Every track runs on the same streak, points and prizes. Only the daily activities change.</p>
+
+    <div class="for-grid tracks-grid">
+      <div class="for-card">
+        <span class="for-emoji">📚</span>
+        <div class="for-title">Reading Slide</div>
+        <div class="for-desc">15 minutes reading, 10 writing, 5 to wrap up. Set from your child's spring scores, if you have them.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">🔢</span>
+        <div class="for-title">Math Facts</div>
+        <div class="for-desc">Times-table fluency: a quick drill, a review, and one word-problem challenge a day.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">🎵</span>
+        <div class="for-title">Music Practice</div>
+        <div class="for-desc">Practice, listen, learn. Kids pick their instrument — drums, guitar, piano, trombone and more.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">🎒</span>
+        <div class="for-title">Back to School</div>
+        <div class="for-desc">Homework started, 20 minutes of practice, bag packed for tomorrow.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">🧹</span>
+        <div class="for-title">Home Helper</div>
+        <div class="for-desc">Make the bed, tidy up, help out. You set the chores and the points, and confirm when they're done.</div>
+      </div>
+      <div class="for-card">
+        <span class="for-emoji">🧘</span>
+        <div class="for-title">Mindful Kid</div>
+        <div class="for-desc">Five calm minutes: breathe, notice something good, check in.</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ── USE CASES ── -->
-<div style="background: white; padding: 0;">
+<div style="background:var(--bg);">
   <div class="section">
     <span class="eyebrow">Built for</span>
-    <h2 class="section-title">Works for any habit,<br>any group size.</h2>
-    <p class="section-sub">One platform, three completely different contexts — same powerful streak engine underneath.</p>
+    <h2 class="section-title">One challenge,<br>any group size.</h2>
+    <p class="section-sub">The person who starts a challenge is the same role at three sizes — a parent, an instructor, a teacher.</p>
 
     <div class="use-cases-grid">
 
       <div class="use-case">
         <div class="uc-header">
-          <span class="uc-emoji">👩</span>
-          <div class="uc-tag">Mom Group · Family</div>
-          <div class="uc-title">Summer Splash Challenge</div>
-          <div class="uc-sub">12 families · 8 weeks · swim or outdoor play 4×/week</div>
+          <span class="uc-emoji">🏡</span>
+          <div class="uc-tag">Household · 2–6 kids</div>
+          <div class="uc-title">Summer reading with friends</div>
+          <div class="uc-sub">A mom runs a reading challenge for her kids and two of their friends</div>
         </div>
         <div class="uc-personas">
           <div class="uc-persona">
             <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
             <div class="uc-persona-text">
-              <div class="uc-persona-role">Organizer</div>
-              <div class="uc-persona-desc">AI drafts the challenge from a description. One-click invite to all 12 families. Weekly digest auto-sends.</div>
+              <div class="uc-persona-role">Creator</div>
+              <div class="uc-persona-desc">Picks the track and length, then pastes one link into the group chat.</div>
             </div>
           </div>
           <div class="uc-persona">
             <div class="uc-persona-icon" style="background:#FFF3EA;">⭐</div>
             <div class="uc-persona-text">
               <div class="uc-persona-role">Kids</div>
-              <div class="uc-persona-desc">Streak counter, group leaderboard, AI cheer when they're closing in on a badge.</div>
+              <div class="uc-persona-desc">A shared leaderboard with their friends — and company that makes the habit stick.</div>
             </div>
           </div>
           <div class="uc-persona">
             <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
             <div class="uc-persona-text">
               <div class="uc-persona-role">Parents</div>
-              <div class="uc-persona-desc">AI weekly summary: "Sofia's trending better each week. She'll hit the 4-week milestone July 13th."</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="use-case">
-        <div class="uc-header">
-          <span class="uc-emoji">📚</span>
-          <div class="uc-tag">Classroom · Teacher</div>
-          <div class="uc-title">Daily Math Minutes</div>
-          <div class="uc-sub">28 students · all school year · 10 min practice every school day</div>
-        </div>
-        <div class="uc-personas">
-          <div class="uc-persona">
-            <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
-            <div class="uc-persona-text">
-              <div class="uc-persona-role">Teacher</div>
-              <div class="uc-persona-desc">Class-wide heatmap. AI flags at-risk students and drafts parent nudges — before you have to think about it.</div>
-            </div>
-          </div>
-          <div class="uc-persona">
-            <div class="uc-persona-icon" style="background:#EFF6FF;">⭐</div>
-            <div class="uc-persona-text">
-              <div class="uc-persona-role">Students</div>
-              <div class="uc-persona-desc">Class leaderboard. AI motivation tied to class record: "6 more days and you break the class record of 20!"</div>
-            </div>
-          </div>
-          <div class="uc-persona">
-            <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
-            <div class="uc-persona-text">
-              <div class="uc-persona-role">Parents</div>
-              <div class="uc-persona-desc">AI weekly report: "Marcus completed 5/5 days this week — top 10% of the class. Best week yet."</div>
+              <div class="uc-persona-desc">Each family sets its own prizes. They're never shown in the challenge.</div>
             </div>
           </div>
         </div>
@@ -1254,84 +1108,106 @@ footer {
       <div class="use-case">
         <div class="uc-header">
           <span class="uc-emoji">🥁</span>
-          <div class="uc-tag">Studio · Instructor</div>
-          <div class="uc-title">30-Day Practice Beat the Slide</div>
-          <div class="uc-sub">6 students · 30 days · custom goals per skill level</div>
+          <div class="uc-tag">Instructor · 5–15 students</div>
+          <div class="uc-title">Practice between lessons</div>
+          <div class="uc-sub">A drum teacher runs a Music Practice challenge for her students</div>
         </div>
         <div class="uc-personas">
           <div class="uc-persona">
             <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
             <div class="uc-persona-text">
               <div class="uc-persona-role">Instructor</div>
-              <div class="uc-persona-desc">AI assigns tiered goals per student level. Auto-alerts when someone goes quiet: "Sam hasn't practiced in 3 days — draft a message?"</div>
+              <div class="uc-persona-desc">Runs a ready-made 12-week program — no curriculum to write. Sees who's practicing.</div>
             </div>
           </div>
           <div class="uc-persona">
             <div class="uc-persona-icon" style="background:#FFF3EA;">⭐</div>
             <div class="uc-persona-text">
               <div class="uc-persona-role">Students</div>
-              <div class="uc-persona-desc">Log what they practiced. AI prompt captures notes — "hi-hat patterns and basic beat" — and builds a session history.</div>
+              <div class="uc-persona-desc">Practice, listen and learn each day, with tips for their own instrument.</div>
             </div>
           </div>
           <div class="uc-persona">
             <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
             <div class="uc-persona-text">
               <div class="uc-persona-role">Parents</div>
-              <div class="uc-persona-desc">AI combines self-reports + instructor notes: "Jake has been focused on hi-hat patterns — Mr. Rivera noted improved tempo this week."</div>
+              <div class="uc-persona-desc">Practice happens without nagging, because the streak is on the line.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="use-case">
+        <div class="uc-header">
+          <span class="uc-emoji">🏫</span>
+          <div class="uc-tag">Classroom · 20–30 kids</div>
+          <div class="uc-title">Class vs. class</div>
+          <div class="uc-sub">A 3rd-grade teacher takes on the class next door</div>
+        </div>
+        <div class="uc-personas">
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#F0ECFF;">🛠</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Teachers</div>
+              <div class="uc-persona-desc">Each teacher adds their own class as a team and shares their class's link.</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#EFF6FF;">⭐</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Students</div>
+              <div class="uc-persona-desc">Teams rank by average points per kid, so class size never decides the winner.</div>
+            </div>
+          </div>
+          <div class="uc-persona">
+            <div class="uc-persona-icon" style="background:#ECFDF5;">👪</div>
+            <div class="uc-persona-text">
+              <div class="uc-persona-role">Parents</div>
+              <div class="uc-persona-desc">A teacher invites; only a parent can join their own child.</div>
             </div>
           </div>
         </div>
       </div>
 
     </div>
-
-    <div style="text-align:center;margin-top:32px;">
-      <a href="prototype.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:white;text-decoration:none;padding:14px 24px;border-radius:12px;font-weight:800;font-size:15px;transition:all 0.2s;" onmouseover="this.style.background='var(--purple-dark)'" onmouseout="this.style.background='var(--purple)'">
-        🔍 Try all 9 screens in the prototype →
-      </a>
-    </div>
   </div>
 </div>
 
-<!-- ── AI FEATURES ── -->
-<div class="ai-section">
-  <div class="ai-inner">
-    <span class="ai-eyebrow">✦ Powered by AI</span>
-    <h2 class="ai-title">AI that shows up<br>at exactly the right moment.</h2>
-    <p class="ai-sub">Not AI for the sake of it. Four specific moments where AI removes friction and adds insight that would otherwise take hours.</p>
+<!-- ── SAFE FOR KIDS ── -->
+<div class="safe-section">
+  <div class="safe-inner">
+    <span class="safe-eyebrow">Safe by design</span>
+    <h2 class="safe-title">Made for kids under 13,<br>and their parents.</h2>
+    <p class="safe-sub">Kids don't have accounts — they're profiles under a parent's. And everything they see was written by a person.</p>
 
-    <div class="ai-features-grid">
-      <div class="ai-feature">
-        <span class="ai-feature-icon">🪄</span>
-        <h3>Setup in seconds</h3>
-        <p>Describe your challenge in one sentence. AI fills in the name, goal, duration, milestone rewards, and parent digest schedule. Edit what you want, launch the rest.</p>
-        <span class="ai-chip">Admin · Setup</span>
+    <div class="safe-features-grid">
+      <div class="safe-feature">
+        <span class="safe-feature-icon">✍️</span>
+        <h3>Human-written, no AI</h3>
+        <p>Every routine, idea and weekly bonus comes from lists people wrote and reviewed. Nothing your kid sees is generated, and their data never goes to an AI company.</p>
       </div>
-      <div class="ai-feature">
-        <span class="ai-feature-icon">🔥</span>
-        <h3>Personalized cheer</h3>
-        <p>Every kid gets a different message. Not "Great work!" — "You're #3 of 12 kids! One more session today makes it 10 days — a new personal best."</p>
-        <span class="ai-chip">Participant · Motivation</span>
+      <div class="safe-feature">
+        <span class="safe-feature-icon">🙂</span>
+        <h3>First name and a score</h3>
+        <p>That's all a challenge ever shows: a first name, an avatar and points for that track. Never a last name, photo or location.</p>
       </div>
-      <div class="ai-feature">
-        <span class="ai-feature-icon">📊</span>
-        <h3>Parent insight reports</h3>
-        <p>AI reads the pattern your child created over the week and writes a summary that tells you something you didn't already know — best days, trajectory, milestone ETA.</p>
-        <span class="ai-chip">Parent · Weekly</span>
+      <div class="safe-feature">
+        <span class="safe-feature-icon">🔑</span>
+        <h3>Only you can join your kid</h3>
+        <p>A friend or teacher can invite. Only a child's own parent can say yes — one kid at a time — and leave in one tap.</p>
       </div>
-      <div class="ai-feature">
-        <span class="ai-feature-icon">⚠️</span>
-        <h3>At-risk early warning</h3>
-        <p>Before a streak breaks, AI notices the pattern shift — 2 missed days, a sudden drop in session length — and alerts the admin with a suggested action, not just a flag.</p>
-        <span class="ai-chip">Admin · Monitoring</span>
+      <div class="safe-feature">
+        <span class="safe-feature-icon">🏠</span>
+        <h3>Scores stay in the family</h3>
+        <p>Test scores live in the PIN-protected parent section. Never shown to your kid or anyone in a challenge, and you can delete them any time.</p>
       </div>
     </div>
 
-    <div class="ai-quote-bar">
-      <div class="ai-quote-icon">🤖</div>
+    <div class="safe-quote-bar">
+      <div class="safe-quote-icon">📈</div>
       <div>
-        <div class="ai-quote-text">"Sam Torres hasn't practiced in 3 days. Based on last lesson notes, he was struggling with timing. Want me to draft a check-in message for his parents?"</div>
-        <div class="ai-quote-attr">— Beat the Slide AI · Drum Instructor dashboard</div>
+        <div class="safe-quote-text">Optional for Reading: turn on a fall estimate to see roughly where your child's fall MAP Reading score lands if they keep this pace — shown as a range, for parents only.</div>
+        <div class="safe-quote-attr">An estimate based on activity pace — not a test result. Off until you turn it on.</div>
       </div>
     </div>
   </div>
@@ -1342,40 +1218,40 @@ footer {
   <div class="section">
     <span class="eyebrow">The proof</span>
     <h2 class="section-title">Built by a parent.<br>Tested on a real kid.</h2>
-    <p class="section-sub">Not a concept. A working app, 6 enrolled families, and a real outcome bet on the line this September.</p>
+    <p class="section-sub">Not a concept. A working app, 6 enrolled families, and a real result: Declan's reading went up over the summer, not down.</p>
 
     <div class="proof-grid">
       <div class="proof-card">
-        <div class="proof-num">3 days</div>
-        <div class="proof-label">To build v1 — solo, with Claude as co-pilot</div>
+        <div class="proof-num">+14</div>
+        <div class="proof-label">Points on Declan's MAP Reading score — 185 in spring, 199 in fall</div>
       </div>
       <div class="proof-card">
-        <div class="proof-num">$0</div>
-        <div class="proof-label">Total cost — free tiers all the way down</div>
+        <div class="proof-num">3 days</div>
+        <div class="proof-label">To build v1 — solo, with Claude as co-pilot</div>
       </div>
       <div class="proof-card">
         <div class="proof-num">6</div>
         <div class="proof-label">Families enrolled via organic word-of-mouth</div>
       </div>
       <div class="proof-card">
-        <div class="proof-num">80+</div>
-        <div class="proof-label">GitHub commits — iterating live while families use it</div>
+        <div class="proof-num">6</div>
+        <div class="proof-label">Tracks live — up from one reading track</div>
       </div>
     </div>
 
     <div class="proof-story">
       <div class="proof-story-text">
         <h3>Declan's story</h3>
-        <p>A product manager built this app over a long weekend for his 4th-grade son who wasn't reading voluntarily. Four weeks later, Declan is opening the app on his own, logging books, and sitting at Knight rank on the leaderboard.</p>
-        <p>The real test: a September MAP retest will tell us if the streak loop drove actual reading progress. We're publishing the result either way.</p>
-        <a href="#proof">See what we’ve proven →</a>
+        <p>A product manager built this app over a long weekend for his 4th-grade son, who wasn't reading voluntarily. Four weeks later, Declan was opening the app on his own, logging books, and sitting at Knight rank on the leaderboard.</p>
+        <p>The bet was simple: his reading wouldn't slide backwards over the summer. His fall MAP retest says it didn't — his Reading RIT went from 185 in spring to 199 in fall. We promised to publish the result either way.</p>
+        <a href="story.html">Read how it was built →</a>
       </div>
       <div class="proof-claims">
         <div class="proof-claim">
           <div class="claim-icon">✅</div>
           <div class="claim-text">
             <h4>Behavior loop works</h4>
-            <p>A kid who wasn't reading voluntarily now opens the app on his own and picks up books.</p>
+            <p>A kid who wasn't reading voluntarily opens the app on his own and picks up books.</p>
           </div>
         </div>
         <div class="proof-claim">
@@ -1392,11 +1268,11 @@ footer {
             <p>"Parent vibe-coded this for his kid" drives organic sharing among PM-adjacent parents.</p>
           </div>
         </div>
-        <div class="proof-pending">
-          <div class="claim-icon">⏳</div>
+        <div class="proof-claim">
+          <div class="claim-icon">✅</div>
           <div class="claim-text">
-            <h4>Outcome claim — September 2026</h4>
-            <p>Declan's MAP retest. Either it moves or we publish what we learned. Both are useful.</p>
+            <h4>No summer slide — for Declan</h4>
+            <p>MAP Reading RIT 185 in spring, 199 in fall. One kid, one summer — so next we're testing it with more families.</p>
           </div>
         </div>
       </div>
@@ -1414,78 +1290,45 @@ footer {
       <div class="for-card">
         <span class="for-emoji">👩‍👧</span>
         <div class="for-title">Parents</div>
-        <div class="for-desc">Solo-family or group challenges. Track your kid's daily habits and get AI summaries that save you from asking "did you do it today?"</div>
+        <div class="for-desc">Build several habits at once without buying several apps — one routine per track, all in one place.</div>
       </div>
       <div class="for-card">
         <span class="for-emoji">👩‍🏫</span>
         <div class="for-title">Teachers</div>
-        <div class="for-desc">Run class-wide challenges. Monitor 30 kids at once with an AI that flags who needs attention before they fall behind.</div>
+        <div class="for-desc">Run a class challenge, or take on another class. Every family still decides for its own child.</div>
       </div>
       <div class="for-card">
         <span class="for-emoji">🎵</span>
-        <div class="for-title">Instructors & Coaches</div>
-        <div class="for-desc">Piano teachers, drum instructors, tutors, sports coaches. Assign personalized goals and stay connected between sessions.</div>
+        <div class="for-title">Instructors & coaches</div>
+        <div class="for-desc">Piano teachers, drum instructors, tutors. Run a practice challenge so the work happens between sessions.</div>
       </div>
       <div class="for-card">
         <span class="for-emoji">👨‍👩‍👧‍👦</span>
-        <div class="for-title">Community Groups</div>
-        <div class="for-desc">Mom groups, summer programs, scouting troops. Set a shared challenge, watch the friendly competition keep everyone moving.</div>
+        <div class="for-title">Friends & groups</div>
+        <div class="for-desc">Neighbors, cousins, summer programs. Share one link and let a little friendly competition do the rest.</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ── CTA ── -->
-<div class="cta-section" id="waitlist">
+<div class="cta-section" id="start">
   <h2>Ready to build the streak<br>your kid won't break?</h2>
-  <p>Join the waitlist and be the first to know when we open to more families and educators.</p>
-  <div class="waitlist-form">
-    <input class="waitlist-input" type="email" placeholder="your@email.com" />
-    <button class="waitlist-btn" onclick="handleWaitlist()">Join waitlist</button>
-  </div>
-  <div class="cta-note">No spam. Just one email when we're ready for you.</div>
-  <br>
-  <a href="prototype.html" class="cta-prototype-link">Or explore the interactive prototype first →</a>
+  <p>Beat the Slide is in early access and free to try. Sign in, add your kid, and pick a track in a couple of minutes.</p>
+  <a href="app/" class="btn-primary">🚀 Start now — it's free</a>
 </div>
 
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">🔥 Beat the Slide</div>
   <div class="footer-links">
-    <a class="footer-link" href="prototype.html">Prototype</a>
+    <a class="footer-link" href="app/">Open the app</a>
+    <a class="footer-link" href="story.html">How it was built</a>
     <a class="footer-link" href="https://github.com/brentomalley150/streak-app" target="_blank">GitHub ↗</a>
   </div>
   <div class="footer-note">Early access — the app works, and we're still building. Founded by Kate O'Malley. Built by Brent O'Malley.</div>
 </footer>
 
-<script>
-function handleWaitlist() {
-  const input = document.querySelector('.waitlist-input');
-  const email = input.value.trim();
-  if (!email || !email.includes('@')) {
-    input.style.border = '2px solid #F97316';
-    input.focus();
-    return;
-  }
-  input.style.border = 'none';
-  // Nothing receives these yet, so store locally rather than promise a reply
-  // we can't send. Swap for a form endpoint (Tally/Formspree) when there is one.
-  try {
-    const list = JSON.parse(localStorage.getItem('bts-waitlist') || '[]');
-    if (list.indexOf(email) === -1) list.push(email);
-    localStorage.setItem('bts-waitlist', JSON.stringify(list));
-  } catch (e) { /* private mode — still acknowledge */ }
-  const btn = document.querySelector('.waitlist-btn');
-  btn.textContent = '✓ Got it — opening the app';
-  btn.style.background = '#ECFDF5';
-  btn.style.color = '#059669';
-  input.value = '';
-  input.placeholder = 'The app is ready to try now.';
-  input.disabled = true;
-  // Early access is the app itself; send them straight there.
-  setTimeout(function () { window.location.href = 'app/'; }, 900);
-}
-</script>
-
 </body>
+
 </html>
