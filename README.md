@@ -38,7 +38,7 @@ Realtime Database rules, which live in `streak-v2/firebase.rules.json`.
 | What | Repo | URL |
 |---|---|---|
 | **App source** | `streak-v2` | — |
-| **Founders hub** | `beat-the-slide-hub` (private) | https://brentomalley150.github.io/beat-the-slide-hub/ |
+| **Founders hub** | `beat-the-slide-hub` (private) | https://beat-the-slide-hub.pages.dev (founders sign in with their email) |
 | **v1 app** — the live original | `declansummerlearning` (private) | https://beatthesummerslide.com |
 
 ## Before you add a page here
